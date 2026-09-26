@@ -14,6 +14,8 @@
   <!-- Broadsheet Design System Core Tokens & Components -->
   <link rel="stylesheet" href="_ds_broadsheet/styles.css">
 
+  <link rel="manifest" href="manifest.json">
+
   <!-- Application Stylesheet -->
   <link rel="stylesheet" href="app.css">
 </head>
@@ -40,6 +42,13 @@
           <span class="status-dot"></span>
           <span class="status-label" id="api-status-text">API Online</span>
         </div>
+        <button type="button" class="tool-btn" id="toggle-offline-btn" title="Simulate Cellular Network Dropout (Offline Mode)">
+          <span id="offline-dot" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#2E7D32"></span>
+          <span id="offline-label">Online</span>
+        </button>
+        <button type="button" class="tool-btn" id="sync-queue-btn" title="Sync Offline Scans to National Ledger" style="display:none;background:#FFF3E0;color:#E65100;border:1px solid #FFE0B2">
+          <span id="queue-count-badge">0</span> Queued
+        </button>
         <button type="button" class="tool-btn" id="toggle-frame-btn" title="Toggle iPhone Bezel or Fullscreen">
           <svg width="13" height="13" viewBox="0 0 256 256" fill="currentColor"><path opacity="0.2" d="M192,40H64A16,16,0,0,0,48,56V200a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V56A16,16,0,0,0,192,40Z"/><path d="M192,32H64A24,24,0,0,0,40,56V200a24,24,0,0,0,24,24H192a24,24,0,0,0,24-24V56A24,24,0,0,0,192,32Zm8,168a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56a8,8,0,0,1,8-8H192a8,8,0,0,1,8,8Z"/></svg>
           <span id="frame-label">Frame</span>
@@ -84,10 +93,24 @@
     </main>
   </div>
 
+  <!-- WelliVerify Offline-First Storage & Cryptographic Cache -->
+  <script src="offline-db.js"></script>
+
   <!-- WelliVerify API Client & Interoperability Gateway SDK -->
   <script src="api-client.js"></script>
 
   <!-- WelliVerify Interactive Prototype Runtime -->
   <script src="app.js"></script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('[WelliVerify PWA] ServiceWorker registered with scope:', reg.scope))
+          .catch(err => console.warn('[WelliVerify PWA] ServiceWorker registration failed:', err));
+      });
+    }
+  </script>
 </body>
 </html>

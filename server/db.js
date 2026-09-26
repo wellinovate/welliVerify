@@ -406,6 +406,46 @@ export class WelliVerifyDB {
       { id: 'KYB-02', name: 'Zenith Diagnostics Lab', type: 'Laboratory', submitted: '5 days ago', status: 'PENDING' },
     ];
 
+    // 10. LABORATORY QUALITY CONTROL & CHEMICAL ASSAYS
+    this.assays = [
+      {
+        id: 'ASSAY-001',
+        coaId: 'COA-2026-NAFDAC-0981',
+        batchId: 'AL-240981',
+        productName: 'Artemether / Lumefantrine 80/480mg',
+        labOfficer: 'Tunji Adewale (Reg. LAB-33021)',
+        facility: 'Zenith Diagnostics Reference Laboratory, Lagos',
+        testDate: '2026-09-20',
+        method: 'Reversed-Phase High-Performance Liquid Chromatography (RP-HPLC)',
+        apiAssayPercentage: 99.2,
+        specificationRange: '95.0% - 105.0% (USP / BP)',
+        dissolutionRate: '88.4% at 45 min (Spec: >80%)',
+        foreignSubstances: 'None detected',
+        status: 'PASSED',
+        sealClass: 'tag-accent',
+        retentionPeakMin: 4.2,
+        conclusion: 'Sample conforms to British Pharmacopoeia (BP 2025) monograph standards.',
+      },
+      {
+        id: 'ASSAY-002',
+        coaId: 'COA-2026-NAFDAC-0982-FAIL',
+        batchId: 'AL-77209',
+        productName: 'Artemether / Lumefantrine (Seized Field Sample)',
+        labOfficer: 'Tunji Adewale (Reg. LAB-33021)',
+        facility: 'Zenith Diagnostics Reference Laboratory, Lagos',
+        testDate: '2026-09-24',
+        method: 'RP-HPLC + Gas Chromatography-Mass Spectrometry (GC-MS)',
+        apiAssayPercentage: 0.0,
+        specificationRange: '95.0% - 105.0% (USP / BP)',
+        dissolutionRate: '0% (Disintegrates into immiscible oil emulsion)',
+        foreignSubstances: 'Toxic industrial kerosene solvent residue (4.2 mg/g) + maize starch binder',
+        status: 'FAILED_LETHAL_ADULTERANT',
+        sealClass: 'tag-accent-2',
+        retentionPeakMin: 0.0,
+        conclusion: 'DANGEROUS FALSIFICATION: 0% Active Ingredient detected. Contains toxic hydrocarbons.',
+      },
+    ];
+
     // Seed initial ledger events
     this.seedLedger();
   }

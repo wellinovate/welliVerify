@@ -199,6 +199,80 @@
       { name: 'Microbiology Culture Media', batch: 'MCM-4432', qty: 40, days: 9 },
     ],
 
+    labAssays: [
+      {
+        id: 'ASSAY-001',
+        coaId: 'COA-2026-NAFDAC-0981',
+        batchId: 'AL-240981',
+        productName: 'Artemether / Lumefantrine 80/480mg',
+        labOfficer: 'Tunji Adewale (Reg. LAB-33021)',
+        facility: 'Zenith Diagnostics Reference Laboratory, Lagos',
+        testDate: '2026-09-20',
+        method: 'Reversed-Phase HPLC (RP-HPLC)',
+        apiAssayPercentage: 99.2,
+        specificationRange: '95.0% - 105.0% (USP / BP)',
+        dissolutionRate: '88.4% at 45 min (Spec: >80%)',
+        foreignSubstances: 'None detected',
+        status: 'PASSED',
+        sealClass: 'tag-accent',
+        retentionPeakMin: 4.2,
+        conclusion: 'Sample conforms to British Pharmacopoeia (BP 2025) monograph standards.',
+      },
+      {
+        id: 'ASSAY-002',
+        coaId: 'COA-2026-NAFDAC-0982-FAIL',
+        batchId: 'AL-77209',
+        productName: 'Artemether / Lumefantrine (Seized Field Sample)',
+        labOfficer: 'Tunji Adewale (Reg. LAB-33021)',
+        facility: 'Zenith Diagnostics Reference Laboratory, Lagos',
+        testDate: '2026-09-24',
+        method: 'RP-HPLC + GC-MS',
+        apiAssayPercentage: 0.0,
+        specificationRange: '95.0% - 105.0% (USP / BP)',
+        dissolutionRate: '0% (Disintegrates into immiscible oil emulsion)',
+        foreignSubstances: 'Toxic industrial kerosene solvent residue (4.2 mg/g) + maize starch binder',
+        status: 'FAILED_LETHAL_ADULTERANT',
+        sealClass: 'tag-accent-2',
+        retentionPeakMin: 0.0,
+        conclusion: 'DANGEROUS FALSIFICATION: 0% Active Ingredient detected. Contains toxic hydrocarbons.',
+      },
+    ],
+
+    sampleBarcodes: [
+      {
+        code: 'AL-240981',
+        name: 'Coartem 80/480mg',
+        sub: 'Batch AL-240981 · NAFDAC A4-0231',
+        type: 'Authentic · Valid',
+        tagClass: 'tag-accent',
+        note: 'Point-of-care verification returns verified NAFDAC registration.',
+      },
+      {
+        code: 'AL-77209',
+        name: 'Coartem (Seized)',
+        sub: 'Batch AL-77209 · Yellow powder',
+        type: 'Recalled · High Urgency',
+        tagClass: 'tag-accent-2',
+        note: 'Flagged for dangerous adulteration & active national recall.',
+      },
+      {
+        code: 'INS-1120',
+        name: 'Human Insulin 100IU',
+        sub: 'Batch INS-1120 · 21 days left',
+        type: 'Stockout Critical',
+        tagClass: 'tag-accent-2',
+        note: 'Valid cold chain but critical stockout alert active.',
+      },
+      {
+        code: 'OXY-1188',
+        name: 'Oxytocin 10IU/ml',
+        sub: 'Batch OXY-1188 · Excursion',
+        type: 'Cold-Chain Alert',
+        tagClass: 'tag-accent-2',
+        note: 'Thermal logger recorded 43 minutes exceeding 8°C.',
+      },
+    ],
+
     regions: [
       { name: 'Abuja (FCT)', distributors: 12, pharmacies: 482, status: 'Normal', note: 'Antimalarial availability stable' },
       { name: 'Lagos', distributors: 31, pharmacies: 1204, status: 'Normal', note: 'Full network coverage' },
@@ -401,6 +475,9 @@
     assistant: 'Ask WelliVerify',
     voice: 'Voice Verify',
     consumables: 'Lab Consumables',
+    assay: 'Chemical Assay (HPLC)',
+    coas: 'Certificates of Analysis',
+    coadetail: 'Official Certificate of Analysis',
     coldchaindetail: 'Cold Chain Detail',
     notifications: 'Notifications',
   };
@@ -410,7 +487,7 @@
     patient: ['home', 'verify', 'availability', 'prescriptions', 'reminders'],
     distributor: ['home', 'shipments', 'recall', 'alerts', 'price', 'trust', 'coldchain', 'report', 'marketplace', 'assistant'],
     regulator: ['home', 'recall', 'alerts', 'verification', 'investigation', 'price', 'map', 'inbox', 'forecast', 'assistant'],
-    lab: ['home', 'consumables'],
+    lab: ['home', 'assay', 'coas', 'consumables'],
   };
 
   // --- State Container ---
@@ -439,6 +516,10 @@
         },
         selectedColdChain: '0',
         scanState: 'idle', // 'idle' | 'scanning'
+        cameraActive: false,
+        selectedSampleCode: 'AL-240981',
+        selectedAssayBatch: 'AL-240981',
+        selectedCoaId: 'COA-2026-NAFDAC-0981',
         reportSubmitted: false,
         paySuccess: false,
         dismissedReports: [],
@@ -457,6 +538,7 @@
         activeCHWStep: 1,
         ussdActive: false,
         quarantinedBatches: [],
+        offlineQueueCount: 0,
       };
 
       this.initDom();
@@ -657,14 +739,62 @@
       }
     }
 
-    async startScan(forceFail = false) {
+    async startScan(forceFail = false, customCode = null) {
       this.state.scanState = 'scanning';
       this.render();
 
       const role = this.state.role;
-      const target = forceFail ? 'unable' : 'product';
-      const code = forceFail ? 'UNRECOGNIZED-9999' : 'AL-240981';
+      const isOffline = window.WelliVerifyOfflineDB?.isSimulatedOffline;
+      const code = forceFail ? 'UNRECOGNIZED-9999' : (customCode || this.state.selectedSampleCode || 'AL-240981');
 
+      // Offline-First Path
+      if (isOffline && window.WelliVerifyOfflineDB) {
+        try {
+          const offRes = await window.WelliVerifyOfflineDB.verifyOffline(code);
+          await window.WelliVerifyOfflineDB.queueScan({
+            code,
+            role,
+            verified: offRes.verified,
+            batchId: offRes.data?.batchId,
+          });
+          this.updateOfflineBadge();
+
+          setTimeout(() => {
+            const target = (forceFail || !offRes.verified) ? 'unable' : 'product';
+            this.state.scanState = 'idle';
+            if (offRes.verified) {
+              const d = offRes.data;
+              this.state.lastVerification = {
+                product: {
+                  name: d.productName,
+                  nafdacRegNo: d.nafdacReg,
+                  manufacturer: d.manufacturer,
+                },
+                batch: {
+                  batchId: d.batchId,
+                  daysToExpiry: d.daysToExpiry,
+                  isRecalled: d.isRecalled,
+                },
+                risk_status: {
+                  tier: d.isRecalled ? 'CRITICAL' : 'Low',
+                },
+                verification_hash: d.hash,
+                isOfflineCached: true,
+              };
+            }
+            this.state.screens[role] = target;
+            this.state.stacks[role].push(target);
+            this.updateUrlHash();
+            this.render();
+            this.showToast(offRes.verified ? 'Verified offline via NAFDAC hash cache (Queued)' : 'Code unrecognized');
+          }, 1200);
+          return;
+        } catch (err) {
+          console.warn('Offline verification error:', err);
+        }
+      }
+
+      // Live API Path
       if (window.WelliVerifyAPI && !forceFail) {
         try {
           const apiRes = await window.WelliVerifyAPI.verifyProduct({
@@ -681,13 +811,136 @@
       }
 
       setTimeout(() => {
+        const target = forceFail ? 'unable' : 'product';
         this.state.scanState = 'idle';
         this.state.screens[role] = target;
         this.state.stacks[role].push(target);
         this.updateUrlHash();
         this.render();
-        this.showToast(forceFail ? 'Code unverified' : 'Product verified via NAFDAC API');
+        this.showToast(forceFail ? 'Code unverified' : `Verified: ${code}`);
       }, 1400);
+    }
+
+    toggleCamera() {
+      this.state.cameraActive = !this.state.cameraActive;
+      this.render();
+
+      if (this.state.cameraActive) {
+        setTimeout(() => {
+          const video = document.getElementById('live-camera-video');
+          if (video && navigator.mediaDevices?.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+              .then(stream => {
+                this.cameraStream = stream;
+                video.srcObject = stream;
+                video.play();
+                this.showToast('WebRTC live camera sensor stream active');
+              })
+              .catch(err => {
+                console.warn('Camera stream error:', err);
+                this.showToast('Camera access unavailable or declined');
+                this.state.cameraActive = false;
+                this.render();
+              });
+          }
+        }, 80);
+      } else if (this.cameraStream) {
+        this.cameraStream.getTracks().forEach(t => t.stop());
+        this.cameraStream = null;
+      }
+    }
+
+    selectSampleCode(code) {
+      this.state.selectedSampleCode = code;
+      this.render();
+      this.showToast(`Selected sample code: ${code}`);
+    }
+
+    setAssayBatch(batch) {
+      this.state.selectedAssayBatch = batch;
+      this.render();
+    }
+
+    async submitLabAssay() {
+      const batchId = this.state.selectedAssayBatch || 'AL-240981';
+      const isFalsified = batchId === 'AL-77209';
+      const assayPct = document.getElementById('assay-pct-input')?.value || (isFalsified ? 0.0 : 99.2);
+      const dissRate = document.getElementById('assay-diss-input')?.value || (isFalsified ? '0%' : '88.4% at 45 min');
+      const impurities = document.getElementById('assay-impurity-input')?.value || (isFalsified ? 'Kerosene solvent residue' : 'None detected');
+
+      const assayData = {
+        batchId,
+        productName: isFalsified ? 'Artemether/Lumefantrine (Seized Field Sample)' : 'Artemether/Lumefantrine 80/480mg',
+        apiAssayPercentage: Number(assayPct),
+        dissolutionRate: dissRate,
+        foreignSubstances: impurities,
+        labOfficer: 'Tunji Adewale (Reg. LAB-33021)',
+        facility: 'Zenith Diagnostics Reference Laboratory, Lagos',
+        method: isFalsified ? 'RP-HPLC + GC-MS' : 'Reversed-Phase HPLC (RP-HPLC)',
+      };
+
+      if (window.WelliVerifyAPI) {
+        try {
+          const res = await window.WelliVerifyAPI.submitLabAssay(assayData);
+          if (res?.assay) {
+            this.data.labAssays.unshift(res.assay);
+            this.state.selectedCoaId = res.assay.coaId;
+            this.showToast('Certificate of Analysis (CoA) issued & anchored to ledger!');
+            this.go('coadetail');
+            return;
+          }
+        } catch (e) {
+          console.warn('Lab assay API error:', e);
+        }
+      }
+
+      // Fallback local CoA generation
+      const isCompliant = Number(assayPct) >= 95.0 && Number(assayPct) <= 105.0;
+      const coaId = `COA-2026-NAFDAC-${Math.floor(1000 + Math.random() * 9000)}${isCompliant ? '' : '-FAIL'}`;
+      const localAssay = {
+        id: `ASSAY-00${this.data.labAssays.length + 1}`,
+        coaId,
+        batchId,
+        productName: assayData.productName,
+        labOfficer: assayData.labOfficer,
+        facility: assayData.facility,
+        testDate: new Date().toISOString().split('T')[0],
+        method: assayData.method,
+        apiAssayPercentage: Number(assayPct),
+        specificationRange: '95.0% - 105.0% (USP / BP)',
+        dissolutionRate: dissRate,
+        foreignSubstances: impurities,
+        status: isCompliant ? 'PASSED' : 'FAILED_LETHAL_ADULTERANT',
+        sealClass: isCompliant ? 'tag-accent' : 'tag-accent-2',
+        retentionPeakMin: isCompliant ? 4.2 : 0.0,
+        conclusion: isCompliant ? 'Sample conforms to British Pharmacopoeia monograph standards.' : 'NON-COMPLIANT: Assay violates USP/BP specifications.',
+      };
+      this.data.labAssays.unshift(localAssay);
+      this.state.selectedCoaId = coaId;
+      this.showToast('Certificate of Analysis generated!');
+      this.go('coadetail');
+    }
+
+    viewCoa(coaId) {
+      this.state.selectedCoaId = coaId;
+      this.go('coadetail');
+    }
+
+    async updateOfflineBadge() {
+      if (!window.WelliVerifyOfflineDB) return;
+      const queued = await window.WelliVerifyOfflineDB.getQueuedScans();
+      const count = queued.length;
+      this.state.offlineQueueCount = count;
+      const btn = document.getElementById('sync-queue-btn');
+      const badge = document.getElementById('queue-count-badge');
+      if (btn && badge) {
+        if (count > 0) {
+          btn.style.display = 'inline-flex';
+          badge.textContent = count;
+        } else {
+          btn.style.display = 'none';
+        }
+      }
     }
 
     startVoice() {
@@ -933,6 +1186,36 @@
         });
       }
 
+      // Toolbar Offline Simulator button
+      const offlineBtn = document.getElementById('toggle-offline-btn');
+      if (offlineBtn) {
+        offlineBtn.addEventListener('click', () => {
+          if (window.WelliVerifyOfflineDB) {
+            window.WelliVerifyOfflineDB.isSimulatedOffline = !window.WelliVerifyOfflineDB.isSimulatedOffline;
+            const isOff = window.WelliVerifyOfflineDB.isSimulatedOffline;
+            const dot = document.getElementById('offline-dot');
+            const label = document.getElementById('offline-label');
+            if (dot) dot.style.background = isOff ? '#E65100' : '#2E7D32';
+            if (label) label.textContent = isOff ? 'Offline (Simulated)' : 'Online';
+            this.showToast(isOff ? 'Simulating rural network dropout (Offline Cache Active)' : 'Cellular network restored (Online Mesh)');
+            this.render();
+          }
+        });
+      }
+
+      // Toolbar Offline Sync button
+      const syncBtn = document.getElementById('sync-queue-btn');
+      if (syncBtn) {
+        syncBtn.addEventListener('click', async () => {
+          if (window.WelliVerifyOfflineDB) {
+            const res = await window.WelliVerifyOfflineDB.syncAllQueued(window.WelliVerifyAPI);
+            this.showToast(`Synced ${res.syncedCount} offline scans to National Ledger!`);
+            await this.updateOfflineBadge();
+            this.render();
+          }
+        });
+      }
+
       // App container event delegation for all dynamic prototype actions
       this.appEl.addEventListener('click', (e) => {
         const targetBtn = e.target.closest('[data-action]');
@@ -968,7 +1251,22 @@
             this.goBack();
             break;
           case 'start-scan':
-            this.startScan(targetBtn.dataset.fail === 'true');
+            this.startScan(targetBtn.dataset.fail === 'true', targetBtn.dataset.code);
+            break;
+          case 'toggle-camera':
+            this.toggleCamera();
+            break;
+          case 'select-sample-code':
+            this.selectSampleCode(targetBtn.dataset.code);
+            break;
+          case 'set-assay-batch':
+            this.setAssayBatch(targetBtn.dataset.batch);
+            break;
+          case 'submit-lab-assay':
+            this.submitLabAssay();
+            break;
+          case 'view-coa':
+            this.viewCoa(targetBtn.dataset.coaId);
             break;
           case 'start-voice':
             this.startVoice();
@@ -1130,7 +1428,9 @@
       } else if (role === 'lab') {
         navItems = [
           { target: 'home', label: 'Dashboard' },
-          { target: 'consumables', label: 'Consumables' },
+          { target: 'assay', label: 'Chemical Assay (HPLC)' },
+          { target: 'coas', label: 'Certificates of Analysis (CoA)' },
+          { target: 'consumables', label: 'Consumables & Reagents' },
           { target: 'report', label: 'Report an issue' },
         ];
       }
@@ -1341,28 +1641,70 @@
 
     renderScan(role) {
       const isScanning = this.state.scanState === 'scanning';
+      const isOffline = window.WelliVerifyOfflineDB?.isSimulatedOffline;
       const scanHint = isScanning
         ? 'Verifying against NAFDAC registry…'
         : 'Align the QR code, GS1 barcode or DataMatrix within the frame';
+      const activeCode = this.state.selectedSampleCode || 'AL-240981';
 
       return `
-        <div style="display:flex;flex-direction:column;gap:18px;align-items:center">
-          <div class="scan-viewport">
+        <div style="display:flex;flex-direction:column;gap:14px;align-items:center">
+          ${isOffline ? `
+            <div class="offline-banner">
+              <span style="font-size:14px">⚡</span>
+              <div>
+                <strong>Offline Field Resilience Active:</strong> 5,420 NAFDAC cryptographic hashes loaded. Point-of-care verification will execute against local storage and queue for ledger sync.
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Live Camera Controls Bar -->
+          <div class="camera-controls-bar">
+            <button type="button" class="btn btn-ghost" data-action="toggle-camera" style="font-size:11px;padding:3px 8px">
+              ${this.state.cameraActive ? '🔴 Disable Live Camera' : '📷 Enable Live Camera (WebRTC)'}
+            </button>
+            <span class="tag ${this.state.cameraActive ? 'tag-accent' : 'tag-neutral'}" style="font-size:9.5px">
+              ${this.state.cameraActive ? 'Sensor: Active' : 'Simulated Viewport'}
+            </span>
+          </div>
+
+          <div class="scan-viewport" id="scan-viewport">
+            ${this.state.cameraActive ? `<video id="live-camera-video" class="scan-video" autoplay playsinline muted></video>` : ''}
             <div class="scan-frame"></div>
             ${isScanning ? `<div class="scan-line"></div>` : ''}
-            <div style="color:rgba(255,255,255,0.45);font-size:11px;letter-spacing:0.06em;text-transform:uppercase">
-              ${isScanning ? 'Processing Sensor Feed…' : 'Camera Ready'}
+            <div style="color:rgba(255,255,255,0.7);font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;z-index:2;background:rgba(0,0,0,0.55);padding:2px 8px;border-radius:2px">
+              ${isScanning ? 'Processing Sensor Feed…' : (this.state.cameraActive ? 'WebRTC Live Stream' : 'Ready')}
             </div>
           </div>
 
-          <div style="font-size:13px;opacity:0.75;text-align:center;max-width:32ch">${scanHint}</div>
-          <span class="tag tag-neutral" style="font-size:10px">Works offline — verifies now, syncs when connected</span>
+          <div style="font-size:12.5px;opacity:0.75;text-align:center;max-width:32ch">${scanHint}</div>
 
-          <button type="button" class="btn btn-primary btn-block" data-action="start-scan" data-fail="false" ${isScanning ? 'disabled' : ''}>
-            ${isScanning ? 'Scanning…' : 'Start scan'} ${ICONS.scan}
+          <!-- Primary Trigger Button -->
+          <button type="button" class="btn btn-primary btn-block" data-action="start-scan" data-fail="false" data-code="${activeCode}" ${isScanning ? 'disabled' : ''}>
+            ${isScanning ? 'Verifying with NAFDAC…' : `Scan Code: ${activeCode}`} ${ICONS.scan}
           </button>
 
-          <button type="button" class="btn btn-ghost" data-action="go" data-target="product" style="font-size:12.5px">
+          <!-- Interactive Sample Barcodes Tray -->
+          <div class="sample-barcodes-tray">
+            <div class="sample-tray-title">
+              <span>Interactive Serialized Sample Packs</span>
+              <span style="font-size:9.5px;color:var(--color-accent);font-weight:normal">Tap any to test</span>
+            </div>
+            <div class="sample-card-grid">
+              ${(this.data.sampleBarcodes || []).map((sb) => `
+                <div class="sample-card ${this.state.selectedSampleCode === sb.code ? 'active' : ''}" data-action="select-sample-code" data-code="${sb.code}">
+                  <div style="display:flex;justify-content:space-between;align-items:center">
+                    <span class="sample-name">${sb.name}</span>
+                    <span class="tag ${sb.tagClass}" style="font-size:8.5px;padding:1px 4px">${sb.type.split('·')[0]}</span>
+                  </div>
+                  <div class="sample-meta">${sb.sub}</div>
+                  <div style="font-size:9.5px;color:var(--color-accent);margin-top:2px;font-weight:600">Scan this code &rarr;</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-ghost" data-action="go" data-target="product" style="font-size:12px;margin-top:4px">
             Enter product code manually
           </button>
 
@@ -1370,7 +1712,7 @@
             Simulate an unrecognized code
           </button>
 
-          <button type="button" class="btn btn-ghost" data-action="go" data-target="voice" style="font-size:12.5px">
+          <button type="button" class="btn btn-ghost" data-action="go" data-target="voice" style="font-size:12px">
             Verify by voice instead
           </button>
 
@@ -2578,29 +2920,413 @@
 
     // --- Laboratory Screens ---
     renderLabHome() {
+      const totalAssays = this.data.labAssays.length;
+      const failedAssays = this.data.labAssays.filter((a) => a.status !== 'PASSED').length;
+      const passedAssays = totalAssays - failedAssays;
+
       return `
-        <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;flex-direction:column;gap:18px">
           <div>
-            <div style="font-family:var(--font-heading);font-weight:600;font-size:20px">Good afternoon, Tunji</div>
-            <div style="font-size:13px;opacity:0.7">Zenith Diagnostics Lab · Lagos</div>
-          </div>
-
-          <div style="display:flex;gap:32px">
-            <div>
-              <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68">Expiring reagents</div>
-              <div style="font-family:var(--font-heading);font-weight:600;font-size:30px;color:var(--color-accent-2-700);line-height:1.15">2 items</div>
-              <div style="font-size:12px;opacity:0.68">Within 20 days</div>
-            </div>
-            <div>
-              <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68">Consumables tracked</div>
-              <div style="font-family:var(--font-heading);font-weight:600;font-size:30px;color:var(--color-accent-700);line-height:1.15">4</div>
-              <div style="font-size:12px;opacity:0.68">Categories</div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-family:var(--font-heading);font-weight:600;font-size:20px">Good afternoon, Tunji</div>
+                <div style="font-size:12.5px;opacity:0.7">Zenith Diagnostics Reference Laboratory · Lagos</div>
+              </div>
+              <span class="tag tag-accent" style="font-size:10px">ISO/IEC 17025 ACCREDITED</span>
             </div>
           </div>
 
+          <!-- Quick stat metrics -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+            <div class="card elev-sm" style="padding:10px">
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.06em;opacity:0.65">Certified CoAs</div>
+              <div style="font-family:var(--font-heading);font-weight:700;font-size:24px;color:var(--color-accent);line-height:1.2">${passedAssays}</div>
+              <div style="font-size:10.5px;opacity:0.6">Monographs verified</div>
+            </div>
+            <div class="card elev-sm" style="padding:10px">
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.06em;opacity:0.65">Falsifications</div>
+              <div style="font-family:var(--font-heading);font-weight:700;font-size:24px;color:var(--color-accent-2);line-height:1.2">${failedAssays}</div>
+              <div style="font-size:10.5px;color:var(--color-accent-2)">Contaminants flagged</div>
+            </div>
+            <div class="card elev-sm" style="padding:10px">
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.06em;opacity:0.65">Expiring Reagents</div>
+              <div style="font-family:var(--font-heading);font-weight:700;font-size:24px;color:#d97706;line-height:1.2">2</div>
+              <div style="font-size:10.5px;opacity:0.6">Within 20 days</div>
+            </div>
+          </div>
+
+          <!-- Primary Laboratory Actions -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-            <button type="button" class="btn btn-secondary" data-action="nav-to" data-target="consumables">View consumables</button>
-            <button type="button" class="btn btn-secondary" data-action="nav-to" data-target="report">Report an issue</button>
+            <button type="button" class="btn btn-primary" data-action="nav-to" data-target="assay" style="display:flex;align-items:center;justify-content:center;gap:6px">
+              <span>🔬 New HPLC Assay</span>
+            </button>
+            <button type="button" class="btn btn-secondary" data-action="nav-to" data-target="coas" style="display:flex;align-items:center;justify-content:center;gap:6px">
+              <span>📜 Issued CoAs (${totalAssays})</span>
+            </button>
+            <button type="button" class="btn btn-secondary" data-action="nav-to" data-target="consumables">
+              <span>🧪 Reagents & Consumables</span>
+            </button>
+            <button type="button" class="btn btn-secondary" data-action="nav-to" data-target="report">
+              <span>🚨 Report Impurity Alert</span>
+            </button>
+          </div>
+
+          <!-- Recent Assay Certifications feed -->
+          <div>
+            <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68;margin-bottom:10px">Recent Assay Certifications & Ledger Anchors</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              ${this.data.labAssays.map((assay) => `
+                <div class="card elev-sm" style="border-left: 3px solid ${assay.status === 'PASSED' ? 'var(--color-accent)' : 'var(--color-accent-2)'}">
+                  <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
+                    <span style="font-weight:600;font-size:13.5px">${assay.productName}</span>
+                    <span class="tag ${assay.sealClass}" style="font-size:10px">${assay.status === 'PASSED' ? `PASSED · ${assay.apiAssayPercentage}%` : `FAILED · ${assay.apiAssayPercentage}%`}</span>
+                  </div>
+                  <div class="card-meta" style="font-size:11.5px;margin-bottom:8px">
+                    Batch: <strong>${assay.batchId}</strong> · CoA: ${assay.coaId} · Tested ${assay.testDate}
+                  </div>
+                  <div style="font-size:11.5px;color:${assay.status === 'PASSED' ? '#047857' : 'var(--color-accent-2)'};margin-bottom:10px;line-height:1.35">
+                    ${assay.conclusion}
+                  </div>
+                  <div style="display:flex;gap:8px">
+                    <button type="button" class="btn btn-sm btn-secondary" data-action="view-coa" data-coa-id="${assay.coaId}">
+                      View Official Certificate & Seal
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    renderLabAssay() {
+      const selectedBatch = this.state.selectedAssayBatch || 'AL-240981';
+      const isFalsified = selectedBatch === 'AL-77209';
+
+      return `
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div>
+            <div style="font-family:var(--font-heading);font-weight:600;font-size:18px">Reversed-Phase HPLC Chemical Assay</div>
+            <div style="font-size:12px;opacity:0.7">Monograph verification · British Pharmacopoeia (BP 2025) & USP-NF Standards</div>
+          </div>
+
+          <!-- Sample Selection Tray -->
+          <div>
+            <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68;margin-bottom:6px">Select Test Sample Batch:</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <button type="button" class="btn ${!isFalsified ? 'btn-primary' : 'btn-secondary'}" data-action="set-assay-batch" data-batch="AL-240981" style="font-size:11.5px;padding:8px 6px">
+                ✓ AL-240981 (Standard Reference)
+              </button>
+              <button type="button" class="btn ${isFalsified ? 'btn-primary' : 'btn-secondary'}" data-action="set-assay-batch" data-batch="AL-77209" style="font-size:11.5px;padding:8px 6px">
+                ⚠ AL-77209 (Suspected Seizure)
+              </button>
+            </div>
+          </div>
+
+          <!-- Interactive HPLC Chromatogram Rendering -->
+          <div class="card elev-sm" style="background:#0b111b;border:1px solid #1e293b;padding:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <div style="font-size:11.5px;font-weight:600;color:#94a3b8;letter-spacing:0.05em">
+                HIGH PERFORMANCE LIQUID CHROMATOGRAM (RP-HPLC) · UV @ 210nm
+              </div>
+              <span class="tag ${!isFalsified ? 'tag-accent' : 'tag-accent-2'}" style="font-size:9.5px">
+                ${!isFalsified ? 'BP MONOGRAPH CONFORMANT' : 'CRITICAL OUT OF SPEC'}
+              </span>
+            </div>
+
+            <div class="hplc-chart-wrap" style="margin:0;padding:8px 4px;background:#0d1520;border:none">
+              ${!isFalsified ? `
+                <svg viewBox="0 0 500 160" style="width:100%;height:auto;display:block">
+                  <line x1="40" y1="20" x2="480" y2="20" stroke="#1f2937" stroke-dasharray="3,3" />
+                  <line x1="40" y1="55" x2="480" y2="55" stroke="#1f2937" stroke-dasharray="3,3" />
+                  <line x1="40" y1="90" x2="480" y2="90" stroke="#1f2937" stroke-dasharray="3,3" />
+                  <line x1="40" y1="125" x2="480" y2="125" stroke="#1f2937" stroke-dasharray="3,3" />
+                  
+                  <text x="32" y="24" fill="#64748b" font-size="8" text-anchor="end">1000</text>
+                  <text x="32" y="59" fill="#64748b" font-size="8" text-anchor="end">750</text>
+                  <text x="32" y="94" fill="#64748b" font-size="8" text-anchor="end">500</text>
+                  <text x="32" y="129" fill="#64748b" font-size="8" text-anchor="end">250</text>
+                  <text x="32" y="145" fill="#64748b" font-size="8" text-anchor="end">0</text>
+                  
+                  <line x1="40" y1="15" x2="40" y2="142" stroke="#475569" stroke-width="1.2" />
+                  <line x1="40" y1="142" x2="480" y2="142" stroke="#475569" stroke-width="1.2" />
+                  
+                  <text x="40" y="154" fill="#64748b" font-size="8" text-anchor="middle">0</text>
+                  <text x="84" y="154" fill="#64748b" font-size="8" text-anchor="middle">1</text>
+                  <text x="128" y="154" fill="#64748b" font-size="8" text-anchor="middle">2</text>
+                  <text x="172" y="154" fill="#64748b" font-size="8" text-anchor="middle">3</text>
+                  <text x="216" y="154" fill="#64748b" font-size="8" text-anchor="middle">4</text>
+                  <text x="260" y="154" fill="#64748b" font-size="8" text-anchor="middle">5</text>
+                  <text x="304" y="154" fill="#64748b" font-size="8" text-anchor="middle">6</text>
+                  <text x="348" y="154" fill="#64748b" font-size="8" text-anchor="middle">7</text>
+                  <text x="392" y="154" fill="#64748b" font-size="8" text-anchor="middle">8</text>
+                  <text x="436" y="154" fill="#64748b" font-size="8" text-anchor="middle">9</text>
+                  <text x="480" y="154" fill="#64748b" font-size="8" text-anchor="middle">10m</text>
+                  
+                  <path d="M 40 142 L 180 142 Q 200 142 215 90 Q 224.8 25 235 90 Q 250 142 310 142 Q 335 142 346 100 Q 352.4 55 359 100 Q 370 142 480 142" fill="none" stroke="#38bdf8" stroke-width="2" />
+                  
+                  <circle cx="224.8" cy="27" r="3" fill="#38bdf8" />
+                  <text x="224.8" y="18" fill="#38bdf8" font-size="8.5" font-weight="bold" text-anchor="middle">Artemether (4.2m · 99.2%)</text>
+                  
+                  <circle cx="352.4" cy="57" r="3" fill="#38bdf8" />
+                  <text x="352.4" y="48" fill="#38bdf8" font-size="8.5" font-weight="bold" text-anchor="middle">Lumefantrine (7.1m)</text>
+                </svg>
+              ` : `
+                <svg viewBox="0 0 500 160" style="width:100%;height:auto;display:block">
+                  <line x1="40" y1="20" x2="480" y2="20" stroke="#371e24" stroke-dasharray="3,3" />
+                  <line x1="40" y1="55" x2="480" y2="55" stroke="#371e24" stroke-dasharray="3,3" />
+                  <line x1="40" y1="90" x2="480" y2="90" stroke="#371e24" stroke-dasharray="3,3" />
+                  <line x1="40" y1="125" x2="480" y2="125" stroke="#371e24" stroke-dasharray="3,3" />
+                  
+                  <text x="32" y="24" fill="#94a3b8" font-size="8" text-anchor="end">1000</text>
+                  <text x="32" y="59" fill="#94a3b8" font-size="8" text-anchor="end">750</text>
+                  <text x="32" y="94" fill="#94a3b8" font-size="8" text-anchor="end">500</text>
+                  <text x="32" y="129" fill="#94a3b8" font-size="8" text-anchor="end">250</text>
+                  <text x="32" y="145" fill="#94a3b8" font-size="8" text-anchor="end">0</text>
+                  
+                  <line x1="40" y1="15" x2="40" y2="142" stroke="#64748b" stroke-width="1.2" />
+                  <line x1="40" y1="142" x2="480" y2="142" stroke="#64748b" stroke-width="1.2" />
+                  
+                  <text x="40" y="154" fill="#94a3b8" font-size="8" text-anchor="middle">0</text>
+                  <text x="84" y="154" fill="#94a3b8" font-size="8" text-anchor="middle">1</text>
+                  <text x="128" y="154" fill="#94a3b8" font-size="8" text-anchor="middle">2</text>
+                  <text x="172" y="154" fill="#94a3b8" font-size="8" text-anchor="middle">3</text>
+                  <text x="216" y="154" fill="#94a3b8" font-size="8" text-anchor="middle">4</text>
+                  <text x="260" y="154" fill="#94a3b8" font-size="8" text-anchor="middle">5</text>
+                  <text x="304" y="154" fill="#94a3b8" font-size="8" text-anchor="middle">6</text>
+                  <text x="348" y="154" fill="#94a3b8" font-size="8" text-anchor="middle">7</text>
+                  <text x="392" y="154" fill="#94a3b8" font-size="8" text-anchor="middle">8</text>
+                  <text x="436" y="154" fill="#94a3b8" font-size="8" text-anchor="middle">9</text>
+                  <text x="480" y="154" fill="#94a3b8" font-size="8" text-anchor="middle">10m</text>
+                  
+                  <path d="M 40 142 L 80 142 Q 100 135 110 50 Q 119 22 130 65 Q 155 125 190 142 L 480 142" fill="none" stroke="#f43f5e" stroke-width="2.5" />
+                  
+                  <circle cx="119" cy="22" r="3.5" fill="#f43f5e" />
+                  <text x="119" y="14" fill="#f43f5e" font-size="8.5" font-weight="bold" text-anchor="middle">Kerosene Contaminant Peak (1.8m · Toxic)</text>
+                  
+                  <rect x="218" y="132" width="14" height="12" fill="rgba(244,63,94,0.15)" stroke="#f43f5e" stroke-dasharray="2,2" />
+                  <text x="225" y="126" fill="#f43f5e" font-size="7.5" text-anchor="middle">0% Artemether</text>
+                  
+                  <rect x="345" y="132" width="14" height="12" fill="rgba(244,63,94,0.15)" stroke="#f43f5e" stroke-dasharray="2,2" />
+                  <text x="352" y="126" fill="#f43f5e" font-size="7.5" text-anchor="middle">0% Lumefantrine</text>
+                </svg>
+              `}
+            </div>
+
+            <div style="font-size:11px;color:#94a3b8;margin-top:6px;display:flex;justify-content:space-between">
+              <span>Stationary Phase: C18 5μm (250 × 4.6mm)</span>
+              <span>Flow: 1.2 mL/min · Buffer: Acetonitrile/Water</span>
+            </div>
+          </div>
+
+          <!-- Monograph Parameter Verification Form -->
+          <div class="card elev-sm">
+            <div style="font-weight:600;font-size:13.5px;margin-bottom:10px">Monograph Quality Parameters (USP/BP)</div>
+
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div>
+                <label style="font-size:11px;font-weight:600;display:block;margin-bottom:4px">
+                  Active Ingredient (API) Assay % (Acceptance: 95.0% - 105.0%)
+                </label>
+                <input id="assay-pct-input" type="number" step="0.1" class="input" value="${!isFalsified ? '99.2' : '0.0'}" style="width:100%" />
+              </div>
+
+              <div>
+                <label style="font-size:11px;font-weight:600;display:block;margin-bottom:4px">
+                  Dissolution Rate at 45 min (Acceptance: > 80.0%)
+                </label>
+                <input id="assay-diss-input" type="text" class="input" value="${!isFalsified ? '88.4% at 45 min' : '0% (Insoluble oily sludge)'}" style="width:100%" />
+              </div>
+
+              <div>
+                <label style="font-size:11px;font-weight:600;display:block;margin-bottom:4px">
+                  Related Substances & Chemical Impurities
+                </label>
+                <input id="assay-impurity-input" type="text" class="input" value="${!isFalsified ? 'None detected (conforms to BP limits)' : 'Toxic kerosene hydrocarbon solvent residue (4.2 mg/g)'}" style="width:100%" />
+              </div>
+            </div>
+
+            <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+              <button type="button" class="btn btn-primary" data-action="submit-lab-assay" style="width:100%;font-size:13px;padding:10px">
+                ✍️ Sign & Issue Digital CoA (Anchor to Ledger)
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    renderLabCoas() {
+      return `
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div>
+            <div style="font-family:var(--font-heading);font-weight:600;font-size:18px">Certificates of Analysis (CoAs)</div>
+            <div style="font-size:12px;opacity:0.7">Official laboratory testing certificates registered on the WelliVerify Ledger</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px">
+            ${this.data.labAssays.map((assay) => `
+              <div class="card elev-sm" style="border-left:4px solid ${assay.status === 'PASSED' ? 'var(--color-accent)' : 'var(--color-accent-2)'}">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+                  <div>
+                    <div style="font-weight:700;font-size:13.5px">${assay.productName}</div>
+                    <div class="card-meta" style="font-size:11px">Certificate No: <strong>${assay.coaId}</strong></div>
+                  </div>
+                  <span class="tag ${assay.sealClass}" style="font-size:10px">${assay.status === 'PASSED' ? `PASSED · ${assay.apiAssayPercentage}% API` : `FAILED · ${assay.apiAssayPercentage}% API`}</span>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11.5px;margin:8px 0;background:rgba(0,0,0,0.03);padding:8px;border-radius:4px">
+                  <div><span style="opacity:0.6">Batch:</span> <strong>${assay.batchId}</strong></div>
+                  <div><span style="opacity:0.6">Date:</span> ${assay.testDate}</div>
+                  <div><span style="opacity:0.6">Method:</span> ${assay.method}</div>
+                  <div><span style="opacity:0.6">Dissolution:</span> ${assay.dissolutionRate.split('(')[0]}</div>
+                </div>
+
+                <div style="font-size:11.5px;margin-bottom:10px;line-height:1.35;color:${assay.status === 'PASSED' ? '#047857' : 'var(--color-accent-2)'}">
+                  ${assay.conclusion}
+                </div>
+
+                <button type="button" class="btn btn-secondary" data-action="view-coa" data-coa-id="${assay.coaId}" style="width:100%;font-size:12px">
+                  📜 Open Full Certificate of Analysis & Seal
+                </button>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    renderLabCoaDetail() {
+      const coaId = this.state.selectedCoaId;
+      const assay = this.data.labAssays.find((a) => a.coaId === coaId) || this.data.labAssays[0];
+      const isCompliant = assay.status === 'PASSED';
+
+      return `
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <button type="button" class="btn btn-ghost btn-sm" data-action="go-back">
+              ← Back to Assays
+            </button>
+            <span class="tag ${assay.sealClass}">NAFDAC OFFICIAL RECORD</span>
+          </div>
+
+          <!-- Official Broadsheet Certificate Document -->
+          <div class="coa-document">
+            <div class="coa-seal" style="border-color:${isCompliant ? '#0088b0' : '#d6006c'};color:${isCompliant ? '#0088b0' : '#d6006c'}">
+              ${isCompliant ? 'NAFDAC<br>LAB-OK<br>2026' : 'NAFDAC<br>ALERT<br>FAIL'}
+            </div>
+
+            <div class="coa-header">
+              <div class="coa-title">NAFDAC REFERENCE CONTROL LABORATORY</div>
+              <div class="coa-sub">Directorate of Laboratory Services · Federal Ministry of Health, Nigeria</div>
+              <div style="font-size:9.5px;color:#047857;font-weight:600;margin-top:2px">ISO/IEC 17025:2017 ACCREDITED TESTING LABORATORY</div>
+            </div>
+
+            <div style="text-align:center;padding:6px 0;margin-bottom:12px;background:#f8fafc;border-radius:4px;border:1px solid #e2e8f0">
+              <div style="font-family:var(--font-heading);font-weight:700;font-size:15px;letter-spacing:0.04em">CERTIFICATE OF ANALYSIS</div>
+              <div style="font-size:11px;font-family:monospace;color:var(--color-accent);font-weight:600">${assay.coaId}</div>
+            </div>
+
+            <!-- Metadata Grid -->
+            <div class="coa-grid">
+              <div>
+                <span>Product Name:</span>
+                <strong>${assay.productName}</strong>
+              </div>
+              <div>
+                <span>Batch / Lot No:</span>
+                <strong>${assay.batchId}</strong>
+              </div>
+              <div>
+                <span>Testing Laboratory:</span>
+                ${assay.facility}
+              </div>
+              <div>
+                <span>Certifying Officer:</span>
+                ${assay.labOfficer}
+              </div>
+              <div>
+                <span>Testing Methodology:</span>
+                ${assay.method}
+              </div>
+              <div>
+                <span>Analytical Monograph:</span>
+                British Pharmacopoeia (BP 2025)
+              </div>
+            </div>
+
+            <!-- Monograph Parameters Table -->
+            <table class="coa-table">
+              <thead>
+                <tr>
+                  <th>Monograph Parameter</th>
+                  <th>Official Specification</th>
+                  <th>Observed Result</th>
+                  <th>Verdict</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Identity (HPLC)</strong></td>
+                  <td>Conforms to Reference Standard</td>
+                  <td>${assay.retentionPeakMin > 0 ? `Peak matches standard (tR = ${assay.retentionPeakMin} min)` : 'Non-Conforming: No active peak detected'}</td>
+                  <td><span class="tag ${assay.retentionPeakMin > 0 ? 'tag-accent' : 'tag-accent-2'}" style="font-size:9px">${assay.retentionPeakMin > 0 ? 'CONFORMS' : 'FAIL'}</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Active API Assay (%)</strong></td>
+                  <td>95.0% – 105.0% of label claim</td>
+                  <td><strong>${assay.apiAssayPercentage}%</strong></td>
+                  <td><span class="tag ${isCompliant ? 'tag-accent' : 'tag-accent-2'}" style="font-size:9px">${isCompliant ? 'PASSED' : 'OUT OF SPEC'}</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Dissolution Rate</strong></td>
+                  <td>&gt; 80.0% (Q) at 45 min</td>
+                  <td>${assay.dissolutionRate}</td>
+                  <td><span class="tag ${isCompliant ? 'tag-accent' : 'tag-accent-2'}" style="font-size:9px">${isCompliant ? 'PASSED' : 'FAIL'}</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Impurities & Residues</strong></td>
+                  <td>None detected / &lt; 0.1%</td>
+                  <td>${assay.foreignSubstances}</td>
+                  <td><span class="tag ${isCompliant ? 'tag-accent' : 'tag-accent-2'}" style="font-size:9px">${isCompliant ? 'CONFORMS' : 'CONTAMINATED'}</span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Analytical Verdict -->
+            <div style="margin-top:14px;padding:10px;border-radius:4px;background:${isCompliant ? 'rgba(0,136,176,0.06)' : 'rgba(214,0,108,0.08)'};border-left:3px solid ${isCompliant ? 'var(--color-accent)' : 'var(--color-accent-2)'}">
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;color:${isCompliant ? 'var(--color-accent)' : 'var(--color-accent-2)'};margin-bottom:3px">
+                ANALYTICAL VERDICT
+              </div>
+              <div style="font-size:11.5px;line-height:1.4;color:#1e293b">
+                ${assay.conclusion}
+              </div>
+            </div>
+
+            <!-- Cryptographic Ledger Proof -->
+            <div style="margin-top:14px;padding-top:10px;border-top:1px solid #e2e8f0;font-size:10.5px;color:#64748b">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <div>Cryptographic Anchor: <strong>BLOCK-${assay.id}</strong></div>
+                  <div style="font-family:monospace;font-size:9px;color:var(--color-accent)">SHA-256: 7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069</div>
+                </div>
+                <div style="text-align:right">
+                  <div>Timestamp: ${assay.testDate} 14:22 UTC</div>
+                  <div style="font-weight:600;color:#0f172a">WelliVerify Ledger v1.4</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <button type="button" class="btn btn-secondary" onclick="window.print()" style="font-size:12px">
+              🖨️ Print / Save PDF
+            </button>
+            <button type="button" class="btn btn-primary" data-action="nav-to" data-target="assay" style="font-size:12px">
+              🔬 New Assay Test
+            </button>
           </div>
         </div>
       `;
@@ -2609,6 +3335,9 @@
     renderConsumables() {
       return `
         <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:18px">Consumables & Laboratory Reagents</div>
+          <div style="font-size:12px;opacity:0.7">Track HPLC columns, analytical standards, and certified reference reagents</div>
+
           ${this.data.labConsumables.map((lc) => `
             <div class="card elev-sm">
               <div style="display:flex;justify-content:space-between;align-items:baseline">
@@ -2638,6 +3367,9 @@
       if (screen === 'price') return this.renderPriceIntelligence();
       if (screen === 'assistant') return this.renderAskAssistant();
       if (screen === 'coldchaindetail') return this.renderColdChainDetail();
+      if (screen === 'coas') return this.renderLabCoas();
+      if (screen === 'coadetail') return this.renderLabCoaDetail();
+      if (screen === 'assay') return this.renderLabAssay();
 
       // Role specific routes
       if (role === 'pharmacist') {
@@ -2686,6 +3418,9 @@
       } else if (role === 'lab') {
         switch (screen) {
           case 'home': return this.renderLabHome();
+          case 'assay': return this.renderLabAssay();
+          case 'coas': return this.renderLabCoas();
+          case 'coadetail': return this.renderLabCoaDetail();
           case 'consumables': return this.renderConsumables();
           default: return this.renderLabHome();
         }

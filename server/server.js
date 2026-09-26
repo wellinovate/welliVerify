@@ -544,6 +544,95 @@ app.post('/api/v1/kyb/:id/action', (req, res) => {
   res.json({ success: true, item });
 });
 
+// ==========================================
+// 13. LABORATORY QC & CHEMICAL ASSAYS
+// ==========================================
+app.get('/api/v1/lab/assays', (req, res) => {
+  res.json({ count: db.assays.length, assays: db.assays });
+});
+
+app.get('/api/v1/lab/assays/:batchId', (req, res) => {
+  const assay = db.assays.find(a => a.batchId === req.params.batchId || a.coaId === req.params.batchId);
+  if (!assay) return res.status(404).json({ error: 'Assay record not found' });
+  res.json(assay);
+});
+
+app.post('/api/v1/lab/assays', (req, res) => {
+  const {
+    batchId = 'AL-240981',
+    productName = 'Artemether / Lumefantrine 80/480mg',
+    apiAssayPercentage = 98.5,
+    dissolutionRate = '86.2% at 45 min',
+    foreignSubstances = 'None detected',
+    labOfficer = 'Tunji Adewale (Reg. LAB-33021)',
+    facility = 'Zenith Diagnostics Reference Laboratory, Lagos',
+    method = 'Reversed-Phase High-Performance Liquid Chromatography (RP-HPLC)',
+  } = req.body;
+
+  const numericAssay = Number(apiAssayPercentage);
+  const isCompliant = numericAssay >= 95.0 && numericAssay <= 105.0;
+  const status = isCompliant ? 'PASSED' : 'FAILED_LETHAL_ADULTERANT';
+  const sealClass = isCompliant ? 'tag-accent' : 'tag-accent-2';
+  const coaId = `COA-2026-NAFDAC-${Math.floor(1000 + Math.random() * 9000)}${isCompliant ? '' : '-FAIL'}`;
+
+  const newAssay = {
+    id: `ASSAY-00${db.assays.length + 1}`,
+    coaId,
+    batchId,
+    productName,
+    labOfficer,
+    facility,
+    testDate: new Date().toISOString().split('T')[0],
+    method,
+    apiAssayPercentage: numericAssay,
+    specificationRange: '95.0% - 105.0% (USP / BP)',
+    dissolutionRate,
+    foreignSubstances,
+    status,
+    sealClass,
+    retentionPeakMin: isCompliant ? 4.2 : 0.0,
+    conclusion: isCompliant
+      ? 'Sample conforms to British Pharmacopoeia (BP 2025) monograph standards.'
+      : `NON-COMPLIANT: Assay of ${numericAssay}% violates USP/BP specifications. Quarantine batch.`,
+  };
+
+  db.assays.unshift(newAssay);
+
+  // If failed, auto-flag batch
+  const batch = db.batches.find(b => b.batchId === batchId);
+  if (batch && !isCompliant) {
+    batch.status = 'FAILED_LAB_ASSAY';
+  }
+
+  // Anchor in immutable ledger
+  const certEvent = ledger.recordEvent({
+    eventType: 'LAB_ASSAY_CERTIFICATION',
+    who: labOfficer,
+    what: `Laboratory Assay for ${productName} (Batch ${batchId})`,
+    where: facility,
+    when: new Date().toISOString(),
+    fromWhom: facility,
+    toWhom: 'NAFDAC National Pharmacovigilance Mesh',
+    why: 'Point-of-Entry & Market Surveillance Laboratory Clearance',
+    status: isCompliant ? 'PASSED_CERTIFICATION' : 'FAILED_ADULTERATION_DETECTED',
+    metadata: {
+      coaId,
+      batchId,
+      assayScore: numericAssay,
+      compliant: isCompliant,
+    },
+  });
+
+  res.status(201).json({
+    success: true,
+    assay: newAssay,
+    ledgerHash: certEvent.hash,
+    message: isCompliant
+      ? 'Certificate of Analysis successfully issued & anchored to National Trust Ledger'
+      : 'ALERT: Assay failed pharmacopeia limits. Batch flagged for immediate recall broadcast.',
+  });
+});
+
 // Start listening
 app.listen(PORT, () => {
   console.log(`====================================================`);

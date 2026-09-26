@@ -183,7 +183,36 @@ class WelliVerifyApiClient {
     }
     return null;
   }
+
+  async getLabAssays() {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/lab/assays`);
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] getLabAssays fallback:', err);
+      }
+    }
+    return null;
+  }
+
+  async submitLabAssay(assayData) {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/lab/assays`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(assayData),
+        });
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] submitLabAssay fallback:', err);
+      }
+    }
+    return null;
+  }
 }
 
 // Global Singleton Export
 window.WelliVerifyAPI = new WelliVerifyApiClient();
+

@@ -47,5 +47,14 @@ curl -s -f "$BASE_URL/price-intel" | grep -q "Amoxicillin 500mg" && echo "PASS [
 echo -n "11. Testing AI Copilot Cypher / Graph Query: "
 curl -s -f "$BASE_URL/graph/query?q=Cadila" | grep -q "MATCH" && echo "PASS [200 OK]" || (echo "FAIL"; exit 1)
 
+echo -n "12. Testing Laboratory Assay List: "
+curl -s -f "$BASE_URL/lab/assays" | grep -q "COA-2026-NAFDAC-0981" && echo "PASS [200 OK]" || (echo "FAIL"; exit 1)
+
+echo -n "13. Testing Laboratory Chemical Assay Submission & CoA Issuance: "
+curl -s -f -X POST "$BASE_URL/lab/assays" \
+  -H "Content-Type: application/json" \
+  -d '{"batchId":"AL-240981","productName":"Artemether/Lumefantrine","apiAssayPercentage":99.4,"dissolutionRate":"89.1% at 45 min"}' | grep -q "Certificate of Analysis" && echo "PASS [201 Created]" || (echo "FAIL"; exit 1)
+
 echo ""
-echo "=== ALL 11 API TEST SUITES PASSED SUCCESSFULLY ==="
+echo "=== ALL 13 API TEST SUITES PASSED SUCCESSFULLY ==="
+
