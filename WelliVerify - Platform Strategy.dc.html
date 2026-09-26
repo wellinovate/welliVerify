@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link rel="stylesheet" href="_ds/broadsheet-33e1abc0-c76e-4efe-9cc0-1407cbd4a61e/styles.css">
+<script src="_ds/broadsheet-33e1abc0-c76e-4efe-9cc0-1407cbd4a61e/_ds_bundle.js"></script>
+<style>doc-page:not(:defined){visibility:hidden}</style>
+<script src="./doc-page.js"></script>
+</helmet>
+
+<doc-page margin="0.85in">
+  <h1 style="font-family:var(--font-heading);font-weight:600;font-size:32px;margin-bottom:4px">WelliVerify — Platform Strategy</h1>
+  <p style="font-size:13px;letter-spacing:0.06em;text-transform:uppercase;opacity:0.6;margin-top:0">Interoperability · API · Data Architecture · Moat · Business Model</p>
+
+  <h2 style="font-family:var(--font-heading);font-weight:600;font-size:22px;margin-top:36px">Interoperability, not replacement</h2>
+  <p>WelliVerify should not attempt to replace NAFDAC systems, pharmacy management systems, hospital systems, ERPs, or manufacturer, distributor and GS1 infrastructure. Instead, it becomes the <strong>interoperability layer</strong> across them — supporting GS1, FHIR where clinically relevant, REST APIs, webhooks, CSV/bulk upload, a mobile SDK, barcode/2D scanning and IoT APIs. That breadth is what makes adoption possible without asking any partner to rip out what already works.</p>
+
+  <h2 style="font-family:var(--font-heading);font-weight:600;font-size:22px;margin-top:32px">The WelliVerify API</h2>
+  <p>The API may ultimately be more valuable than the consumer app. A partner calls <code>POST /products/verify</code> and gets back <code>product_status</code>, <code>registration_status</code>, <code>batch_status</code>, <code>expiry_status</code>, <code>supplier_status</code>, <code>traceability_status</code> and <code>risk_status</code> in one response. Alongside it: <code>GET /inventory/{product}</code>, <code>GET /suppliers/{id}</code>, <code>POST /recalls</code>, and <code>POST /supply-chain/events</code>. Once these exist, third parties build on WelliVerify rather than around it.</p>
+
+  <h2 style="font-family:var(--font-heading);font-weight:600;font-size:22px;margin-top:32px">The SDK and network effects</h2>
+  <p>A pharmacy app integrates "Verify with WelliVerify." A hospital system checks supply provenance. A manufacturer's ERP pushes serialized products. A logistics provider submits shipment events. Each integration adds data and adds a channel — the SDK is how the network compounds.</p>
+
+  <h2 style="font-family:var(--font-heading);font-weight:600;font-size:22px;margin-top:32px">The core innovation: digital chain of trust</h2>
+  <p>The real innovation isn't product verification alone — it's <strong>Product Trust + Organization Trust + Transaction Trust + Movement Trust</strong> together. Every supply-chain event is modeled as one atomic unit:</p>
+  <p style="font-family:var(--font-heading);font-style:italic;font-size:17px;margin:18px 0;padding-left:20px">WHO + WHAT + WHERE + WHEN + FROM WHOM + TO WHOM + WHY + STATUS</p>
+  <p>That atomic event is what the risk engine, the recall engine, and the trust graph all read from — one ledger, many consumers.</p>
+
+  <h2 style="font-family:var(--font-heading);font-weight:600;font-size:22px;margin-top:32px">Data architecture</h2>
+  <p>The core is a Healthcare Supply Chain Graph built from: Product Master, Batch Master, Serial Master, Organization Master, Facility Master, Supplier Master, Location Master, a Transaction/Event Ledger (<code>SupplyChainEvent</code>), Regulatory Record, Inventory Position, Recall Event, Quality Event, Cold-Chain Event, and Verification Event.</p>
+  <p><strong>Don't reach for a blockchain because it sounds impressive.</strong> The actual problem is a trusted, tamper-evident, interoperable event history — achievable with cryptographic signatures, immutable audit logs, event sourcing, secure timestamps, role-based access and hash chaining. Introduce a shared ledger only where a genuine multi-party trust requirement demands it (WelliChain, separately, already covers ecosystem-wide auditability).</p>
+
+  <h2 style="font-family:var(--font-heading);font-weight:600;font-size:22px;margin-top:32px">Product modules</h2>
+  <table class="table" style="margin-top:12px">
+    <thead><tr><th>Module</th><th>Function</th></tr></thead>
+    <tbody>
+      <tr><td>WelliVerify Authenticate</td><td>Product verification</td></tr>
+      <tr><td>WelliVerify Trace</td><td>End-to-end traceability</td></tr>
+      <tr><td>WelliVerify Supply</td><td>Inventory and procurement</td></tr>
+      <tr><td>WelliVerify Pharmacy</td><td>Pharmacy inventory and supplier management</td></tr>
+      <tr><td>WelliVerify Cold</td><td>Temperature / cold-chain monitoring</td></tr>
+      <tr><td>WelliVerify Recall</td><td>Recall management</td></tr>
+      <tr><td>WelliVerify Risk</td><td>AI risk and anomaly detection</td></tr>
+      <tr><td>WelliVerify Reg</td><td>Regulatory / compliance intelligence</td></tr>
+      <tr><td>WelliVerify Market</td><td>Verified supplier / product marketplace</td></tr>
+      <tr><td>WelliVerify Insight</td><td>Supply-chain analytics</td></tr>
+      <tr><td>WelliVerify API</td><td>Infrastructure / API layer</td></tr>
+    </tbody>
+  </table>
+
+  <h2 style="font-family:var(--font-heading);font-weight:600;font-size:22px;margin-top:32px">The moat</h2>
+  <p>The moat isn't the QR code — anyone can build QR scanning. It's the compounding stack around it: the <strong>network</strong> (manufacturers, distributors, pharmacies, hospitals, labs, regulators), the <strong>data</strong> (product, batch, supplier, transaction, geography, inventory), the <strong>trust graph</strong> connecting all of it, deep <strong>integrations</strong> (NAFDAC, GS1, ERPs, pharmacy and hospital systems, logistics), <strong>historical intelligence</strong> about what normal supply-chain behaviour looks like, <strong>AI risk models</strong> that get harder to replicate over time, and built-in <strong>distribution</strong> through WelliRecord, WelliPay, WelliPharm and WelliCare.</p>
+
+  <h2 style="font-family:var(--font-heading);font-weight:600;font-size:22px;margin-top:32px">Business model</h2>
+  <p>Patients should not be the primary payer. The paying customers are the organizations that need trust and visibility at scale:</p>
+  <table class="table" style="margin-top:12px">
+    <thead><tr><th>Customer</th><th>Model</th></tr></thead>
+    <tbody>
+      <tr><td>Manufacturers</td><td>Subscription + serialization/verification fees</td></tr>
+      <tr><td>Distributors</td><td>Supply-chain SaaS</td></tr>
+      <tr><td>Pharmacies</td><td>Inventory + procurement SaaS</td></tr>
+      <tr><td>Hospitals</td><td>Supply-chain management</td></tr>
+      <tr><td>Laboratories</td><td>Consumables management</td></tr>
+      <tr><td>Governments / regulators</td><td>Analytics and infrastructure contracts</td></tr>
+      <tr><td>NGOs / global health orgs</td><td>Program monitoring</td></tr>
+      <tr><td>Insurers / HMOs</td><td>Provider/product verification and claims intelligence</td></tr>
+      <tr><td>Logistics companies</td><td>Cold-chain + shipment tracking</td></tr>
+      <tr><td>API customers</td><td>Usage-based pricing</td></tr>
+    </tbody>
+  </table>
+</doc-page>
+
+</x-dc>
+</body>
+</html>

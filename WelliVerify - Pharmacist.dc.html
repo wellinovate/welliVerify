@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link rel="stylesheet" href="_ds/broadsheet-33e1abc0-c76e-4efe-9cc0-1407cbd4a61e/styles.css">
+<script src="_ds/broadsheet-33e1abc0-c76e-4efe-9cc0-1407cbd4a61e/_ds_bundle.js"></script>
+<style>
+body{margin:0;background:var(--color-neutral-300);font-family:var(--font-body)}
+a{color:var(--color-accent-700)}
+a:hover{color:var(--color-accent-900)}
+.wv-scroll::-webkit-scrollbar{width:0;height:0}
+@keyframes wv-scanline{0%{top:8%}100%{top:88%}}
+@keyframes wv-pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb, var(--color-accent) 45%, transparent)}100%{box-shadow:0 0 0 22px transparent}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 16px">
+  <div style="width:390px;height:844px;background:var(--color-bg);border-radius:var(--radius-lg);border:1px solid var(--color-divider);box-shadow:var(--shadow-lg);overflow:hidden;position:relative;display:flex;flex-direction:column">
+
+    <!-- LOGIN -->
+    <sc-if value="{{isLogin}}" hint-placeholder-val="{{true}}">
+      <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 32px;gap:30px">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:34px;height:34px;border-radius:var(--radius-md);background:var(--color-accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-weight:600;font-size:16px">W</div>
+            <div style="font-family:var(--font-heading);font-weight:600;font-size:22px">WelliVerify</div>
+          </div>
+          <div style="font-size:13px;letter-spacing:0.06em;text-transform:uppercase;opacity:0.68">Verify. Trace. Protect.</div>
+        </div>
+        <div>
+          <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68;margin-bottom:10px">Continue as</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <button type="button" class="btn" onClick="{{selectLoginRole}}" data-role="pharmacist" style="{{pharmacistTileStyle}}">Pharmacist</button>
+            <button type="button" class="btn" onClick="{{selectLoginRole}}" data-role="patient" style="{{patientTileStyle}}">Patient</button>
+            <button type="button" class="btn" onClick="{{selectLoginRole}}" data-role="distributor" style="{{distributorTileStyle}}">Distributor</button>
+            <button type="button" class="btn" onClick="{{selectLoginRole}}" data-role="regulator" style="{{regulatorTileStyle}}">Regulator</button>
+            <button type="button" class="btn" onClick="{{selectLoginRole}}" data-role="lab" style="grid-column:1/-1;{{labTileStyle}}">Laboratory</button>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="field"><label>{{loginIdLabel}}</label><input class="input" value="{{loginIdValue}}" /></div>
+          <div class="field"><label>Password</label><input class="input" type="password" value="••••••••" /></div>
+          <div style="font-size:12px;opacity:0.68">{{loginNote}}</div>
+          <button type="button" class="btn btn-primary btn-block" onClick="{{login}}">Continue<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path opacity="0.25" d="M216,128l-72,72V56Z"/><path d="M221.66,122.34l-72-72A8,8,0,0,0,136,56v64H40a8,8,0,0,0,0,16h96v64a8,8,0,0,0,13.66,5.66l72-72A8,8,0,0,0,221.66,122.34ZM152,180.69V75.31L204.69,128Z"/></svg></button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isAppView}}" hint-placeholder-val="{{false}}">
+    <div style="display:flex;flex-direction:column;height:100%">
+      <!-- HEADER -->
+      <div style="display:flex;align-items:center;gap:12px;padding:18px 20px 14px;background:var(--color-surface);flex:none">
+        <sc-if value="{{showBack}}" hint-placeholder-val="{{false}}">
+          <button type="button" class="btn btn-ghost btn-icon" aria-label="Back" onClick="{{goBack}}" style="width:32px;height:32px"><svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" style="transform:scaleX(-1)"><path opacity="0.25" d="M216,128l-72,72V56Z"/><path d="M221.66,122.34l-72-72A8,8,0,0,0,136,56v64H40a8,8,0,0,0,0,16h96v64a8,8,0,0,0,13.66,5.66l72-72A8,8,0,0,0,221.66,122.34ZM152,180.69V75.31L204.69,128Z"/></svg></button>
+        </sc-if>
+        <sc-if value="{{showMenu}}" hint-placeholder-val="{{true}}">
+          <button type="button" class="btn btn-ghost btn-icon" aria-label="Menu" onClick="{{toggleDrawer}}" style="width:32px;height:32px"><svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor"><path opacity="0.25" d="M40 64h176v32H40zM40 160h176v32H40z"/><path d="M216,56H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm0,88H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm0,88H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+        </sc-if>
+        <div style="display:flex;align-items:baseline;gap:8px;flex:1">
+          <span style="font-family:var(--font-heading);font-weight:600;font-size:11px;color:var(--color-accent-700)">W</span>
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:18px">{{headerTitle}}</div>
+        </div>
+        <button type="button" class="btn btn-ghost btn-icon" aria-label="Notifications" onClick="{{go}}" data-target="notifications" style="width:30px;height:30px;position:relative">
+          <svg width="15" height="15" viewBox="0 0 256 256" fill="currentColor"><path opacity="0.25" d="M208,192H48a8,8,0,01-6.4-12.8C52,164.4,56,147.4,56,120a72,72,0,01144,0c0,27.4,4,44.4,14.4,59.2A8,8,0,01208,192Z"/><path d="M216,192.7c-9.5-13.4-14.3-27.8-14.3-72.7a73.9,73.9,0,00-56-71.8V40a8,8,0,00-16,0v8.2A73.9,73.9,0,0074,120c0,44.9-4.8,59.3-14.3,72.7A8,8,0,0064,208H98.4a30,30,0,0059.2,0H192A8,8,0,00216,192.7ZM128,224a14,14,0,01-13.9-16h27.8A14,14,0,01128,224Zm-63.5-32C74.4,177.4,78,159.4,78,120a58,58,0,01100,0c0,39.4,3.6,57.4,13.5,72Z"/></svg>
+        </button>
+        <sc-if value="{{notifCount}}" hint-placeholder-val="{{0}}">
+          <span class="tag tag-accent-2" style="font-size:9px;padding:1px 5px;position:relative;margin-left:-8px">{{notifCount}}</span>
+        </sc-if>
+        <span class="tag tag-accent" style="font-size:10px">{{roleLabel}}</span>
+      </div>
+
+      <!-- CONTENT -->
+      <div class="wv-scroll" style="flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:20px">
+
+        <!-- ===== SHARED PROFILE ===== -->
+        <sc-if value="{{isProfile}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:19px">{{identityName}}</div>
+              <p style="font-size:12.5px;opacity:0.7;margin:4px 0 0">{{identityMeta}}</p>
+            </div>
+            <div>
+              <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68;margin-bottom:10px">Switch role</div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <label class="radio" style="display:flex;align-items:center;justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="radio" name="role" checked="{{isPharmacistRole}}" onClick="{{switchRole}}" data-role="pharmacist" /><span class="dot"></span>Pharmacist</span></label>
+                <label class="radio" style="display:flex;align-items:center;justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="radio" name="role" checked="{{isPatientRole}}" onClick="{{switchRole}}" data-role="patient" /><span class="dot"></span>Patient</span></label>
+                <label class="radio" style="display:flex;align-items:center;justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="radio" name="role" checked="{{isDistributorRole}}" onClick="{{switchRole}}" data-role="distributor" /><span class="dot"></span>Distributor</span></label>
+                <label class="radio" style="display:flex;align-items:center;justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="radio" name="role" checked="{{isRegulatorRole}}" onClick="{{switchRole}}" data-role="regulator" /><span class="dot"></span>Regulator</span></label>
+                <label class="radio" style="display:flex;align-items:center;justify-content:space-between"><span style="display:flex;align-items:center;gap:8px"><input type="radio" name="role" checked="{{isLabRole}}" onClick="{{switchRole}}" data-role="lab" /><span class="dot"></span>Laboratory</span></label>
+              </div>
+            </div>
+            <button type="button" class="btn btn-ghost btn-block" onClick="{{signOut}}">Sign out</button>
+          </div>
+        </sc-if>
+
+        <!-- ===== PHARMACIST ===== -->
+        <sc-if value="{{isPharmacistHome}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:20px">Good afternoon, Chidinma</div>
+              <div style="font-size:13px;opacity:0.7">GreenLife Pharmacy · Wuse II, Abuja</div>
+            </div>
+            <div style="display:flex;gap:32px">
+              <div>
+                <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68">Stockout risk</div>
+                <div style="font-family:var(--font-heading);font-weight:600;font-size:30px;color:var(--color-accent-700);line-height:1.15">3 items</div>
+                <div style="font-size:12px;opacity:0.68">Within 14 days</div>
+              </div>
+              <div>
+                <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68">Active recalls</div>
+                <div style="font-family:var(--font-heading);font-weight:600;font-size:30px;color:var(--color-accent-2-700);line-height:1.15">1 batch</div>
+                <div style="font-size:12px;opacity:0.68">Requires action</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <button type="button" class="btn btn-primary btn-block" onClick="{{go}}" data-target="scan" style="justify-content:center">Scan a product<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path opacity="0.25" d="M194.82,151.43l-55.09,20.3-20.3,55.09a7.92,7.92,0,0,1-14.86,0l-20.3-55.09-55.09-20.3a7.92,7.92,0,0,1,0-14.86l55.09-20.3,20.3-55.09a7.92,7.92,0,0,1,14.86,0l20.3,55.09,55.09,20.3A7.92,7.92,0,0,1,194.82,151.43Z"/><path d="M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88Z"/></svg></button>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <button type="button" class="btn btn-secondary" onClick="{{navTo}}" data-target="inventory">Inventory</button>
+                <button type="button" class="btn btn-secondary" onClick="{{navTo}}" data-target="fefo">Stockout alerts</button>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68;margin-bottom:10px">Recent activity</div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div class="card elev-sm"><div class="card-body" style="font-size:13px">Verified <strong>Amoxicillin 500mg</strong> · Batch AMX-9931</div><div class="card-meta" style="font-size:11px">2 hours ago</div></div>
+                <div class="card elev-sm"><div class="card-body" style="font-size:13px">Recall notice issued for <strong>Batch AL-77209</strong></div><div class="card-meta" style="font-size:11px">Yesterday</div></div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isScan}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:18px;align-items:center">
+            <div style="width:100%;aspect-ratio:1;background:var(--color-neutral-900);border-radius:var(--radius-lg);position:relative;overflow:hidden">
+              <div style="position:absolute;inset:14%;border:2px solid var(--color-accent-300);border-radius:var(--radius-md)"></div>
+              <sc-if value="{{scanState}}" hint-placeholder-val="idle">
+                <div style="position:absolute;left:14%;right:14%;height:2px;background:var(--color-accent-300);animation:wv-scanline 1.4s ease-in-out infinite alternate;box-shadow:0 0 12px var(--color-accent-300)"></div>
+              </sc-if>
+            </div>
+            <div style="font-size:13px;opacity:0.7;text-align:center">{{scanHint}}</div>
+            <span class="tag tag-neutral" style="font-size:10px">Works offline — verifies now, syncs when connected</span>
+            <button type="button" class="btn btn-primary btn-block" onClick="{{startScan}}">Start scan<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path opacity="0.25" d="M194.82,151.43l-55.09,20.3-20.3,55.09a7.92,7.92,0,0,1-14.86,0l-20.3-55.09-55.09-20.3a7.92,7.92,0,0,1,0-14.86l55.09-20.3,20.3-55.09a7.92,7.92,0,0,1,14.86,0l20.3,55.09,55.09,20.3A7.92,7.92,0,0,1,194.82,151.43Z"/><path d="M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88Z"/></svg></button>
+            <a href="#" onClick="{{go}}" data-target="product" style="font-size:12px">Enter product code manually</a>
+            <button type="button" class="btn btn-ghost" onClick="{{startScan}}" data-fail="true" style="font-size:11px">Simulate an unrecognized code</button>
+            <a href="#" onClick="{{go}}" data-target="voice" style="font-size:12px">Verify by voice instead</a>
+            <div style="font-size:11px;opacity:0.6;text-align:center">No camera or data? Text VERIFY + the code to 20880, or send a photo on WhatsApp.</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isProduct}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <div style="display:flex;justify-content:center"><span class="tag tag-accent" style="font-size:12px;padding:6px 14px">PRODUCT VERIFIED</span></div>
+            <div style="text-align:center">
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:20px">Artemether/Lumefantrine</div>
+              <div style="font-size:13px;opacity:0.7">XYZ Pharma Ltd.</div>
+            </div>
+            <div class="card elev-sm" style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Batch</span><strong>AL-240981</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Expiry</span><strong>08/2028</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">NAFDAC registration</span><strong>Valid</strong></div>
+              <sc-if value="{{isPharmacistRole}}" hint-placeholder-val="{{true}}">
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Supply-chain status</span><strong>Authorized</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Last verified</span><strong>Abuja, Nigeria</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Risk</span><span class="tag tag-accent">Low</span></div>
+              </sc-if>
+              <sc-if value="{{isPatientRole}}" hint-placeholder-val="{{false}}">
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Safety alerts</span><strong>None currently reported</strong></div>
+              </sc-if>
+            </div>
+            <sc-if value="{{isPharmacistRole}}" hint-placeholder-val="{{true}}">
+              <div>
+                <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68;margin-bottom:10px">Supply-chain journey</div>
+                <div style="display:flex;flex-direction:column;gap:8px;font-size:12.5px">
+                  <div>XYZ Pharma Ltd. <span style="opacity:0.6">— produced</span></div>
+                  <div>Meridian Imports Ltd. <span style="opacity:0.6">— imported</span></div>
+                  <div>Northgate Distribution <span style="opacity:0.6">— dispatched</span></div>
+                  <div><strong>GreenLife Pharmacy</strong> <span style="opacity:0.6">— received</span></div>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <button type="button" class="btn btn-secondary" onClick="{{go}}" data-target="supplier">Supplier profile</button>
+                <button type="button" class="btn btn-secondary" onClick="{{go}}" data-target="risk">Risk breakdown</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{isPatientRole}}" hint-placeholder-val="{{false}}">
+              <div style="font-size:12px;opacity:0.7;text-align:center">If you suspect a problem with this product, report it.</div>
+            </sc-if>
+            <button type="button" class="btn btn-secondary btn-block" onClick="{{go}}" data-target="photocheck">AI packaging check</button>
+            <button type="button" class="btn btn-ghost btn-block" onClick="{{go}}" data-target="report">Report a concern with this product</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isInventory}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <input class="input" placeholder="Search inventory" />
+            <div class="row" style="display:flex;gap:8px;flex-wrap:wrap">
+              <span class="tag tag-accent">All</span>
+              <span class="tag tag-outline">Expiring soon</span>
+              <span class="tag tag-outline">Low stock</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{inventory}}" as="item" hint-placeholder-count="5">
+                <div class="card elev-sm">
+                  <div style="display:flex;justify-content:space-between;align-items:baseline">
+                    <div class="card-title" style="font-size:14px">{{item.name}}</div>
+                    <span class="tag tag-neutral" style="font-size:10px">{{item.qty}} units</span>
+                  </div>
+                  <div class="card-meta" style="font-size:11.5px">Batch {{item.batch}} · Expires in {{item.days}} days</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isFefo}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="font-size:13px;opacity:0.7">First-Expiry-First-Out guidance, ranked by stockout urgency.</div>
+            <sc-for list="{{fefoAlerts}}" as="a" hint-placeholder-count="3">
+              <div class="card elev-md">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{a.name}}</div>
+                  <span class="tag tag-accent-2" style="font-size:10px">{{a.level}}</span>
+                </div>
+                <p class="card-body" style="font-size:12.5px">Selling {{a.velocity}}/day · stockout in ~{{a.days}} days</p>
+                <div class="card-meta" style="font-size:11.5px">Sell {{a.batch}} first (FEFO)</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isRecall}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{recalls}}" as="r" hint-placeholder-count="2">
+              <div class="card elev-md">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{r.title}}</div>
+                  <span class="tag tag-accent-2" style="font-size:10px">{{r.severity}}</span>
+                </div>
+                <p class="card-body" style="font-size:12.5px">Batch {{r.batch}} · {{r.status}}</p>
+                <div class="card-meta" style="font-size:11.5px">{{r.action}}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isRisk}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <div>
+              <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68">WelliVerify Risk Engine</div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:18px;margin-top:2px">Artemether/Lumefantrine · Batch AL-77209</div>
+            </div>
+            <div>
+              <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68;margin-bottom:10px">Chain-of-custody signals</div>
+              <div class="card elev-sm" style="display:flex;flex-direction:column;gap:12px">
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Manufacturer</span><span class="tag tag-accent" style="font-size:10px">Confirmed</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Importer</span><span class="tag tag-accent" style="font-size:10px">Confirmed</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Distributor</span><span class="tag tag-accent" style="font-size:10px">Confirmed</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Pharmacy</span><span class="tag tag-accent" style="font-size:10px">Confirmed</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Registration</span><span class="tag tag-accent" style="font-size:10px">Confirmed</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Expiry</span><span class="tag tag-accent" style="font-size:10px">Confirmed</span></div>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68;margin-bottom:10px">Behavioural signals — analyzed across millions of events</div>
+              <div class="card elev-md" style="display:flex;flex-direction:column;gap:12px">
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Movement velocity</span><span class="tag tag-accent-2" style="font-size:10px">Abnormal</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Geographic jump</span><span class="tag tag-accent-2" style="font-size:10px">Abnormal</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Supplier purchasing pattern</span><span class="tag tag-accent-2" style="font-size:10px">Abnormal</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px"><span>Serial reuse</span><span class="tag tag-accent-2" style="font-size:10px">Detected</span></div>
+              </div>
+            </div>
+            <div style="text-align:center;padding:14px 0"><span class="tag tag-accent-2" style="font-size:13px;padding:8px 16px">SUPPLY-CHAIN ANOMALY DETECTED</span></div>
+            <p style="font-size:12px;opacity:0.7">Every custody record checks out — the anomaly is behavioural: this serial moved faster than physically possible and was purchased in a pattern unlike this supplier's history. Routed for investigation, not declared counterfeit.</p>
+            <sc-if value="{{isRegulatorRole}}" hint-placeholder-val="{{false}}">
+              <button type="button" class="btn btn-primary btn-block" onClick="{{navTo}}" data-target="recall">Open recall dashboard</button>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isSupplier}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:19px">ABC Pharmaceuticals Ltd.</div>
+              <div style="font-size:12.5px;opacity:0.7">Licensed distributor · Lagos, Nigeria</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span>Licence status</span><span class="tag tag-accent" style="font-size:10px">Verified</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span>Regulatory credentials</span><span class="tag tag-accent" style="font-size:10px">Verified</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span>Facility inspection</span><span class="tag tag-accent" style="font-size:10px">Verified</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span>Documentation renewal</span><span class="tag tag-outline" style="font-size:10px">Due in 12 days</span></div>
+            </div>
+            <div class="card elev-sm" style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Authorized products</span><strong>87</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Supply-chain history</span><strong>4 years</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Recall history</span><strong>0</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Compliance events</span><strong>0 open</strong></div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== UNABLE TO VERIFY ===== -->
+        <sc-if value="{{isUnable}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:16px;padding-top:30px;text-align:center">
+            <span class="tag tag-accent-2" style="font-size:12px;padding:6px 14px">UNABLE TO VERIFY</span>
+            <p style="font-size:13px;opacity:0.75;max-width:28ch">We couldn't confirm this code against the registry. It may be damaged, unregistered, or fraudulent. Do not rely on this product until it's verified.</p>
+            <button type="button" class="btn btn-secondary btn-block" onClick="{{navTo}}" data-target="{{rescanTarget}}">Try again</button>
+            <button type="button" class="btn btn-ghost btn-block" onClick="{{go}}" data-target="report">Report anyway</button>
+          </div>
+        </sc-if>
+
+        <!-- ===== SHARED REPORT (pharmacist + patient) ===== -->
+        <sc-if value="{{isReport}}" hint-placeholder-val="{{false}}">
+          <sc-if value="{{reportPending}}" hint-placeholder-val="{{true}}">
+            <sc-if value="{{isGenericReport}}" hint-placeholder-val="{{true}}">
+              <div style="display:flex;flex-direction:column;gap:16px">
+                <div class="field"><label>Product</label><input class="input" value="Artemether/Lumefantrine — Batch AL-240981" readOnly /></div>
+                <div class="field"><label>What are you reporting?</label>
+                  <div class="seg" role="radiogroup">
+                    <label class="seg-opt"><input type="radio" name="rt" defaultChecked />Adverse event</label>
+                    <label class="seg-opt"><input type="radio" name="rt" />Suspected fake</label>
+                    <label class="seg-opt"><input type="radio" name="rt" />Quality issue</label>
+                  </div>
+                </div>
+                <div class="field"><label>Description</label><textarea class="input" rows="4" placeholder="Describe what you observed"></textarea></div>
+                <button type="button" class="btn btn-primary btn-block" onClick="{{submitReport}}">Submit report</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{isDistributorReport}}" hint-placeholder-val="{{false}}">
+              <div style="display:flex;flex-direction:column;gap:16px">
+                <div class="field"><label>Shipment / batch</label><input class="input" value="OXY-1188 — Meridian Imports → Northgate Distribution" readOnly /></div>
+                <div class="field"><label>Issue type</label>
+                  <div class="seg" role="radiogroup">
+                    <label class="seg-opt"><input type="radio" name="dt" defaultChecked />Diversion</label>
+                    <label class="seg-opt"><input type="radio" name="dt" />Counterfeit</label>
+                    <label class="seg-opt"><input type="radio" name="dt" />Documentation</label>
+                  </div>
+                </div>
+                <div class="field"><label>Description</label><textarea class="input" rows="4" placeholder="Describe the discrepancy"></textarea></div>
+                <button type="button" class="btn btn-primary btn-block" onClick="{{submitReport}}">Submit report</button>
+              </div>
+            </sc-if>
+          </sc-if>
+          <sc-if value="{{reportSubmitted}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:40px">
+              <span class="tag tag-accent" style="font-size:12px;padding:6px 14px">REPORT RECEIVED</span>
+              <div class="card elev-sm" style="width:100%"><div class="card-kicker">AI triage</div><p class="card-body" style="font-size:12.5px">Classified as suspected counterfeit · high urgency. Auto-routed to pharmacovigilance and the fraud investigation queue — no manual sorting needed.</p></div>
+              <button type="button" class="btn btn-secondary" onClick="{{navTo}}" data-target="home">Back to dashboard</button>
+            </div>
+          </sc-if>
+        </sc-if>
+
+        <!-- ===== DISTRIBUTOR TRUST PROFILE ===== -->
+        <sc-if value="{{isTrust}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:19px">ABC Pharmaceuticals Ltd.</div>
+              <div style="font-size:12.5px;opacity:0.7">Your KYB &amp; trust profile · Lagos, Nigeria</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span>Licence status</span><span class="tag tag-accent" style="font-size:10px">Verified</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span>Regulatory credentials</span><span class="tag tag-accent" style="font-size:10px">Verified</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span>Facility inspection</span><span class="tag tag-accent" style="font-size:10px">Verified</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span>Documentation renewal</span><span class="tag tag-outline" style="font-size:10px">Due in 12 days</span></div>
+            </div>
+            <div class="card elev-sm" style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Authorized products</span><strong>87</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Supply-chain history</span><strong>4 years</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Recall history</span><strong>0</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Compliance events</span><strong>0 open</strong></div>
+            </div>
+            <button type="button" class="btn btn-secondary btn-block">Renew documentation</button>
+          </div>
+        </sc-if>
+
+        <!-- ===== COLD CHAIN ===== -->
+        <sc-if value="{{isColdChain}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:12.5px;opacity:0.7">Live IoT sensor readings for temperature-sensitive shipments.</div>
+            <sc-for list="{{coldChainShipments}}" as="c" hint-placeholder-count="3">
+              <div class="card elev-md" style="cursor:pointer" onClick="{{openColdChainDetail}}" data-idx="{{$index}}">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{c.product}}</div>
+                  <span class="tag {{c.tagClass}}" style="font-size:10px">{{c.status}}</span>
+                </div>
+                <p class="card-body" style="font-size:12.5px">Batch {{c.batch}} · {{c.temp}}</p>
+                <div class="card-meta" style="font-size:11.5px">{{c.reading}} · {{c.action}}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isColdChainDetail}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:18px">{{ccProduct}}</div>
+              <div style="font-size:12.5px;opacity:0.7">Batch {{ccBatch}} · {{ccAction}}</div>
+            </div>
+            <span class="tag {{ccTagClass}}" style="font-size:10px;align-self:flex-start">{{ccStatus}}</span>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <sc-for list="{{ccReadingsView}}" as="r" hint-placeholder-count="5">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="font-size:11px;opacity:0.6;width:44px;flex:none">{{r.time}}</div>
+                  <div style="flex:1;height:10px;background:var(--color-neutral-200);border-radius:var(--radius-sm);overflow:hidden">
+                    <sc-if value="{{r.flag}}" hint-placeholder-val="{{false}}"><div style="height:100%;background:var(--color-accent-2);width:{{r.pct}}%"></div></sc-if>
+                    <sc-if value="{{r.safe}}" hint-placeholder-val="{{true}}"><div style="height:100%;background:var(--color-accent);width:{{r.pct}}%"></div></sc-if>
+                  </div>
+                  <div style="font-size:11px;width:36px;flex:none;text-align:right">{{r.temp}}°C</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="font-size:11px;opacity:0.6">Threshold: 2–8°C. Bars in magenta exceeded the safe range.</div>
+          </div>
+        </sc-if>
+
+        <!-- ===== SUPPLY CHAIN MAP ===== -->
+        <sc-if value="{{isMap}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:12.5px;opacity:0.7">Regional network density and availability status.</div>
+            <sc-for list="{{regions}}" as="rg" hint-placeholder-count="4">
+              <div class="card elev-sm">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{rg.name}}</div>
+                  <span class="tag tag-accent-2" style="font-size:10px">{{rg.status}}</span>
+                </div>
+                <div style="display:flex;gap:16px;font-size:12px;margin-top:4px"><span><strong>{{rg.distributors}}</strong> distributors</span><span><strong>{{rg.pharmacies}}</strong> pharmacies</span></div>
+                <div class="card-meta" style="font-size:11.5px">{{rg.note}}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- ===== REPORTS INBOX ===== -->
+        <sc-if value="{{isInbox}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{reportsWithState}}" as="rp" hint-placeholder-count="3">
+              <sc-if value="{{rp.dismissed}}" hint-placeholder-val="{{false}}">
+                <div class="card elev-sm" style="opacity:0.5"><div class="card-body" style="font-size:13px">{{rp.reporter}}</div><div class="card-meta" style="font-size:11px">Reviewed</div></div>
+              </sc-if>
+              <sc-if value="{{rp.pending}}" hint-placeholder-val="{{true}}">
+                <div class="card elev-sm">
+                  <div style="display:flex;justify-content:space-between;align-items:baseline">
+                    <div class="card-title" style="font-size:14px">{{rp.reporter}}</div>
+                    <span class="tag tag-outline" style="font-size:10px">{{rp.type}}</span>
+                  </div>
+                  <div class="card-meta" style="font-size:11.5px">{{rp.product}} · {{rp.time}}</div>
+                  <div style="margin-top:8px"><span class="tag {{rp.urgencyClass}}" style="font-size:9px">AI triage: {{rp.urgency}} urgency</span></div>
+                  <button type="button" class="btn btn-ghost" style="margin-top:8px;width:100%" onClick="{{dismissReport}}" data-idx="{{rp.idx}}">Mark reviewed</button>
+                </div>
+              </sc-if>
+            </sc-for>
+            <sc-if value="{{allReportsReviewed}}" hint-placeholder-val="{{false}}">
+              <div style="text-align:center;padding:30px 0;opacity:0.6;font-size:13px">No pending reports — inbox clear.</div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- ===== PATIENT: PRESCRIPTIONS / REMINDERS ===== -->
+        <sc-if value="{{isPrescriptions}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{prescriptions}}" as="rx" hint-placeholder-count="3">
+              <div class="card elev-sm">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{rx.product}}</div>
+                  <span class="tag tag-accent" style="font-size:10px">{{rx.status}}</span>
+                </div>
+                <div class="card-meta" style="font-size:11.5px">{{rx.pharmacy}} · {{rx.date}}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isReminders}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{remindersView}}" as="rm" hint-placeholder-count="2">
+              <div class="card elev-sm">
+                <div class="card-title" style="font-size:14px">{{rm.product}}</div>
+                <div class="card-meta" style="font-size:11.5px">{{rm.time}}</div>
+                <button type="button" class="btn" style="margin-top:8px;width:100%;{{rm.taken ? 'background:var(--color-accent);color:#fff;border-color:var(--color-accent)' : ''}}" onClick="{{toggleReminder}}" data-idx="{{rm.idx}}">{{rm.taken ? 'Taken ✓' : 'Mark as taken'}}</button>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- ===== DISTRIBUTOR MARKETPLACE ===== -->
+        <sc-if value="{{isMarketplace}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:12.5px;opacity:0.7">Verified pharmacy demand — fulfil and settle through WelliPay.</div>
+            <sc-for list="{{marketView}}" as="mo" hint-placeholder-count="3">
+              <div class="card elev-sm">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{mo.pharmacy}}</div>
+                  <span class="tag tag-outline" style="font-size:10px">{{mo.city}}</span>
+                </div>
+                <div class="card-meta" style="font-size:11.5px">{{mo.product}} · {{mo.qty}}</div>
+                <div style="margin-top:8px"><span class="tag tag-outline" style="font-size:10px">{{mo.stageLabel}}</span></div>
+                <sc-if value="{{mo.done}}" hint-placeholder-val="{{false}}">
+                  <span class="tag tag-accent" style="font-size:10px;margin-top:6px;display:inline-block">Settled via WelliPay</span>
+                </sc-if>
+                <sc-if value="{{mo.pending}}" hint-placeholder-val="{{true}}">
+                  <button type="button" class="btn btn-secondary" style="margin-top:8px;width:100%" onClick="{{advanceOrder}}" data-idx="{{mo.idx}}">{{mo.nextLabel}}</button>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isNearby}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <input class="input" placeholder="Search product (e.g. Amoxicillin 500mg)" />
+            <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68">Available nearby</div>
+            <sc-for list="{{nearbyPharmacies}}" as="p" hint-placeholder-count="4">
+              <div class="card elev-sm">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{p.name}}</div>
+                  <span class="tag tag-accent" style="font-size:10px">{{p.stock}}</span>
+                </div>
+                <div class="card-meta" style="font-size:11.5px">{{p.distance}} · {{p.area}} · verified {{p.verified}}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- ===== PATIENT ===== -->
+        <sc-if value="{{isPatientHome}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:20px">Hello, Ngozi</div>
+              <div style="font-size:13px;opacity:0.7">Abuja, Nigeria</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <button type="button" class="btn btn-primary btn-block" onClick="{{go}}" data-target="verify" style="justify-content:center">Verify a product<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path opacity="0.25" d="M194.82,151.43l-55.09,20.3-20.3,55.09a7.92,7.92,0,0,1-14.86,0l-20.3-55.09-55.09-20.3a7.92,7.92,0,0,1,0-14.86l55.09-20.3,20.3-55.09a7.92,7.92,0,0,1,14.86,0l20.3,55.09,55.09,20.3A7.92,7.92,0,0,1,194.82,151.43Z"/><path d="M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88Z"/></svg></button>
+              <button type="button" class="btn btn-secondary btn-block" onClick="{{navTo}}" data-target="availability">Find nearby stock</button>
+            </div>
+            <div>
+              <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68;margin-bottom:10px">Recently verified</div>
+              <div class="card elev-sm"><div class="card-body" style="font-size:13px">Amoxicillin 500mg · Batch AMX-9931</div><div class="card-meta" style="font-size:11px"><span class="tag tag-accent">Verified</span></div></div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isVerify}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:18px;align-items:center">
+            <div style="width:100%;aspect-ratio:1;background:var(--color-neutral-900);border-radius:var(--radius-lg);position:relative;overflow:hidden">
+              <div style="position:absolute;inset:14%;border:2px solid var(--color-accent-300);border-radius:var(--radius-md)"></div>
+              <sc-if value="{{scanState}}" hint-placeholder-val="idle">
+                <div style="position:absolute;left:14%;right:14%;height:2px;background:var(--color-accent-300);animation:wv-scanline 1.4s ease-in-out infinite alternate;box-shadow:0 0 12px var(--color-accent-300)"></div>
+              </sc-if>
+            </div>
+            <div style="font-size:13px;opacity:0.7;text-align:center">{{scanHint}}</div>
+            <button type="button" class="btn btn-primary btn-block" onClick="{{startScan}}">Start scan</button>
+            <button type="button" class="btn btn-ghost" onClick="{{startScan}}" data-fail="true" style="font-size:11px">Simulate an unrecognized code</button>
+            <a href="#" onClick="{{go}}" data-target="voice" style="font-size:12px">Verify by voice instead</a>
+            <div style="font-size:11px;opacity:0.6;text-align:center">No smartphone? Text VERIFY + the code to 20880, or send a photo on WhatsApp — a pharmacist can also check it for you.</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isAvailability}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <input class="input" placeholder="Search product (e.g. Amoxicillin 500mg)" />
+            <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68">Available nearby</div>
+            <sc-for list="{{nearbyPharmacies}}" as="p" hint-placeholder-count="4">
+              <div class="card elev-sm">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{p.name}}</div>
+                  <span class="tag tag-accent" style="font-size:10px">{{p.stock}}</span>
+                </div>
+                <div class="card-meta" style="font-size:11.5px">{{p.distance}} · {{p.area}} · verified {{p.verified}}</div>
+                <button type="button" class="btn btn-secondary" style="margin-top:8px;width:100%" onClick="{{go}}" data-target="checkout">Reserve &amp; pay</button>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isCheckout}}" hint-placeholder-val="{{false}}">
+          <sc-if value="{{payPending}}" hint-placeholder-val="{{true}}">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div class="card elev-sm" style="display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Product</span><strong>Amoxicillin 500mg</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Pharmacy</span><strong>Wellcare Pharmacy</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Quantity</span><strong>1 pack</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Total</span><strong>₦2,400</strong></div>
+              </div>
+              <div style="font-size:12px;opacity:0.7">Paid securely through WelliPay. WelliVerify confirms the product and supplier — WelliPay handles the transaction.</div>
+              <button type="button" class="btn btn-primary btn-block" onClick="{{payNow}}">Pay with WelliPay</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{paySuccess}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:40px">
+              <span class="tag tag-accent" style="font-size:12px;padding:6px 14px">PAYMENT CONFIRMED</span>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:22px">WV-PO-88213</div>
+              <div style="text-align:center;font-size:13px;opacity:0.7">Show this code at Wellcare Pharmacy to collect your order.</div>
+              <button type="button" class="btn btn-secondary" onClick="{{navTo}}" data-target="home">Done</button>
+            </div>
+          </sc-if>
+        </sc-if>
+
+        <!-- ===== DISTRIBUTOR ===== -->
+        <sc-if value="{{isDistributorHome}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:20px">ABC Pharmaceuticals Ltd.</div>
+              <div style="font-size:13px;opacity:0.7">Distributor · Lagos, Nigeria</div>
+            </div>
+            <div style="display:flex;gap:32px">
+              <div>
+                <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68">Dispatched (mo.)</div>
+                <div style="font-family:var(--font-heading);font-weight:600;font-size:30px;color:var(--color-accent-700);line-height:1.15">8,412</div>
+                <div style="font-size:12px;opacity:0.68">units, 214 batches</div>
+              </div>
+              <div>
+                <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68">Trust status</div>
+                <div style="font-family:var(--font-heading);font-weight:600;font-size:30px;color:var(--color-accent-700);line-height:1.15">Verified</div>
+                <div style="font-size:12px;opacity:0.68">4-year history</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <button type="button" class="btn btn-secondary" onClick="{{navTo}}" data-target="shipments">Track shipments</button>
+              <button type="button" class="btn btn-secondary" onClick="{{navTo}}" data-target="recall">Recalls</button>
+              <button type="button" class="btn btn-secondary" onClick="{{navTo}}" data-target="alerts">Alerts</button>
+              <button type="button" class="btn btn-secondary" onClick="{{navTo}}" data-target="price">Price intel</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isShipments}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{shipments}}" as="s" hint-placeholder-count="4">
+              <div class="card elev-sm">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{s.product}}</div>
+                  <span class="tag tag-outline" style="font-size:10px">{{s.status}}</span>
+                </div>
+                <div class="card-meta" style="font-size:11.5px">Batch {{s.batch}} · {{s.route}}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- ===== RECALL DASHBOARD (distributor + regulator) ===== -->
+        <sc-if value="{{isRecallDashboard}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:18px">Batch AL-77209</div>
+              <div style="font-size:12.5px;opacity:0.7">Suspected falsification · issued 2 days ago</div>
+            </div>
+            <div class="card elev-sm" style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Total manufactured</span><strong>50,000</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Located</span><strong>47,821</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Dispensed</span><strong>1,743</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Unknown</span><strong>436</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Recovered</span><strong>31,200</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px"><span style="opacity:0.7">Remaining</span><strong style="color:var(--color-accent-2-700)">16,621</strong></div>
+            </div>
+            <div>
+              <div style="font-size:11px;opacity:0.68;margin-bottom:6px">Recovery progress</div>
+              <div style="height:8px;border-radius:var(--radius-md);background:var(--color-neutral-300);overflow:hidden"><div style="height:100%;width:62%;background:var(--color-accent)"></div></div>
+            </div>
+            <sc-if value="{{isRegulatorRole}}" hint-placeholder-val="{{false}}">
+              <button type="button" class="btn btn-secondary btn-block" onClick="{{navTo}}" data-target="alerts">Broadcast network alert</button>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- ===== ALERTS (distributor + regulator) ===== -->
+        <sc-if value="{{isAlerts}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{networkAlerts}}" as="al" hint-placeholder-count="3">
+              <div class="card elev-md">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{al.product}}</div>
+                  <span class="tag tag-accent-2" style="font-size:10px">{{al.severity}}</span>
+                </div>
+                <p class="card-body" style="font-size:12.5px">Batch {{al.batch}} · locations: {{al.locations}}</p>
+                <div class="card-meta" style="font-size:11.5px">{{al.action}}</div>
+              </div>
+            </sc-for>
+            <sc-if value="{{isRegulatorRole}}" hint-placeholder-val="{{false}}">
+              <button type="button" class="btn btn-primary btn-block" onClick="{{navTo}}" data-target="recall">Open recall dashboard</button>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- ===== PRICE INTELLIGENCE (distributor + regulator) ===== -->
+        <sc-if value="{{isPrice}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:12.5px;opacity:0.7">Median observed acquisition price, aggregated and anonymized across the network.</div>
+            <sc-for list="{{priceRows}}" as="pr" hint-placeholder-count="4">
+              <div class="card elev-sm">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{pr.product}}</div>
+                  <sc-if value="{{pr.volatile}}" hint-placeholder-val="{{false}}"><span class="tag tag-accent-2" style="font-size:10px">Price spike</span></sc-if>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-top:6px"><span style="opacity:0.7">Abuja</span><strong>{{pr.abuja}}</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:12px"><span style="opacity:0.7">Lagos</span><strong>{{pr.lagos}}</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:12px"><span style="opacity:0.7">Kano</span><strong>{{pr.kano}}</strong></div>
+                <sc-if value="{{pr.volatile}}" hint-placeholder-val="{{false}}"><p class="card-body" style="font-size:11.5px;margin-top:6px">{{pr.note}}</p></sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- ===== REGULATOR ===== -->
+        <sc-if value="{{isRegulatorHome}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:20px">NAFDAC Field Office</div>
+              <div style="font-size:13px;opacity:0.7">Kaduna Zone · National overview</div>
+            </div>
+            <div style="display:flex;gap:28px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68">Verifications today</div>
+                <div style="font-family:var(--font-heading);font-weight:600;font-size:28px;color:var(--color-accent-700)">142,880</div>
+              </div>
+              <div>
+                <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68">Open investigations</div>
+                <div style="font-family:var(--font-heading);font-weight:600;font-size:28px;color:var(--color-accent-2-700)">7</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <button type="button" class="btn btn-secondary" onClick="{{navTo}}" data-target="recall">Recall dashboard</button>
+              <button type="button" class="btn btn-secondary" onClick="{{navTo}}" data-target="alerts">Alert network</button>
+              <button type="button" class="btn btn-secondary" onClick="{{navTo}}" data-target="verification">KYB queue</button>
+              <button type="button" class="btn btn-secondary" onClick="{{navTo}}" data-target="investigation">Investigations</button>
+            </div>
+            <div class="card elev-md">
+              <div style="display:flex;justify-content:space-between;align-items:baseline">
+                <div class="card-title" style="font-size:14px">Supply risk alert</div>
+                <span class="tag tag-accent-2" style="font-size:10px">Increasing</span>
+              </div>
+              <p class="card-body" style="font-size:12.5px">Insulin availability declining across Kaduna Zone · estimated coverage 6 days</p>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isVerification}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:12.5px;opacity:0.7">Pending KYB applications from supply-chain organizations.</div>
+            <sc-for list="{{kybWithState}}" as="k" hint-placeholder-count="3">
+              <div class="card elev-sm">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{k.name}}</div>
+                  <span class="tag tag-outline" style="font-size:10px">{{k.type}}</span>
+                </div>
+                <div class="card-meta" style="font-size:11.5px">Submitted {{k.submitted}}</div>
+                <sc-if value="{{k.status}}" hint-placeholder-val="">
+                  <span class="tag tag-accent" style="font-size:10px;margin-top:10px;display:inline-block">{{k.status}}</span>
+                </sc-if>
+                <sc-if value="{{k.pending}}" hint-placeholder-val="{{true}}">
+                  <div style="display:flex;gap:8px;margin-top:10px">
+                    <button type="button" class="btn btn-secondary" style="flex:1" onClick="{{approveKyb}}" data-idx="{{k.idx}}">Approve</button>
+                    <button type="button" class="btn btn-ghost" style="flex:1" onClick="{{rejectKyb}}" data-idx="{{k.idx}}">Reject</button>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+            <sc-if value="{{allKybReviewed}}" hint-placeholder-val="{{false}}">
+              <div style="text-align:center;padding:30px 0;opacity:0.6;font-size:13px">No pending applications — queue clear.</div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isInvestigation}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{investigations}}" as="inv" hint-placeholder-count="3">
+              <div class="card elev-md" style="cursor:pointer" onClick="{{go}}" data-target="risk">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{inv.product}}</div>
+                  <span class="tag tag-accent-2" style="font-size:10px">{{inv.status}}</span>
+                </div>
+                <div class="card-meta" style="font-size:11.5px">Serial {{inv.serial}} · seen in {{inv.locations}} · {{inv.linkedCases}} linked patient reports</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- ===== AI FEATURES ===== -->
+        <sc-if value="{{isForecast}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:12.5px;opacity:0.7">Predicted demand shifts, modeled from sales velocity and seasonal disease patterns.</div>
+            <sc-for list="{{forecastData}}" as="f" hint-placeholder-count="3">
+              <div class="card elev-sm">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{f.product}}</div>
+                  <span class="tag tag-accent" style="font-size:10px">{{f.trend}}</span>
+                </div>
+                <div class="card-meta" style="font-size:11.5px">{{f.region}} · confidence {{f.confidence}}</div>
+                <p class="card-body" style="font-size:12.5px">{{f.note}}</p>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isPhotocheck}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="font-size:12.5px;opacity:0.7">Compares the pack's print quality and markings against verified reference imagery — catches physical counterfeits that carry a valid-looking code.</div>
+            <div style="display:flex;gap:12px">
+              <div style="flex:1;aspect-ratio:3/4;background:var(--color-surface);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:11px;opacity:0.55;text-align:center;padding:8px">Reference photo</div>
+              <div style="flex:1;aspect-ratio:3/4;background:var(--color-neutral-900);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;opacity:0.7;text-align:center;padding:8px">Your photo</div>
+            </div>
+            <sc-if value="{{photocheckPending}}" hint-placeholder-val="{{true}}">
+              <button type="button" class="btn btn-primary btn-block" onClick="{{analyzePhoto}}">Analyze photo</button>
+            </sc-if>
+            <sc-if value="{{photocheckDone}}" hint-placeholder-val="{{false}}">
+              <div class="card elev-sm" style="display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span>Font &amp; typography</span><span class="tag tag-accent" style="font-size:10px">Match</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span>Color registration</span><span class="tag tag-accent" style="font-size:10px">Match</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span>Security hologram</span><span class="tag tag-accent-2" style="font-size:10px">Missing</span></div>
+              </div>
+              <div style="text-align:center"><span class="tag tag-accent-2" style="font-size:12px;padding:6px 14px">PACKAGING MISMATCH DETECTED</span></div>
+              <button type="button" class="btn btn-ghost btn-block" onClick="{{go}}" data-target="report">Report this product</button>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isAssistant}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="font-size:12.5px;opacity:0.7">Ask the trust graph a question in plain language.</div>
+            <input class="input" placeholder="Ask WelliVerify…" />
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{assistantThreadsView}}" as="t" hint-placeholder-count="3">
+                <button type="button" class="btn btn-secondary" style="justify-content:flex-start;text-align:left;font-size:12.5px;white-space:normal;height:auto" onClick="{{askAssistant}}" data-idx="{{t.idx}}">{{t.q}}</button>
+              </sc-for>
+            </div>
+            <sc-if value="{{hasAssistantAnswer}}" hint-placeholder-val="{{false}}">
+              <div class="card elev-md"><div class="card-kicker">WelliVerify</div><p class="card-body" style="font-size:13px">{{assistantAnswer}}</p></div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isVoice}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:18px;padding-top:20px">
+            <button type="button" class="btn btn-primary btn-icon" onClick="{{startVoice}}" aria-label="Speak" style="width:76px;height:76px;border-radius:999px;{{voicePulseStyle}}">
+              <svg width="26" height="26" viewBox="0 0 256 256" fill="currentColor"><path opacity="0.25" d="M176 56v72a48 48 0 01-96 0V56a48 48 0 0196 0z"/><path d="M128,176a56.06,56.06,0,0,0,56-56V64a56,56,0,0,0-112,0v56A56.06,56.06,0,0,0,128,176ZM88,64a40,40,0,0,1,80,0v56a40,40,0,0,1-80,0Zm104,56a8,8,0,0,0-16,0,48,48,0,0,1-96,0,8,8,0,0,0-16,0,64.07,64.07,0,0,0,56,63.5V208H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16H136V183.5A64.07,64.07,0,0,0,192,120Z"/></svg>
+            </button>
+            <sc-if value="{{isVoiceIdle}}" hint-placeholder-val="{{true}}"><div style="font-size:13px;opacity:0.7">Tap to speak — try "Verify this medicine"</div></sc-if>
+            <sc-if value="{{isVoiceListening}}" hint-placeholder-val="{{false}}"><div style="font-size:13px;opacity:0.7">Listening…</div></sc-if>
+            <sc-if value="{{isVoiceDone}}" hint-placeholder-val="{{false}}">
+              <div style="width:100%;display:flex;flex-direction:column;gap:12px">
+                <div class="card elev-sm"><div class="card-kicker">You said</div><p class="card-body" style="font-size:13px">"Verify this medicine"</p></div>
+                <div class="card elev-md"><div class="card-kicker">WelliVerify</div><p class="card-body" style="font-size:13px">This is Amoxicillin 500 milligrams, batch AMX-9931, verified and registered. Safe to dispense.</p></div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- ===== NOTIFICATIONS ===== -->
+        <sc-if value="{{isNotifications}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{notificationFeed}}" as="n" hint-placeholder-count="3">
+              <div class="card elev-sm">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{n.title}}</div>
+                  <span class="tag {{n.tagClass}}" style="font-size:10px">{{n.tagText}}</span>
+                </div>
+                <div class="card-meta" style="font-size:11.5px">{{n.meta}}</div>
+              </div>
+            </sc-for>
+            <sc-if value="{{noNotifications}}" hint-placeholder-val="{{false}}">
+              <div style="text-align:center;padding:30px 0;opacity:0.6;font-size:13px">No notifications right now.</div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- ===== LABORATORY ===== -->
+        <sc-if value="{{isLabHome}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:20px">Good afternoon, Tunji</div>
+              <div style="font-size:13px;opacity:0.7">Zenith Diagnostics Lab · Lagos</div>
+            </div>
+            <div style="display:flex;gap:32px">
+              <div>
+                <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68">Expiring reagents</div>
+                <div style="font-family:var(--font-heading);font-weight:600;font-size:30px;color:var(--color-accent-2-700);line-height:1.15">2 items</div>
+                <div style="font-size:12px;opacity:0.68">Within 20 days</div>
+              </div>
+              <div>
+                <div style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.68">Consumables tracked</div>
+                <div style="font-family:var(--font-heading);font-weight:600;font-size:30px;color:var(--color-accent-700);line-height:1.15">4</div>
+                <div style="font-size:12px;opacity:0.68">Categories</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <button type="button" class="btn btn-secondary" onClick="{{navTo}}" data-target="consumables">View consumables</button>
+              <button type="button" class="btn btn-secondary" onClick="{{navTo}}" data-target="report">Report an issue</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isConsumables}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{labConsumables}}" as="lc" hint-placeholder-count="4">
+              <div class="card elev-sm">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div class="card-title" style="font-size:14px">{{lc.name}}</div>
+                  <span class="tag tag-neutral" style="font-size:10px">{{lc.qty}} units</span>
+                </div>
+                <div class="card-meta" style="font-size:11.5px">Batch {{lc.batch}} · Expires in {{lc.days}} days</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+      </div>
+
+      <!-- DRAWER -->
+      <sc-if value="{{drawerOpen}}" hint-placeholder-val="{{false}}">
+        <div style="position:absolute;inset:0;background:color-mix(in srgb, var(--color-neutral-900) 55%, transparent)" onClick="{{toggleDrawer}}"></div>
+        <div style="position:absolute;top:0;left:0;bottom:0;width:250px;background:var(--color-bg);box-shadow:var(--shadow-lg);padding:24px 18px;display:flex;flex-direction:column;gap:4px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px">
+            <div style="width:26px;height:26px;border-radius:var(--radius-md);background:var(--color-accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-weight:600;font-size:13px">W</div>
+            <div style="font-family:var(--font-heading);font-weight:600;font-size:16px">WelliVerify</div>
+          </div>
+
+          <sc-if value="{{isPharmacistRole}}" hint-placeholder-val="{{true}}">
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="home">Dashboard</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="scan">Scan &amp; verify</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="inventory">Inventory</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="fefo">Stockout alerts</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="nearby">Nearby availability</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="forecast">Demand forecast</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:space-between" onClick="{{navTo}}" data-target="recall"><span>Recalls &amp; alerts</span><span class="tag tag-accent-2" style="font-size:9px;padding:1px 6px">{{recallBadge}}</span></button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="report">Report a concern</button>
+          </sc-if>
+
+          <sc-if value="{{isPatientRole}}" hint-placeholder-val="{{false}}">
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="home">Home</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="verify">Verify a product</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="availability">Nearby availability</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="prescriptions">My prescriptions</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="reminders">Reminders</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="report">Report a concern</button>
+          </sc-if>
+
+          <sc-if value="{{isDistributorRole}}" hint-placeholder-val="{{false}}">
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="home">Dashboard</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="shipments">Shipments</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="recall">Recalls</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:space-between" onClick="{{navTo}}" data-target="alerts"><span>Alerts</span><span class="tag tag-accent-2" style="font-size:9px;padding:1px 6px">{{alertBadge}}</span></button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="trust">My trust profile</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="coldchain">Cold chain</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="report">Report an issue</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="marketplace">Marketplace</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="assistant">Ask WelliVerify</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="price">Price intelligence</button>
+          </sc-if>
+
+          <sc-if value="{{isRegulatorRole}}" hint-placeholder-val="{{false}}">
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="home">Overview</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="recall">Recall dashboard</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:space-between" onClick="{{navTo}}" data-target="alerts"><span>Alert network</span><span class="tag tag-accent-2" style="font-size:9px;padding:1px 6px">{{alertBadge}}</span></button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="verification">KYB queue</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:space-between" onClick="{{navTo}}" data-target="investigation"><span>Investigations</span><span class="tag tag-accent-2" style="font-size:9px;padding:1px 6px">{{invBadge}}</span></button>
+            <button type="button" class="btn btn-ghost" style="justify-content:space-between" onClick="{{navTo}}" data-target="inbox"><span>Reports inbox</span><span class="tag tag-accent-2" style="font-size:9px;padding:1px 6px">{{inboxBadge}}</span></button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="map">Supply chain map</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="forecast">Demand forecast</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="assistant">Ask WelliVerify</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="price">Price intelligence</button>
+          </sc-if>
+
+          <sc-if value="{{isLabRole}}" hint-placeholder-val="{{false}}">
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="home">Dashboard</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="consumables">Consumables</button>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start" onClick="{{navTo}}" data-target="report">Report an issue</button>
+          </sc-if>
+
+          <div style="flex:1"></div>
+          <button type="button" class="btn btn-secondary" style="justify-content:flex-start" onClick="{{navTo}}" data-target="profile">Profile</button>
+        </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+
+class Component extends DCLogic {
+  state = {
+    loggedIn: false,
+    loginRole: 'pharmacist',
+    role: 'pharmacist',
+    drawerOpen: false,
+    screens: { pharmacist: 'home', patient: 'home', distributor: 'home', regulator: 'home', lab: 'home' },
+    stacks: { pharmacist: ['home'], patient: ['home'], distributor: ['home'], regulator: ['home'], lab: ['home'] },
+    selectedColdChain: '0',
+    scanState: 'idle',
+    reportSubmitted: false,
+    paySuccess: false,
+    dismissedReports: [],
+    kybStatus: {},
+    remindersTaken: {},
+    marketFulfilled: {},
+    photocheckDone: false,
+    assistantAnswerIdx: null,
+    voiceState: 'idle',
+  };
+
+  inventory = [
+    { name: 'Amoxicillin 500mg', batch: 'AMX-9931', qty: 62, days: 210 },
+    { name: 'Paracetamol 500mg', batch: 'PC-4471', qty: 140, days: 340 },
+    { name: 'Artemether/Lumefantrine', batch: 'AL-240981', qty: 24, days: 95 },
+    { name: 'Insulin (Human)', batch: 'INS-1120', qty: 8, days: 21 },
+    { name: 'Metformin 500mg', batch: 'MTF-3302', qty: 51, days: 260 },
+  ];
+  fefoAlerts = [
+    { name: 'Insulin (Human)', batch: 'INS-1120', level: 'HIGH', velocity: '1 unit', days: 8 },
+    { name: 'Artemether/Lumefantrine', batch: 'AL-240981', level: 'MEDIUM', velocity: '5 units', days: 19 },
+    { name: 'Amoxicillin 500mg', batch: 'AMX-9931', level: 'LOW', velocity: '3 units', days: 44 },
+  ];
+  recalls = [
+    { title: 'Artemether/Lumefantrine', batch: 'AL-77209', severity: 'HIGH PRIORITY', status: 'Suspected falsification — Abuja, Kaduna, Kano', action: 'Quarantine remaining stock and report' },
+    { title: 'Oxytocin injection', batch: 'OXY-1188', severity: 'MEDIUM', status: 'Cold-chain excursion during transit', action: 'Verify storage log before dispensing' },
+  ];
+  nearbyPharmacies = [
+    { name: 'Wellcare Pharmacy', stock: '200 units', distance: '0.8 km', area: 'Wuse II, Abuja', verified: '12 min ago' },
+    { name: 'CityMeds Pharmacy', stock: '45 units', distance: '1.4 km', area: 'Garki, Abuja', verified: '40 min ago' },
+    { name: 'HealthPoint Pharmacy', stock: 'Unavailable', distance: '2.1 km', area: 'Utako, Abuja', verified: '2 hr ago' },
+    { name: 'GreenLife Pharmacy', stock: '24 units', distance: '3.0 km', area: 'Wuse II, Abuja', verified: '5 min ago' },
+  ];
+  shipments = [
+    { product: 'Artemether/Lumefantrine', batch: 'AL-240981', status: 'Delivered', route: 'Meridian Imports → Northgate Distribution → GreenLife Pharmacy' },
+    { product: 'Oxytocin injection', batch: 'OXY-1188', status: 'In transit', route: 'Meridian Imports → Northgate Distribution → 6 facilities' },
+    { product: 'Amoxicillin 500mg', batch: 'AMX-9931', status: 'Delivered', route: 'ABC Pharmaceuticals → 12 pharmacies, Lagos' },
+  ];
+  networkAlerts = [
+    { product: 'Artemether/Lumefantrine', batch: 'AL-77209', severity: 'HIGH PRIORITY', locations: 'Abuja, Kaduna, Kano', action: 'Quarantine and report' },
+    { product: 'Oxytocin injection', batch: 'OXY-1188', severity: 'MEDIUM', locations: 'Lagos', action: 'Verify cold-chain log' },
+  ];
+  priceRows = [
+    { product: 'Amoxicillin 500mg', abuja: '\u20a61,850', lagos: '\u20a61,920', kano: '\u20a61,780', volatile: false },
+    { product: 'Artemether/Lumefantrine', abuja: '\u20a62,400', lagos: '\u20a62,550', kano: '\u20a62,300', volatile: false },
+    { product: 'Insulin (Human)', abuja: '\u20a68,900', lagos: '\u20a610,950', kano: '\u20a68,600', volatile: true, note: 'Abuja price 23% above 30-day median — flagged for review' },
+  ];
+  kybQueue = [
+    { name: 'Northstar Medical Devices', type: 'Importer', submitted: '3 days ago' },
+    { name: 'Zenith Diagnostics Lab', type: 'Laboratory', submitted: '5 days ago' },
+  ];
+  investigations = [
+    { product: 'Artemether/Lumefantrine', serial: '8F72-92AA', status: 'Investigate', locations: 'Lagos, Kano, Kaduna', linkedCases: 2 },
+    { product: 'Ciprofloxacin 500mg', serial: '3C10-77BE', status: 'Escalated', locations: 'Port Harcourt', linkedCases: 0 },
+  ];
+  coldChainShipments = [
+    { product: 'Oxytocin injection', batch: 'OXY-1188', status: 'EXCEPTION', tagClass: 'tag-accent-2', temp: '2–8°C required', reading: 'Exceeded threshold for 43 min', action: 'QUARANTINE RECOMMENDED',
+      readings: [{ time: '08:00', temp: 5, flag: false }, { time: '10:00', temp: 6, flag: false }, { time: '12:00', temp: 9, flag: true }, { time: '12:43', temp: 11, flag: true }, { time: '14:00', temp: 5, flag: false }] },
+    { product: 'Measles vaccine', batch: 'MSL-6602', status: 'NORMAL', tagClass: 'tag-accent', temp: '2–8°C required', reading: 'Stable throughout transit', action: 'No action needed',
+      readings: [{ time: '08:00', temp: 4, flag: false }, { time: '10:00', temp: 5, flag: false }, { time: '12:00', temp: 5, flag: false }, { time: '14:00', temp: 4, flag: false }] },
+    { product: 'Insulin (Human)', batch: 'INS-1120', status: 'NORMAL', tagClass: 'tag-accent', temp: '2–8°C required', reading: 'Stable throughout transit', action: 'No action needed',
+      readings: [{ time: '08:00', temp: 5, flag: false }, { time: '10:00', temp: 6, flag: false }, { time: '12:00', temp: 6, flag: false }, { time: '14:00', temp: 5, flag: false }] },
+  ];
+  labConsumables = [
+    { name: 'Rapid Diagnostic Test (Malaria)', batch: 'RDT-2291', qty: 340, days: 60 },
+    { name: 'PCR Test Kit', batch: 'PCR-7734', qty: 52, days: 18 },
+    { name: 'Blood Collection Tubes', batch: 'BCT-1102', qty: 900, days: 210 },
+    { name: 'Microbiology Culture Media', batch: 'MCM-4432', qty: 40, days: 9 },
+  ];
+  regions = [
+    { name: 'Abuja (FCT)', distributors: 12, pharmacies: 482, status: 'Normal', note: 'Antimalarial availability stable' },
+    { name: 'Lagos', distributors: 31, pharmacies: 1204, status: 'Normal', note: 'Full network coverage' },
+    { name: 'Kano', distributors: 9, pharmacies: 266, status: 'Watch', note: 'Serial-cloning cluster under review' },
+    { name: 'Kaduna Zone', distributors: 7, pharmacies: 198, status: 'Critical', note: 'Insulin stockout risk rising · ~6 days coverage' },
+  ];
+  reportsInbox = [
+    { reporter: 'Ngozi Bello (patient)', type: 'Adverse event', product: 'Amoxicillin 500mg', time: '1 hour ago', urgency: 'Medium', urgencyClass: 'tag-outline' },
+    { reporter: 'GreenLife Pharmacy', type: 'Suspected fake', product: 'Artemether/Lumefantrine · Batch AL-77209', time: '2 days ago', urgency: 'High', urgencyClass: 'tag-accent-2' },
+    { reporter: 'ABC Pharmaceuticals Ltd.', type: 'Documentation mismatch', product: 'Oxytocin injection · Batch OXY-1188', time: '3 days ago', urgency: 'Low', urgencyClass: 'tag-neutral' },
+  ];
+  forecastData = [
+    { product: 'Artemether/Lumefantrine', region: 'Abuja', trend: '+34%', confidence: '87%', note: 'Rainy-season malaria pattern — reorder ~2 weeks early' },
+    { product: 'Insulin (Human)', region: 'Kaduna Zone', trend: '+12%', confidence: '79%', note: 'Chronic demand outpacing current allocation' },
+    { product: 'Oral Rehydration Salts', region: 'Lagos', trend: '+21%', confidence: '83%', note: 'Seasonal diarrheal-disease uptick forecast' },
+  ];
+  assistantThreads = [
+    { q: 'Batches from XYZ Pharma flagged in the last 30 days', a: '2 batches flagged: AL-77209 (high priority — suspected falsification, Abuja/Kaduna/Kano) and AL-240981 (behavioural anomaly, under investigation). No open compliance events on the manufacturer record.' },
+    { q: 'Distributors with rising complaint rates', a: 'Northgate Distribution: complaint rate up 3.2× over 30 days, concentrated in Kaduna Zone. Recommend a facility review.' },
+    { q: 'Regions at highest stockout risk', a: 'Kaduna Zone leads on insulin (≈6 days coverage). Lagos and Abuja are within normal range for all monitored essential medicines.' },
+  ];
+  prescriptions = [
+    { product: 'Amoxicillin 500mg', date: '12 Sep 2026', pharmacy: 'Wellcare Pharmacy', status: 'Collected' },
+    { product: 'Metformin 500mg', date: '02 Sep 2026', pharmacy: 'GreenLife Pharmacy', status: 'Collected' },
+    { product: 'Artemether/Lumefantrine', date: '28 Aug 2026', pharmacy: 'CityMeds Pharmacy', status: 'Collected' },
+  ];
+  reminders = [
+    { product: 'Metformin 500mg', time: '8:00 AM · daily' },
+    { product: 'Amoxicillin 500mg', time: '2:00 PM · 3x daily, 5 days' },
+  ];
+  marketOrders = [
+    { pharmacy: 'Sahel Community Pharmacy', product: 'Insulin (Human)', qty: '40 units', city: 'Sokoto' },
+    { pharmacy: 'Delta Health Pharmacy', product: 'Oxytocin injection', qty: '120 units', city: 'Warri' },
+    { pharmacy: 'Plateau Pharmacy Ltd.', product: 'Amoxicillin 500mg', qty: '300 units', city: 'Jos' },
+  ];
+
+  identities = {
+    pharmacist: { name: 'Chidinma Okafor', meta: 'PCN-08217743 · GreenLife Pharmacy, Wuse II, Abuja', idLabel: 'PCN / practice licence no.', idValue: 'PCN-08217743', note: 'Signing in verifies your credential against the NAFDAC-linked pharmacist registry.' },
+    patient: { name: 'Ngozi Bello', meta: 'Patient ID PT-55291 · Abuja', idLabel: 'Phone number', idValue: '080 123 4567', note: 'A one-time code confirms it\u2019s really you.' },
+    distributor: { name: 'ABC Pharmaceuticals Ltd.', meta: 'Licence DIS-2291 · Lagos, Nigeria', idLabel: 'Distributor licence no.', idValue: 'DIS-2291', note: 'Verified against NAFDAC distributor licensing records.' },
+    regulator: { name: 'Amina Yusuf', meta: 'Badge REG-1042 · NAFDAC, Kaduna Zone', idLabel: 'Officer badge no.', idValue: 'REG-1042', note: 'Regulator access requires a valid NAFDAC field-office badge.' },
+    lab: { name: 'Tunji Adewale', meta: 'LAB-33021 · Zenith Diagnostics Lab, Lagos', idLabel: 'Lab registration no.', idValue: 'LAB-33021', note: 'Verified against the laboratory registry.' },
+  };
+
+  selectLoginRole = (e) => this.setState({ loginRole: e.currentTarget.dataset.role });
+  login = () => this.setState({ loggedIn: true, role: this.state.loginRole });
+  signOut = () => this.setState({ loggedIn: false, drawerOpen: false });
+  toggleDrawer = () => this.setState((s) => ({ drawerOpen: !s.drawerOpen }));
+  switchRole = (e) => this.setState({ role: e.currentTarget.dataset.role, drawerOpen: false });
+
+  navTo = (e) => {
+    const t = e.currentTarget.dataset.target;
+    const role = this.state.role;
+    this.setState((s) => ({
+      screens: { ...s.screens, [role]: t },
+      stacks: { ...s.stacks, [role]: [t] },
+      drawerOpen: false, scanState: 'idle', reportSubmitted: false, paySuccess: false,
+    }));
+  };
+  go = (e) => {
+    const t = e.currentTarget.dataset.target;
+    const role = this.state.role;
+    this.setState((s) => ({
+      screens: { ...s.screens, [role]: t },
+      stacks: { ...s.stacks, [role]: [...s.stacks[role], t] },
+      drawerOpen: false,
+    }));
+  };
+  goBack = () => {
+    const role = this.state.role;
+    const st = [...this.state.stacks[role]];
+    if (st.length > 1) st.pop();
+    this.setState((s) => ({ screens: { ...s.screens, [role]: st[st.length - 1] }, stacks: { ...s.stacks, [role]: st } }));
+  };
+  startScan = (e) => {
+    const forceFail = e && e.currentTarget && e.currentTarget.dataset.fail === 'true';
+    this.setState({ scanState: 'scanning' });
+    setTimeout(() => {
+      const role = this.state.role;
+      const target = forceFail ? 'unable' : 'product';
+      this.setState((s) => ({
+        scanState: 'idle',
+        screens: { ...s.screens, [role]: target },
+        stacks: { ...s.stacks, [role]: [...s.stacks[role], target] },
+      }));
+    }, 1400);
+  };
+  submitReport = () => this.setState({ reportSubmitted: true });
+  payNow = () => this.setState({ paySuccess: true });
+  dismissReport = (e) => { const idx = e.currentTarget.dataset.idx; this.setState((s) => ({ dismissedReports: [...s.dismissedReports, idx] })); };
+  approveKyb = (e) => { const idx = e.currentTarget.dataset.idx; this.setState((s) => ({ kybStatus: { ...s.kybStatus, [idx]: 'Approved' } })); };
+  rejectKyb = (e) => { const idx = e.currentTarget.dataset.idx; this.setState((s) => ({ kybStatus: { ...s.kybStatus, [idx]: 'Rejected' } })); };
+  toggleReminder = (e) => { const idx = e.currentTarget.dataset.idx; this.setState((s) => ({ remindersTaken: { ...s.remindersTaken, [idx]: !s.remindersTaken[idx] } })); };
+  advanceOrder = (e) => { const idx = e.currentTarget.dataset.idx; this.setState((s) => ({ marketFulfilled: { ...s.marketFulfilled, [idx]: (s.marketFulfilled[idx] || 0) + 1 } })); };
+  openColdChainDetail = (e) => {
+    const idx = e.currentTarget.dataset.idx; const role = this.state.role;
+    this.setState((s) => ({ selectedColdChain: idx, screens: { ...s.screens, [role]: 'coldchaindetail' }, stacks: { ...s.stacks, [role]: [...s.stacks[role], 'coldchaindetail'] } }));
+  };
+  analyzePhoto = () => this.setState({ photocheckDone: true });
+  askAssistant = (e) => this.setState({ assistantAnswerIdx: e.currentTarget.dataset.idx });
+  startVoice = () => { this.setState({ voiceState: 'listening' }); setTimeout(() => this.setState({ voiceState: 'done' }), 1600); };
+
+  renderVals() {
+    const { loggedIn, role, screens, stacks, drawerOpen, scanState, reportSubmitted, paySuccess } = this.state;
+    const screen = screens[role];
+    const stack = stacks[role];
+    const topLevelByRole = {
+      pharmacist: ['home', 'scan', 'inventory', 'fefo', 'nearby', 'recall'],
+      patient: ['home', 'verify', 'availability'],
+      distributor: ['home', 'shipments', 'recall', 'alerts', 'price', 'trust', 'coldchain', 'report', 'marketplace', 'assistant'],
+      regulator: ['home', 'recall', 'alerts', 'verification', 'investigation', 'price', 'map', 'inbox', 'forecast', 'assistant'],
+      lab: ['home', 'consumables'],
+    };
+    topLevelByRole.pharmacist.push('forecast');
+    const patientTop = ['home', 'verify', 'availability', 'prescriptions', 'reminders'];
+    topLevelByRole.patient = patientTop;
+    const isProfile = screen === 'profile';
+    const showBack = !isProfile && !(topLevelByRole[role] || []).includes(screen);
+    const titles = {
+      home: role === 'regulator' ? 'Overview' : 'Dashboard', scan: 'Scan & Verify', inventory: 'Inventory', fefo: 'Stockout Alerts',
+      nearby: 'Nearby Availability', recall: role === 'pharmacist' ? 'Recalls & Alerts' : 'Recall Dashboard', profile: 'Profile',
+      product: 'Product Record', supplier: 'Supplier Profile', risk: 'Risk Engine', report: 'Report a Concern',
+      verify: 'Verify a Product', availability: 'Nearby Availability', checkout: 'Checkout', shipments: 'Shipments',
+      alerts: 'Alert Network', price: 'Price Intelligence', verification: 'KYB Queue', investigation: 'Investigations',
+      trust: 'Trust Profile', coldchain: 'Cold Chain', map: 'Supply Chain Map', inbox: 'Reports Inbox',
+      prescriptions: 'My Prescriptions', reminders: 'Reminders', marketplace: 'Marketplace', unable: 'Verification Result',
+      forecast: 'Demand Forecast', photocheck: 'AI Packaging Check', assistant: 'Ask WelliVerify', voice: 'Voice Verify',
+      consumables: 'Lab Consumables', coldchaindetail: 'Cold Chain Detail', notifications: 'Notifications',
+    };
+    const idn = this.identities[role];
+    const loginIdn = this.identities[this.state.loginRole];
+    const tile = (r) => `justify-content:center;font-size:12px;${this.state.loginRole === r ? 'background:var(--color-accent);color:#fff;border-color:var(--color-accent)' : ''}`;
+    const cc = this.coldChainShipments[Number(this.state.selectedColdChain) || 0];
+    const stageLabels = ['Pending', 'Accepted', 'Dispatched', 'Delivered'];
+    const nextLabels = ['Accept order', 'Mark dispatched', 'Mark delivered'];
+    let notificationFeed = [];
+    if (role === 'pharmacist') {
+      notificationFeed = this.recalls.map((r) => ({ title: r.title, meta: 'Batch ' + r.batch + ' · ' + r.status, tagClass: 'tag-accent-2', tagText: r.severity }))
+        .concat(this.fefoAlerts.filter((a) => a.level === 'HIGH').map((a) => ({ title: a.name, meta: 'Stockout in ~' + a.days + ' days', tagClass: 'tag-accent-2', tagText: 'STOCKOUT' })));
+    } else if (role === 'patient') {
+      notificationFeed = this.reminders.map((r) => ({ title: r.product, meta: r.time, tagClass: 'tag-outline', tagText: 'REMINDER' }));
+    } else if (role === 'distributor') {
+      notificationFeed = this.networkAlerts.map((a) => ({ title: a.product, meta: 'Batch ' + a.batch + ' · ' + a.locations, tagClass: 'tag-accent-2', tagText: a.severity }))
+        .concat(this.coldChainShipments.filter((c) => c.status === 'EXCEPTION').map((c) => ({ title: c.product, meta: c.reading, tagClass: 'tag-accent-2', tagText: 'COLD CHAIN' })));
+    } else if (role === 'regulator') {
+      notificationFeed = this.networkAlerts.map((a) => ({ title: a.product, meta: 'Batch ' + a.batch + ' · ' + a.locations, tagClass: 'tag-accent-2', tagText: a.severity }))
+        .concat(this.investigations.map((i) => ({ title: i.product, meta: 'Serial ' + i.serial, tagClass: 'tag-accent-2', tagText: i.status })));
+    } else if (role === 'lab') {
+      notificationFeed = this.labConsumables.filter((c) => c.days < 14).map((c) => ({ title: c.name, meta: 'Expires in ' + c.days + ' days', tagClass: 'tag-accent-2', tagText: 'EXPIRING' }));
+    }
+
+    return {
+      isLogin: !loggedIn, isAppView: loggedIn, drawerOpen, scanState, reportSubmitted, reportPending: !reportSubmitted, paySuccess, payPending: !paySuccess,
+      loginIdLabel: loginIdn.idLabel, loginIdValue: loginIdn.idValue, loginNote: loginIdn.note,
+      pharmacistTileStyle: tile('pharmacist'), patientTileStyle: tile('patient'), distributorTileStyle: tile('distributor'), regulatorTileStyle: tile('regulator'), labTileStyle: tile('lab'),
+      roleLabel: role.toUpperCase(), headerTitle: titles[screen] || '', showBack, showMenu: !showBack,
+      isPharmacistRole: role === 'pharmacist', isPatientRole: role === 'patient', isDistributorRole: role === 'distributor', isRegulatorRole: role === 'regulator',
+      identityName: idn.name, identityMeta: idn.meta,
+      isProfile,
+      isPharmacistHome: role === 'pharmacist' && screen === 'home',
+      isScan: role === 'pharmacist' && screen === 'scan',
+      isProduct: screen === 'product',
+      isInventory: role === 'pharmacist' && screen === 'inventory',
+      isFefo: role === 'pharmacist' && screen === 'fefo',
+      isNearby: role === 'pharmacist' && screen === 'nearby',
+      isRecall: role === 'pharmacist' && screen === 'recall',
+      isRisk: screen === 'risk',
+      isSupplier: role === 'pharmacist' && screen === 'supplier',
+      isReport: screen === 'report', isGenericReport: !(role === 'distributor' && screen === 'report'),
+      isPatientHome: role === 'patient' && screen === 'home',
+      isVerify: role === 'patient' && screen === 'verify',
+      isAvailability: role === 'patient' && screen === 'availability',
+      isCheckout: role === 'patient' && screen === 'checkout',
+      isDistributorHome: role === 'distributor' && screen === 'home',
+      isShipments: role === 'distributor' && screen === 'shipments',
+      isRecallDashboard: (role === 'distributor' || role === 'regulator') && screen === 'recall',
+      isAlerts: (role === 'distributor' || role === 'regulator') && screen === 'alerts',
+      isPrice: (role === 'distributor' || role === 'regulator') && screen === 'price',
+      isRegulatorHome: role === 'regulator' && screen === 'home',
+      isVerification: role === 'regulator' && screen === 'verification',
+      isInvestigation: role === 'regulator' && screen === 'investigation',
+      isTrust: role === 'distributor' && screen === 'trust',
+      isColdChain: role === 'distributor' && screen === 'coldchain',
+      isDistributorReport: role === 'distributor' && screen === 'report',
+      isMap: role === 'regulator' && screen === 'map',
+      isInbox: role === 'regulator' && screen === 'inbox',
+      recallBadge: this.recalls.length, alertBadge: this.networkAlerts.length,
+      invBadge: this.investigations.length, inboxBadge: this.reportsInbox.length,
+      isUnable: screen === 'unable', rescanTarget: role === 'patient' ? 'verify' : 'scan',
+      scanHint: scanState === 'scanning' ? 'Verifying against NAFDAC registry…' : 'Align the QR code, GS1 barcode or DataMatrix within the frame',
+      isPrescriptions: role === 'patient' && screen === 'prescriptions',
+      isReminders: role === 'patient' && screen === 'reminders',
+      isMarketplace: role === 'distributor' && screen === 'marketplace',
+      prescriptions: this.prescriptions,
+      remindersView: this.reminders.map((r, i) => ({ ...r, idx: String(i), taken: !!this.state.remindersTaken[String(i)] })),
+      reportsWithState: this.reportsInbox.map((r, i) => { const dismissed = this.state.dismissedReports.includes(String(i)); return { ...r, idx: String(i), dismissed, pending: !dismissed }; }),
+      allReportsReviewed: this.state.dismissedReports.length >= this.reportsInbox.length,
+      kybWithState: this.kybQueue.map((k, i) => { const status = this.state.kybStatus[String(i)] || ''; return { ...k, idx: String(i), status, pending: !status }; }),
+      allKybReviewed: Object.keys(this.state.kybStatus).length >= this.kybQueue.length,
+      dismissReport: this.dismissReport, approveKyb: this.approveKyb, rejectKyb: this.rejectKyb,
+      toggleReminder: this.toggleReminder, fulfillOrder: this.fulfillOrder,
+      analyzePhoto: this.analyzePhoto, askAssistant: this.askAssistant, startVoice: this.startVoice,
+      photocheckDone: this.state.photocheckDone, voiceState: this.state.voiceState,
+      isForecast: (role === 'pharmacist' || role === 'regulator') && screen === 'forecast',
+      isPhotocheck: screen === 'photocheck', photocheckPending: !this.state.photocheckDone,
+      isAssistant: (role === 'distributor' || role === 'regulator') && screen === 'assistant',
+      isVoice: screen === 'voice',
+      isVoiceIdle: this.state.voiceState === 'idle', isVoiceListening: this.state.voiceState === 'listening', isVoiceDone: this.state.voiceState === 'done',
+      voicePulseStyle: this.state.voiceState === 'listening' ? 'animation:wv-pulse 1s ease-out infinite' : '',
+      isLabRole: role === 'lab', isLabHome: role === 'lab' && screen === 'home', isConsumables: role === 'lab' && screen === 'consumables',
+      isColdChainDetail: screen === 'coldchaindetail', isNotifications: screen === 'notifications',
+      labConsumables: this.labConsumables,
+      ccProduct: cc.product, ccBatch: cc.batch, ccStatus: cc.status, ccTagClass: cc.tagClass, ccAction: cc.action,
+      ccReadingsView: cc.readings.map((r) => ({ ...r, safe: !r.flag, pct: Math.min(100, Math.round((r.temp / 15) * 100)) })),
+      openColdChainDetail: this.openColdChainDetail, advanceOrder: this.advanceOrder,
+      notificationFeed, notifCount: notificationFeed.length, hasNotifications: notificationFeed.length > 0, noNotifications: notificationFeed.length === 0,
+      marketView: this.marketOrders.map((m, i) => {
+        const stage = this.state.marketFulfilled[String(i)] || 0;
+        const done = stage >= 3;
+        return { ...m, idx: String(i), stageLabel: stageLabels[stage], nextLabel: nextLabels[stage], done, pending: !done };
+      }),
+      forecastData: this.forecastData,
+      assistantThreadsView: this.assistantThreads.map((t, i) => ({ ...t, idx: String(i), active: this.state.assistantAnswerIdx === String(i) })),
+      assistantAnswer: this.state.assistantAnswerIdx != null ? this.assistantThreads[this.state.assistantAnswerIdx].a : '',
+      hasAssistantAnswer: this.state.assistantAnswerIdx != null,
+      login: this.login, selectLoginRole: this.selectLoginRole, signOut: this.signOut,
+      go: this.go, navTo: this.navTo, goBack: this.goBack, toggleDrawer: this.toggleDrawer, switchRole: this.switchRole,
+      startScan: this.startScan, submitReport: this.submitReport, payNow: this.payNow,
+      inventory: this.inventory, fefoAlerts: this.fefoAlerts, recalls: this.recalls, nearbyPharmacies: this.nearbyPharmacies,
+      shipments: this.shipments, networkAlerts: this.networkAlerts, priceRows: this.priceRows, kybQueue: this.kybQueue, investigations: this.investigations,
+      coldChainShipments: this.coldChainShipments, regions: this.regions, reportsInbox: this.reportsInbox,
+    };
+  }
+}
+
+</script>
+</body>
+</html>
