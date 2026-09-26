@@ -211,6 +211,156 @@ class WelliVerifyApiClient {
     }
     return null;
   }
+
+  // --- TIER 2: WELLIPAY ESCROW & SETTLEMENT ---
+  async getEscrows() {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/escrow`);
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] getEscrows fallback:', err);
+      }
+    }
+    return null;
+  }
+
+  async createEscrow(escrowData) {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/escrow`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(escrowData),
+        });
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] createEscrow fallback:', err);
+      }
+    }
+    return null;
+  }
+
+  async releaseEscrow(id, releasedBy) {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/escrow/${id}/release`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ releasedBy }),
+        });
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] releaseEscrow fallback:', err);
+      }
+    }
+    return null;
+  }
+
+  async refundEscrow(id, reason) {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/escrow/${id}/refund`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reason }),
+        });
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] refundEscrow fallback:', err);
+      }
+    }
+    return null;
+  }
+
+  // --- TIER 2: HMO CLAIMS ADJUDICATION ---
+  async getHmoClaims() {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/hmo/claims`);
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] getHmoClaims fallback:', err);
+      }
+    }
+    return null;
+  }
+
+  async adjudicateHmo(claimData) {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/hmo/adjudicate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(claimData),
+        });
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] adjudicateHmo fallback:', err);
+      }
+    }
+    return null;
+  }
+
+  // --- TIER 2: MANUFACTURER SERIALIZATION STUDIO ---
+  async generateBulkSerials(serializationData) {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/serialization/generate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(serializationData),
+        });
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] generateBulkSerials fallback:', err);
+      }
+    }
+    return null;
+  }
+
+  // --- TIER 2: SUPPLY CHAIN SIMULATION JOURNEY ---
+  async getSimulationState() {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/simulator/state`);
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] getSimulationState fallback:', err);
+      }
+    }
+    return null;
+  }
+
+  async runSimulationStep(step, anomaly) {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/simulator/step`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ step, anomaly }),
+        });
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] runSimulationStep fallback:', err);
+      }
+    }
+    return null;
+  }
+
+  async resetSimulation() {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/simulator/reset`, {
+          method: 'POST',
+        });
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] resetSimulation fallback:', err);
+      }
+    }
+    return null;
+  }
 }
 
 // Global Singleton Export

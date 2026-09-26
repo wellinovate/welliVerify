@@ -633,6 +633,166 @@ app.post('/api/v1/lab/assays', (req, res) => {
   });
 });
 
+// ==========================================
+// 12. TIER 2: WELLIPAY B2B ESCROW & SETTLEMENT
+// ==========================================
+app.get('/api/v1/escrow', (req, res) => {
+  const totalLocked = db.escrows
+    .filter(e => e.status === 'HELD_IN_ESCROW' || e.status === 'INSPECTION_PASSED')
+    .reduce((sum, e) => sum + e.totalAmount, 0);
+  const totalSettled = db.escrows
+    .filter(e => e.status === 'RELEASED')
+    .reduce((sum, e) => sum + e.totalAmount, 0);
+  const totalRefunded = db.escrows
+    .filter(e => e.status === 'REFUNDED_CONTAMINATED')
+    .reduce((sum, e) => sum + e.totalAmount, 0);
+
+  res.json({
+    metrics: {
+      totalLocked,
+      totalSettled,
+      totalRefunded,
+      activeContractsCount: db.escrows.length,
+      currency: 'NGN',
+    },
+    escrows: db.escrows,
+  });
+});
+
+app.post('/api/v1/escrow', (req, res) => {
+  const {
+    buyerName,
+    buyerRole,
+    sellerName,
+    sellerRole,
+    productName,
+    batchId,
+    units,
+    unitPrice,
+  } = req.body;
+
+  const escrow = db.createEscrow({
+    buyerName,
+    buyerRole,
+    sellerName,
+    sellerRole,
+    productName,
+    batchId,
+    units,
+    unitPrice,
+  });
+
+  res.status(201).json({
+    success: true,
+    escrow,
+    message: `Escrow contract ${escrow.contractNo} created and funds locked in custody vault.`,
+  });
+});
+
+app.post('/api/v1/escrow/:id/release', (req, res) => {
+  const { releasedBy } = req.body;
+  const result = db.releaseEscrow(req.params.id, releasedBy);
+  if (!result) return res.status(404).json({ error: 'Escrow contract not found' });
+
+  res.json({
+    success: true,
+    escrow: result.escrow,
+    ledgerHash: result.block.hash,
+    message: `Funds ₦${result.escrow.totalAmount.toLocaleString()} successfully released to ${result.escrow.sellerName}!`,
+  });
+});
+
+app.post('/api/v1/escrow/:id/refund', (req, res) => {
+  const { reason } = req.body;
+  const result = db.refundEscrow(req.params.id, reason);
+  if (!result) return res.status(404).json({ error: 'Escrow contract not found' });
+
+  res.json({
+    success: true,
+    escrow: result.escrow,
+    ledgerHash: result.block.hash,
+    message: `Escrow ₦${result.escrow.totalAmount.toLocaleString()} refunded to buyer due to contamination/quarantine.`,
+  });
+});
+
+// ==========================================
+// 13. TIER 2: HMO CLAIMS & CO-PAY ADJUDICATION
+// ==========================================
+app.get('/api/v1/hmo/claims', (req, res) => {
+  const totalDisbursed = db.hmoClaims
+    .filter(c => c.status === 'ADJUDICATED_SETTLED')
+    .reduce((sum, c) => sum + c.hmoAmount, 0);
+  const totalPatientSavings = totalDisbursed;
+
+  res.json({
+    metrics: {
+      totalDisbursed,
+      totalPatientSavings,
+      totalClaimsCount: db.hmoClaims.length,
+      currency: 'NGN',
+    },
+    claims: db.hmoClaims,
+  });
+});
+
+app.post('/api/v1/hmo/adjudicate', (req, res) => {
+  const result = db.adjudicateHmo(req.body);
+  res.status(201).json({
+    success: true,
+    claim: result.claim,
+    ledgerHash: result.block.hash,
+    message: `Instant HMO claim #${result.claim.claimNo} adjudicated. HMO paid ₦${result.claim.hmoAmount.toLocaleString()}, Patient co-pay ₦${result.claim.patientCoPay.toLocaleString()}.`,
+  });
+});
+
+// ==========================================
+// 14. TIER 2: MANUFACTURER SERIALIZATION STUDIO
+// ==========================================
+app.post('/api/v1/serialization/generate', (req, res) => {
+  const result = db.generateBulkSerials(req.body);
+
+  // Generate downloadable CSV representation
+  const csvHeaders = 'Serial,GTIN,BatchLot,ExpiryDate,CryptoMAC,GS1_DataMatrix_String,Status\n';
+  const csvRows = result.serials.map(s => 
+    `"${s.serial}","${s.gtin}","${s.batchId}","${s.expDate}","${s.cryptoMac}","${s.gs1DataMatrix}","${s.status}"`
+  ).join('\n');
+  const csvContent = csvHeaders + csvRows;
+
+  res.status(201).json({
+    success: true,
+    ...result,
+    csvContent,
+    message: `Generated ${result.count} GS1-compliant 2D DataMatrix serials with tamper-evident cryptographic MACs.`,
+  });
+});
+
+// ==========================================
+// 15. TIER 2: MULTI-PARTY SUPPLY CHAIN JOURNEY SIMULATOR
+// ==========================================
+app.get('/api/v1/simulator/state', (req, res) => {
+  res.json(db.simulationJourney);
+});
+
+app.post('/api/v1/simulator/step', (req, res) => {
+  const { step = 1, anomaly = false } = req.body;
+  const stepInfo = db.runSimulationStep(step, anomaly);
+  res.json({
+    success: true,
+    journey: db.simulationJourney,
+    currentStep: stepInfo,
+  });
+});
+
+app.post('/api/v1/simulator/reset', (req, res) => {
+  const reset = db.resetSimulation();
+  res.json({
+    success: true,
+    journey: reset,
+    message: 'Simulation journey reset to step 1 (Manufacturer).',
+  });
+});
+
+
 // Start listening
 app.listen(PORT, () => {
   console.log(`====================================================`);

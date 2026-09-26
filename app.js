@@ -238,6 +238,191 @@
       },
     ],
 
+    escrows: [
+      {
+        id: 'ESC-2026-901',
+        contractNo: 'WPY-ESC-901-NG',
+        buyerName: 'GreenLife Pharmacy (Wuse II)',
+        buyerRole: 'pharmacist',
+        sellerName: 'Northgate Distribution Ltd.',
+        sellerRole: 'distributor',
+        productName: 'Artemether / Lumefantrine 80/480mg',
+        batchId: 'AL-240981',
+        units: 50,
+        unitPrice: 2400,
+        totalAmount: 120000,
+        currency: 'NGN',
+        status: 'INSPECTION_PASSED',
+        createdAt: '2026-02-14T09:30:00.000Z',
+        milestones: {
+          orderPlaced: { done: true, timestamp: '14 Feb 09:30' },
+          inTransit: { done: true, timestamp: '15 Feb 11:00' },
+          barcodeVerified: { done: true, timestamp: '16 Feb 14:10' },
+          coldChainVerified: { done: true, reading: 'Ambient compliant (24.2°C)' },
+          fundsReleased: { done: false, releasedAt: null, txHash: null }
+        },
+        escrowLedgerHash: 'a718b2c4d9e0f123456789abcdef0123456789abcdef0123456789abcdef0123',
+      },
+      {
+        id: 'ESC-2026-902',
+        contractNo: 'WPY-ESC-902-NG',
+        buyerName: 'Zenith Pharmacy & Clinics, Lagos',
+        buyerRole: 'pharmacist',
+        sellerName: 'Northgate Distribution Ltd.',
+        sellerRole: 'distributor',
+        productName: 'Human Insulin 100IU/ml (rDNA)',
+        batchId: 'INS-1120',
+        units: 20,
+        unitPrice: 8900,
+        totalAmount: 178000,
+        currency: 'NGN',
+        status: 'HELD_IN_ESCROW',
+        createdAt: '2026-02-18T10:15:00.000Z',
+        milestones: {
+          orderPlaced: { done: true, timestamp: '18 Feb 10:15' },
+          inTransit: { done: true, timestamp: '19 Feb 08:00' },
+          barcodeVerified: { done: false, timestamp: null },
+          coldChainVerified: { done: false, reading: 'Logger active: 4.8°C' },
+          fundsReleased: { done: false, releasedAt: null, txHash: null }
+        },
+        escrowLedgerHash: 'b829c3d4e0f1a23456789abcdef0123456789abcdef0123456789abcdef0456',
+      },
+      {
+        id: 'ESC-2026-903',
+        contractNo: 'WPY-ESC-903-NG',
+        buyerName: 'CityMeds Pharmacy (Garki, Abuja)',
+        buyerRole: 'pharmacist',
+        sellerName: 'Meridian Imports & Logistics',
+        sellerRole: 'distributor',
+        productName: 'Artemether / Lumefantrine (Falsified Lot)',
+        batchId: 'AL-77209',
+        units: 100,
+        unitPrice: 2400,
+        totalAmount: 240000,
+        currency: 'NGN',
+        status: 'REFUNDED_CONTAMINATED',
+        createdAt: '2026-01-20T08:00:00.000Z',
+        milestones: {
+          orderPlaced: { done: true, timestamp: '20 Jan 08:00' },
+          inTransit: { done: true, timestamp: '21 Jan 10:00' },
+          barcodeVerified: { done: false, timestamp: null, error: 'Counterfeit Cloned Serial' },
+          coldChainVerified: { done: false, reading: 'Failed inspection' },
+          fundsReleased: { done: false, releasedAt: null, refundTxHash: '0x99281a772cdef109' }
+        },
+        escrowLedgerHash: 'c930d4e1f2a3b456789abcdef0123456789abcdef0123456789abcdef0789',
+      },
+    ],
+
+    hmoClaims: [
+      {
+        id: 'HMO-8812',
+        claimNo: 'CLM-HYG-2026-8812',
+        hmoProvider: 'Hygeia HMO',
+        policyNo: 'HYG-POL-9921',
+        patientName: 'Ngozi Bello',
+        patientPhone: '080 123 4567',
+        pharmacyName: 'GreenLife Pharmacy (Wuse II)',
+        productName: 'Artemether / Lumefantrine 80/480mg',
+        batchId: 'AL-240981',
+        totalAmount: 2400,
+        hmoRate: 80,
+        hmoAmount: 1920,
+        patientCoPay: 480,
+        currency: 'NGN',
+        status: 'ADJUDICATED_SETTLED',
+        settledAt: '16 Feb 2026 14:15',
+        txHash: '0x7a8b9c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b',
+        notes: 'Instant claim payout upon authentic GS1 DataMatrix scan confirmation.',
+      },
+      {
+        id: 'HMO-8813',
+        claimNo: 'CLM-AXA-2026-8813',
+        hmoProvider: 'AXA Mansard Health',
+        policyNo: 'AXA-POL-4410',
+        patientName: 'Chima Eze',
+        patientPhone: '081 234 5678',
+        pharmacyName: 'Wellcare Pharmacy (Wuse II)',
+        productName: 'Metformin 500mg',
+        batchId: 'MTF-3302',
+        totalAmount: 3300,
+        hmoRate: 85,
+        hmoAmount: 2805,
+        patientCoPay: 495,
+        currency: 'NGN',
+        status: 'ADJUDICATED_SETTLED',
+        settledAt: '17 Feb 2026 11:40',
+        txHash: '0x8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c',
+        notes: 'Dispensed through automated eligibility clearinghouse.',
+      },
+      {
+        id: 'HMO-8814',
+        claimNo: 'CLM-REL-2026-8814',
+        hmoProvider: 'Reliance HMO',
+        policyNo: 'REL-POL-1092',
+        patientName: 'Amina Danjuma',
+        patientPhone: '080 345 6789',
+        pharmacyName: 'CityMeds Pharmacy (Garki)',
+        productName: 'Amoxicillin Trihydrate 500mg',
+        batchId: 'AMX-9931',
+        totalAmount: 1850,
+        hmoRate: 80,
+        hmoAmount: 1480,
+        patientCoPay: 370,
+        currency: 'NGN',
+        status: 'PENDING_DISPENSE',
+        settledAt: null,
+        txHash: null,
+        notes: 'Pre-authorized benefit. Awaiting patient verification scan at dispensary.',
+      },
+    ],
+
+    initialSerials: [
+      {
+        serial: 'WV-49A1-2091',
+        cleanSerial: 'WV49A12091',
+        gtin: '06151412098124',
+        batchId: 'AL-2026-EXP',
+        expDate: '2027-12-31',
+        cryptoMac: 'A8B2C4E90F1122AA',
+        gs1DataMatrix: '(01)06151412098124(17)271231(10)AL-2026-EXP(21)WV49A12091',
+        productName: 'Artemether / Lumefantrine 80/480mg',
+        status: 'ACTIVE',
+      },
+      {
+        serial: 'WV-7B32-8804',
+        cleanSerial: 'WV7B328804',
+        gtin: '06151412098124',
+        batchId: 'AL-2026-EXP',
+        expDate: '2027-12-31',
+        cryptoMac: 'F319617B19261AF0',
+        gs1DataMatrix: '(01)06151412098124(17)271231(10)AL-2026-EXP(21)WV7B328804',
+        productName: 'Artemether / Lumefantrine 80/480mg',
+        status: 'ACTIVE',
+      },
+      {
+        serial: 'WV-99C0-4102',
+        cleanSerial: 'WV99C04102',
+        gtin: '06151412098124',
+        batchId: 'AL-2026-EXP',
+        expDate: '2027-12-31',
+        cryptoMac: '6A78395FA8AF92FE',
+        gs1DataMatrix: '(01)06151412098124(17)271231(10)AL-2026-EXP(21)WV99C04102',
+        productName: 'Artemether / Lumefantrine 80/480mg',
+        status: 'ACTIVE',
+      },
+      {
+        serial: 'WV-1E82-7744',
+        cleanSerial: 'WV1E827744',
+        gtin: '06151412098124',
+        batchId: 'AL-2026-EXP',
+        expDate: '2027-12-31',
+        cryptoMac: '87F6226E27B9726E',
+        gs1DataMatrix: '(01)06151412098124(17)271231(10)AL-2026-EXP(21)WV1E827744',
+        productName: 'Artemether / Lumefantrine 80/480mg',
+        status: 'ACTIVE',
+      }
+    ],
+
     sampleBarcodes: [
       {
         code: 'AL-240981',
@@ -480,14 +665,17 @@
     coadetail: 'Official Certificate of Analysis',
     coldchaindetail: 'Cold Chain Detail',
     notifications: 'Notifications',
+    escrow: 'WelliPay Escrow & Settlement',
+    serialization: 'GS1 Serialization Studio',
+    simulator: 'Supply Chain Journey Simulator',
   };
 
   const TOP_LEVEL_BY_ROLE = {
-    pharmacist: ['home', 'scan', 'inventory', 'fefo', 'nearby', 'recall', 'forecast'],
-    patient: ['home', 'verify', 'availability', 'prescriptions', 'reminders'],
-    distributor: ['home', 'shipments', 'recall', 'alerts', 'price', 'trust', 'coldchain', 'report', 'marketplace', 'assistant'],
-    regulator: ['home', 'recall', 'alerts', 'verification', 'investigation', 'price', 'map', 'inbox', 'forecast', 'assistant'],
-    lab: ['home', 'assay', 'coas', 'consumables'],
+    pharmacist: ['home', 'scan', 'inventory', 'fefo', 'nearby', 'recall', 'forecast', 'escrow', 'simulator'],
+    patient: ['home', 'verify', 'availability', 'prescriptions', 'reminders', 'escrow'],
+    distributor: ['home', 'shipments', 'recall', 'alerts', 'price', 'trust', 'coldchain', 'report', 'marketplace', 'assistant', 'escrow', 'serialization', 'simulator'],
+    regulator: ['home', 'recall', 'alerts', 'verification', 'investigation', 'price', 'map', 'inbox', 'forecast', 'assistant', 'serialization', 'simulator'],
+    lab: ['home', 'assay', 'coas', 'consumables', 'simulator'],
   };
 
   // --- State Container ---
@@ -539,6 +727,25 @@
         ussdActive: false,
         quarantinedBatches: [],
         offlineQueueCount: 0,
+        // Tier 2: WelliPay Escrow
+        escrowTab: 'b2b', // 'b2b' | 'hmo'
+        selectedReceipt: null,
+        creatingEscrowModal: false,
+        adjudicatingHmoModal: false,
+        // Tier 2: Manufacturer Serialization Studio
+        generatedSerials: (INITIAL_DATA.initialSerials || []),
+        serialBatchInput: 'AL-2026-EXP',
+        serialGtinInput: '06151412098124',
+        serialCountInput: 6,
+        serializationView: 'studio', // 'studio' | 'sheet'
+        // Tier 2: Supply Chain Journey Simulator
+        simStep: 1,
+        simMaxSteps: 6,
+        simPlaying: false,
+        simTimer: null,
+        simAnomaly: false,
+        simAnomalyType: 'temp_spike', // 'temp_spike' | 'counterfeit_clone'
+        simHistory: [],
       };
 
       this.initDom();
@@ -924,6 +1131,357 @@
     viewCoa(coaId) {
       this.state.selectedCoaId = coaId;
       this.go('coadetail');
+    }
+
+    // --- TIER 2: ACTION METHODS ---
+    async releaseEscrow(id) {
+      if (window.WelliVerifyAPI) {
+        try {
+          const res = await window.WelliVerifyAPI.releaseEscrow(id, this.data.identities[this.state.role]?.name || 'Supervising Officer');
+          if (res?.escrow) {
+            const idx = this.data.escrows.findIndex(e => e.id === id);
+            if (idx !== -1) this.data.escrows[idx] = res.escrow;
+            this.showToast(`₦${res.escrow.totalAmount.toLocaleString()} released to ${res.escrow.sellerName}!`);
+            this.render();
+            return;
+          }
+        } catch (e) {
+          console.warn('Escrow release API error:', e);
+        }
+      }
+      const esc = this.data.escrows.find(e => e.id === id);
+      if (esc) {
+        esc.status = 'RELEASED';
+        esc.milestones.fundsReleased.done = true;
+        esc.milestones.fundsReleased.releasedAt = 'Just now';
+        esc.milestones.fundsReleased.txHash = '0x' + Math.random().toString(16).slice(2, 18);
+        this.showToast(`₦${esc.totalAmount.toLocaleString()} released to ${esc.sellerName}!`);
+        this.render();
+      }
+    }
+
+    async refundEscrow(id) {
+      if (window.WelliVerifyAPI) {
+        try {
+          const res = await window.WelliVerifyAPI.refundEscrow(id, 'Thermal Excursion & Quality Non-Compliance');
+          if (res?.escrow) {
+            const idx = this.data.escrows.findIndex(e => e.id === id);
+            if (idx !== -1) this.data.escrows[idx] = res.escrow;
+            this.showToast(`Escrow ₦${res.escrow.totalAmount.toLocaleString()} refunded to buyer.`);
+            this.render();
+            return;
+          }
+        } catch (e) {
+          console.warn('Escrow refund API error:', e);
+        }
+      }
+      const esc = this.data.escrows.find(e => e.id === id);
+      if (esc) {
+        esc.status = 'REFUNDED_CONTAMINATED';
+        esc.milestones.fundsReleased.done = false;
+        esc.refundReason = 'Batch Quarantined / Contamination Detected';
+        this.showToast(`Escrow ₦${esc.totalAmount.toLocaleString()} refunded to buyer.`);
+        this.render();
+      }
+    }
+
+    openEscrowReceipt(id) {
+      const esc = this.data.escrows.find(e => e.id === id);
+      if (esc) {
+        this.state.selectedReceipt = esc;
+        this.render();
+      }
+    }
+
+    async submitCreateEscrow() {
+      const prodName = document.getElementById('esc-prod-select')?.value || 'Artemether / Lumefantrine 80/480mg';
+      const units = Number(document.getElementById('esc-units-input')?.value || 100);
+      const unitPrice = Number(document.getElementById('esc-price-input')?.value || 2400);
+      const supplier = document.getElementById('esc-supp-select')?.value || 'Northgate Distribution Ltd.';
+
+      const payload = {
+        buyerName: this.data.identities[this.state.role]?.name || 'GreenLife Pharmacy (Wuse II)',
+        buyerRole: this.state.role,
+        sellerName: supplier,
+        sellerRole: 'distributor',
+        productName: prodName,
+        batchId: 'AL-2026-NEW',
+        units,
+        unitPrice,
+      };
+
+      if (window.WelliVerifyAPI) {
+        try {
+          const res = await window.WelliVerifyAPI.createEscrow(payload);
+          if (res?.escrow) {
+            this.data.escrows.unshift(res.escrow);
+            this.state.creatingEscrowModal = false;
+            this.showToast(`Contract ${res.escrow.contractNo} created on ledger!`);
+            this.render();
+            return;
+          }
+        } catch (e) {
+          console.warn('Create escrow API error:', e);
+        }
+      }
+
+      const totalAmount = units * unitPrice;
+      const newEsc = {
+        id: `ESC-2026-${Math.floor(100 + Math.random() * 900)}`,
+        contractNo: `WPY-ESC-${Math.floor(100 + Math.random() * 900)}-NG`,
+        buyerName: payload.buyerName,
+        buyerRole: payload.buyerRole,
+        sellerName: payload.sellerName,
+        sellerRole: payload.sellerRole,
+        productName: payload.productName,
+        batchId: payload.batchId,
+        units,
+        unitPrice,
+        totalAmount,
+        currency: 'NGN',
+        status: 'HELD_IN_ESCROW',
+        createdAt: new Date().toISOString(),
+        milestones: {
+          orderPlaced: { done: true, timestamp: 'Just now' },
+          inTransit: { done: false, timestamp: null },
+          barcodeVerified: { done: false, timestamp: null },
+          coldChainVerified: { done: false, reading: 'Pending inspection' },
+          fundsReleased: { done: false, releasedAt: null, txHash: null }
+        },
+        escrowLedgerHash: '0x' + Math.random().toString(16).slice(2, 22),
+      };
+      this.data.escrows.unshift(newEsc);
+      this.state.creatingEscrowModal = false;
+      this.showToast(`Contract ${newEsc.contractNo} created on ledger!`);
+      this.render();
+    }
+
+    async submitAdjudicateHmo() {
+      const hmoProvider = document.getElementById('hmo-provider-select')?.value || 'Hygeia HMO';
+      const policyNo = document.getElementById('hmo-policy-input')?.value || 'HYG-POL-7712';
+      const patientName = document.getElementById('hmo-patient-input')?.value || 'Ngozi Bello';
+      const totalAmount = Number(document.getElementById('hmo-cost-input')?.value || 2400);
+
+      const payload = {
+        hmoProvider,
+        policyNo,
+        patientName,
+        patientPhone: '080 123 4567',
+        pharmacyName: 'GreenLife Pharmacy (Wuse II)',
+        productName: 'Artemether / Lumefantrine 80/480mg',
+        batchId: 'AL-240981',
+        totalAmount,
+        hmoRate: 80,
+      };
+
+      if (window.WelliVerifyAPI) {
+        try {
+          const res = await window.WelliVerifyAPI.adjudicateHmo(payload);
+          if (res?.claim) {
+            this.data.hmoClaims.unshift(res.claim);
+            this.state.adjudicatingHmoModal = false;
+            this.showToast(`Claim #${res.claim.claimNo} adjudicated! HMO paid ₦${res.claim.hmoAmount.toLocaleString()}`);
+            this.render();
+            return;
+          }
+        } catch (e) {
+          console.warn('HMO API error:', e);
+        }
+      }
+
+      const hmoAmount = Math.round(totalAmount * 0.8);
+      const patientCoPay = totalAmount - hmoAmount;
+      const newClaim = {
+        id: `HMO-${Math.floor(1000 + Math.random() * 9000)}`,
+        claimNo: `CLM-${hmoProvider.slice(0, 3).toUpperCase()}-2026-${Math.floor(1000 + Math.random() * 9000)}`,
+        hmoProvider,
+        policyNo,
+        patientName,
+        patientPhone: '080 123 4567',
+        pharmacyName: 'GreenLife Pharmacy (Wuse II)',
+        productName: payload.productName,
+        batchId: payload.batchId,
+        totalAmount,
+        hmoRate: 80,
+        hmoAmount,
+        patientCoPay,
+        currency: 'NGN',
+        status: 'ADJUDICATED_SETTLED',
+        settledAt: 'Just now',
+        txHash: '0x' + Math.random().toString(16).slice(2, 22),
+        notes: 'Real-time co-pay clearance triggered by verified authentic medication scan.',
+      };
+      this.data.hmoClaims.unshift(newClaim);
+      this.state.adjudicatingHmoModal = false;
+      this.showToast(`Claim #${newClaim.claimNo} adjudicated! HMO paid ₦${hmoAmount.toLocaleString()}`);
+      this.render();
+    }
+
+    generateDataMatrixSvg(seed = 'WV-2026') {
+      const size = 14;
+      let hash = 0;
+      for (let i = 0; i < seed.length; i++) {
+        hash = ((hash << 5) - hash) + seed.charCodeAt(i);
+        hash |= 0;
+      }
+      
+      let rects = '';
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          let isBlack = false;
+          if (c === 0 || r === size - 1) {
+            isBlack = true;
+          } else if (r === 0 || c === size - 1) {
+            isBlack = (r % 2 === 0 && c % 2 === 0) || (c === size - 1 && r % 2 === 0);
+          } else {
+            const bit = Math.abs(Math.sin((hash * (r + 1) + (c + 1)) * 997)) > 0.45;
+            isBlack = bit;
+          }
+          if (isBlack) {
+            rects += `<rect x="${c * 5}" y="${r * 5}" width="4.9" height="4.9" fill="#0f172a" />`;
+          }
+        }
+      }
+      return `<svg viewBox="0 0 ${size * 5} ${size * 5}" width="74" height="74" style="display:block">${rects}</svg>`;
+    }
+
+    async generateBulkSerials() {
+      const gtin = document.getElementById('studio-gtin-input')?.value || this.state.serialGtinInput;
+      const batchId = document.getElementById('studio-batch-input')?.value || this.state.serialBatchInput;
+      const expDate = document.getElementById('studio-exp-input')?.value || '2027-12-31';
+      const count = Number(document.getElementById('studio-count-select')?.value || this.state.serialCountInput);
+
+      this.state.serialGtinInput = gtin;
+      this.state.serialBatchInput = batchId;
+      this.state.serialCountInput = count;
+
+      if (window.WelliVerifyAPI) {
+        try {
+          const res = await window.WelliVerifyAPI.generateBulkSerials({
+            gtin,
+            batchId,
+            expDate,
+            count,
+            productName: 'Artemether / Lumefantrine 80/480mg',
+          });
+          if (res?.serials) {
+            this.state.generatedSerials = res.serials;
+            this.showToast(`Generated ${res.serials.length} GS1-compliant DataMatrix packs on ledger!`);
+            this.render();
+            return;
+          }
+        } catch (e) {
+          console.warn('Serialization API error:', e);
+        }
+      }
+
+      const generated = [];
+      const expFormatted = expDate.replace(/-/g, '').slice(2);
+      for (let i = 1; i <= count; i++) {
+        const rand = Math.floor(1000 + Math.random() * 9000);
+        const randHex = Math.floor(1000 + Math.random() * 9000).toString(16).toUpperCase();
+        const serial = `WV-${randHex.slice(0, 4)}-${rand}`;
+        const cleanSerial = serial.replace(/-/g, '');
+        generated.push({
+          serial,
+          cleanSerial,
+          gtin,
+          batchId,
+          expDate,
+          cryptoMac: 'MAC' + Math.random().toString(16).slice(2, 10).toUpperCase(),
+          gs1DataMatrix: `(01)${gtin}(17)${expFormatted}(10)${batchId}(21)${cleanSerial}`,
+          productName: 'Artemether / Lumefantrine 80/480mg',
+          status: 'ACTIVE',
+        });
+      }
+      this.state.generatedSerials = generated;
+      this.showToast(`Generated ${count} GS1-compliant DataMatrix packs!`);
+      this.render();
+    }
+
+    downloadSerialCsv() {
+      const serials = this.state.generatedSerials;
+      if (!serials || serials.length === 0) {
+        this.showToast('No serials generated yet');
+        return;
+      }
+      const headers = 'Serial,GTIN,BatchLot,ExpiryDate,CryptoMAC,GS1_DataMatrix_String,Status\n';
+      const rows = serials.map(s => `"${s.serial}","${s.gtin}","${s.batchId}","${s.expDate}","${s.cryptoMac}","${s.gs1DataMatrix}","${s.status}"`).join('\n');
+      const blob = new Blob([headers + rows], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `GS1_Serials_${this.state.serialBatchInput}_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      this.showToast('Downloaded GS1 CSV serialization file');
+    }
+
+    testScanSerial(serialCode) {
+      this.state.selectedSampleCode = serialCode;
+      this.showToast(`Loaded ${serialCode} into verification scanner`);
+      this.go('scan');
+    }
+
+    // --- SUPPLY CHAIN SIMULATOR METHODS ---
+    async setSimStep(step) {
+      this.state.simStep = step;
+      if (window.WelliVerifyAPI) {
+        try {
+          const res = await window.WelliVerifyAPI.runSimulationStep(step, this.state.simAnomaly);
+          if (res?.currentStep) {
+            this.state.simCurrentInfo = res.currentStep;
+          }
+        } catch (e) {
+          console.warn('Sim API error:', e);
+        }
+      }
+      this.render();
+    }
+
+    nextSimStep() {
+      if (this.state.simStep < this.state.simMaxSteps) {
+        this.setSimStep(this.state.simStep + 1);
+      } else {
+        this.setSimStep(1);
+      }
+    }
+
+    prevSimStep() {
+      if (this.state.simStep > 1) {
+        this.setSimStep(this.state.simStep - 1);
+      }
+    }
+
+    toggleSimPlay() {
+      this.state.simPlaying = !this.state.simPlaying;
+      if (this.state.simPlaying) {
+        this.showToast('Auto-play started');
+        this.state.simTimer = setInterval(() => {
+          this.nextSimStep();
+        }, 3200);
+      } else {
+        clearInterval(this.state.simTimer);
+        this.state.simTimer = null;
+        this.showToast('Auto-play paused');
+      }
+      this.render();
+    }
+
+    toggleSimAnomaly() {
+      this.state.simAnomaly = !this.state.simAnomaly;
+      this.showToast(this.state.simAnomaly ? '🚨 Anomaly Injected (Thermal Excursion / Tamper)' : 'Pristine Supply Chain Restored');
+      this.setSimStep(this.state.simStep);
+    }
+
+    resetSim() {
+      if (this.state.simTimer) clearInterval(this.state.simTimer);
+      this.state.simPlaying = false;
+      this.state.simAnomaly = false;
+      this.state.simStep = 1;
+      this.showToast('Simulation reset to Step 1 (Manufacturer)');
+      this.render();
     }
 
     async updateOfflineBadge() {
@@ -1323,6 +1881,71 @@
           case 'quarantine-batch':
             this.quarantineBatch(targetBtn.dataset.batch);
             break;
+          // Tier 2: Escrow Actions
+          case 'set-escrow-tab':
+            this.state.escrowTab = targetBtn.dataset.tab;
+            this.render();
+            break;
+          case 'release-escrow':
+            this.releaseEscrow(targetBtn.dataset.id);
+            break;
+          case 'refund-escrow':
+            this.refundEscrow(targetBtn.dataset.id);
+            break;
+          case 'open-escrow-receipt':
+            this.openEscrowReceipt(targetBtn.dataset.id);
+            break;
+          case 'close-escrow-receipt':
+            this.state.selectedReceipt = null;
+            this.render();
+            break;
+          case 'toggle-create-escrow':
+            this.state.creatingEscrowModal = !this.state.creatingEscrowModal;
+            this.render();
+            break;
+          case 'submit-create-escrow':
+            this.submitCreateEscrow();
+            break;
+          case 'toggle-adjudicate-hmo':
+            this.state.adjudicatingHmoModal = !this.state.adjudicatingHmoModal;
+            this.render();
+            break;
+          case 'submit-adjudicate-hmo':
+            this.submitAdjudicateHmo();
+            break;
+          // Tier 2: Serialization Studio Actions
+          case 'generate-bulk-serials':
+            this.generateBulkSerials();
+            break;
+          case 'toggle-serialization-view':
+            this.state.serializationView = targetBtn.dataset.view;
+            this.render();
+            break;
+          case 'download-serial-csv':
+            this.downloadSerialCsv();
+            break;
+          case 'test-scan-serial':
+            this.testScanSerial(targetBtn.dataset.serial);
+            break;
+          // Tier 2: Simulator Actions
+          case 'sim-step':
+            this.setSimStep(Number(targetBtn.dataset.step));
+            break;
+          case 'sim-next':
+            this.nextSimStep();
+            break;
+          case 'sim-prev':
+            this.prevSimStep();
+            break;
+          case 'sim-toggle-play':
+            this.toggleSimPlay();
+            break;
+          case 'sim-toggle-anomaly':
+            this.toggleSimAnomaly();
+            break;
+          case 'sim-reset':
+            this.resetSim();
+            break;
           default:
             break;
         }
@@ -1384,6 +2007,8 @@
           { target: 'home', label: 'Dashboard' },
           { target: 'scan', label: 'Scan & verify' },
           { target: 'inventory', label: 'Inventory' },
+          { target: 'escrow', label: 'WelliPay Escrow & Settlement' },
+          { target: 'simulator', label: 'Supply Chain Simulator' },
           { target: 'fefo', label: 'Stockout alerts' },
           { target: 'nearby', label: 'Nearby availability' },
           { target: 'forecast', label: 'Demand forecast' },
@@ -1394,6 +2019,7 @@
         navItems = [
           { target: 'home', label: 'Home' },
           { target: 'verify', label: 'Verify a product' },
+          { target: 'escrow', label: 'HMO Co-Pay & Claims' },
           { target: 'availability', label: 'Nearby availability' },
           { target: 'prescriptions', label: 'My prescriptions' },
           { target: 'reminders', label: 'Reminders' },
@@ -1402,6 +2028,9 @@
       } else if (role === 'distributor') {
         navItems = [
           { target: 'home', label: 'Dashboard' },
+          { target: 'escrow', label: 'WelliPay B2B Escrow' },
+          { target: 'serialization', label: 'GS1 Packaging Studio' },
+          { target: 'simulator', label: 'Supply Chain Simulator' },
           { target: 'shipments', label: 'Shipments' },
           { target: 'recall', label: 'Recalls' },
           { target: 'alerts', label: 'Alerts', badge: alertCount, tagClass: 'tag-accent-2' },
@@ -1415,6 +2044,8 @@
       } else if (role === 'regulator') {
         navItems = [
           { target: 'home', label: 'Overview' },
+          { target: 'serialization', label: 'GS1 Serial Registry' },
+          { target: 'simulator', label: 'Supply Chain Simulator' },
           { target: 'recall', label: 'Recall dashboard' },
           { target: 'alerts', label: 'Alert network', badge: alertCount, tagClass: 'tag-accent-2' },
           { target: 'verification', label: 'KYB queue' },
@@ -1431,6 +2062,7 @@
           { target: 'assay', label: 'Chemical Assay (HPLC)' },
           { target: 'coas', label: 'Certificates of Analysis (CoA)' },
           { target: 'consumables', label: 'Consumables & Reagents' },
+          { target: 'simulator', label: 'Supply Chain Simulator' },
           { target: 'report', label: 'Report an issue' },
         ];
       }
@@ -3351,6 +3983,743 @@
       `;
     }
 
+    // ========================================================
+    // TIER 2: WELLIPAY ESCROW & SETTLEMENT ENGINE
+    // ========================================================
+    renderEscrow(role) {
+      const tab = this.state.escrowTab || 'b2b';
+      const escrows = this.data.escrows || [];
+      const hmoClaims = this.data.hmoClaims || [];
+
+      const totalLocked = escrows
+        .filter(e => e.status === 'HELD_IN_ESCROW' || e.status === 'INSPECTION_PASSED')
+        .reduce((sum, e) => sum + e.totalAmount, 0);
+      const totalSettled = escrows
+        .filter(e => e.status === 'RELEASED')
+        .reduce((sum, e) => sum + e.totalAmount, 0);
+      const totalRefunded = escrows
+        .filter(e => e.status === 'REFUNDED_CONTAMINATED')
+        .reduce((sum, e) => sum + e.totalAmount, 0);
+
+      return `
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div>
+            <div style="font-family:var(--font-heading);font-weight:600;font-size:18px">WelliPay Automated Settlement & Escrow</div>
+            <div style="font-size:12px;opacity:0.7">Cryptographic milestone-released escrow for pharmaceutical wholesale & instant HMO claims</div>
+          </div>
+
+          <!-- Metrics Summary -->
+          <div class="escrow-metrics-bar">
+            <div class="escrow-metric-card">
+              <div class="escrow-metric-val" style="color:var(--color-accent)">₦${totalLocked.toLocaleString()}</div>
+              <div class="escrow-metric-sub">Locked Escrow</div>
+            </div>
+            <div class="escrow-metric-card">
+              <div class="escrow-metric-val" style="color:#2e7d32">₦${totalSettled.toLocaleString()}</div>
+              <div class="escrow-metric-sub">Settled Payouts</div>
+            </div>
+            <div class="escrow-metric-card">
+              <div class="escrow-metric-val" style="color:#c62828">₦${totalRefunded.toLocaleString()}</div>
+              <div class="escrow-metric-sub">Quarantine Refunds</div>
+            </div>
+          </div>
+
+          <!-- Segmented Tabs -->
+          <div style="display:flex;border:1px solid var(--color-divider);border-radius:6px;overflow:hidden">
+            <button type="button" class="btn ${tab === 'b2b' ? 'btn-primary' : 'btn-ghost'}" data-action="set-escrow-tab" data-tab="b2b" style="flex:1;border-radius:0;font-size:11.5px;padding:7px 0">
+              B2B Wholesale Escrow (${escrows.length})
+            </button>
+            <button type="button" class="btn ${tab === 'hmo' ? 'btn-primary' : 'btn-ghost'}" data-action="set-escrow-tab" data-tab="hmo" style="flex:1;border-radius:0;font-size:11.5px;padding:7px 0">
+              HMO Claims & Co-Pay (${hmoClaims.length})
+            </button>
+          </div>
+
+          ${tab === 'b2b' ? this.renderB2bEscrowList(escrows) : this.renderHmoClaimsList(hmoClaims)}
+
+          ${this.state.creatingEscrowModal ? this.renderCreateEscrowModal() : ''}
+          ${this.state.adjudicatingHmoModal ? this.renderAdjudicateHmoModal() : ''}
+          ${this.state.selectedReceipt ? this.renderReceiptModal(this.state.selectedReceipt) : ''}
+        </div>
+      `;
+    }
+
+    renderB2bEscrowList(escrows) {
+      return `
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#64748b">
+              Active Milestone Escrow Contracts
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" data-action="toggle-create-escrow" style="font-size:11px;padding:4px 8px">
+              + New Escrow Agreement
+            </button>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px">
+            ${escrows.map(e => {
+              let tag = '<span class="tag tag-neutral" style="font-size:9.5px">HELD IN ESCROW</span>';
+              if (e.status === 'INSPECTION_PASSED') tag = '<span class="tag tag-accent" style="font-size:9.5px">INSPECTION PASSED</span>';
+              if (e.status === 'RELEASED') tag = '<span class="tag tag-accent" style="font-size:9.5px;background:#2e7d32;color:#fff">FUNDS RELEASED</span>';
+              if (e.status === 'REFUNDED_CONTAMINATED') tag = '<span class="tag tag-accent-2" style="font-size:9.5px">REFUNDED · CONTAMINATED</span>';
+
+              return `
+                <div class="escrow-card">
+                  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                    <div>
+                      <div style="font-family:var(--font-heading);font-weight:700;font-size:14px;color:var(--color-text)">
+                        ${e.productName}
+                      </div>
+                      <div style="font-size:11px;color:#64748b;margin-top:2px">
+                        Contract: <strong>${e.contractNo}</strong> · Batch ${e.batchId}
+                      </div>
+                    </div>
+                    ${tag}
+                  </div>
+
+                  <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;padding-top:8px;border-top:1px solid #f1f5f9">
+                    <div style="font-size:11.5px;color:#334155">
+                      Buyer: <strong>${e.buyerName}</strong><br/>
+                      Seller: <strong>${e.sellerName}</strong>
+                    </div>
+                    <div style="text-align:right">
+                      <div style="font-family:var(--font-heading);font-weight:700;font-size:15px;color:var(--color-accent)">
+                        ₦${e.totalAmount.toLocaleString()}
+                      </div>
+                      <div style="font-size:10px;color:#64748b">(${e.units} units @ ₦${e.unitPrice.toLocaleString()})</div>
+                    </div>
+                  </div>
+
+                  <!-- 5-Step Milestone Stepper -->
+                  <div class="escrow-stepper">
+                    <div class="escrow-step done">
+                      <div class="escrow-step-dot">✓</div>
+                      <div class="escrow-step-lbl">Order Placed</div>
+                    </div>
+                    <div class="escrow-step ${e.milestones.inTransit?.done ? 'done' : 'active'}">
+                      <div class="escrow-step-dot">${e.milestones.inTransit?.done ? '✓' : '2'}</div>
+                      <div class="escrow-step-lbl">In Transit</div>
+                    </div>
+                    <div class="escrow-step ${e.milestones.barcodeVerified?.done ? 'done' : (e.status === 'REFUNDED_CONTAMINATED' ? 'error' : (e.milestones.inTransit?.done ? 'active' : ''))}">
+                      <div class="escrow-step-dot">${e.milestones.barcodeVerified?.done ? '✓' : (e.status === 'REFUNDED_CONTAMINATED' ? '✕' : '3')}</div>
+                      <div class="escrow-step-lbl">Barcode Verified</div>
+                    </div>
+                    <div class="escrow-step ${e.milestones.coldChainVerified?.done ? 'done' : (e.status === 'REFUNDED_CONTAMINATED' ? 'error' : '')}">
+                      <div class="escrow-step-dot">${e.milestones.coldChainVerified?.done ? '✓' : (e.status === 'REFUNDED_CONTAMINATED' ? '✕' : '4')}</div>
+                      <div class="escrow-step-lbl">Cold-Chain</div>
+                    </div>
+                    <div class="escrow-step ${e.milestones.fundsReleased?.done ? 'done' : ''}">
+                      <div class="escrow-step-dot">${e.milestones.fundsReleased?.done ? '✓' : '5'}</div>
+                      <div class="escrow-step-lbl">Payout Settled</div>
+                    </div>
+                  </div>
+
+                  <!-- Action Buttons -->
+                  <div style="display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid #f1f5f9">
+                    ${e.status === 'INSPECTION_PASSED' ? `
+                      <button type="button" class="btn btn-primary btn-sm" data-action="release-escrow" data-id="${e.id}" style="flex:1;font-size:11.5px">
+                        ✓ Release Escrow Funds (₦${e.totalAmount.toLocaleString()})
+                      </button>
+                    ` : ''}
+
+                    ${e.status === 'HELD_IN_ESCROW' ? `
+                      <button type="button" class="btn btn-secondary btn-sm" data-action="release-escrow" data-id="${e.id}" style="flex:1;font-size:11.5px">
+                        Verify & Release Funds
+                      </button>
+                      <button type="button" class="btn btn-ghost btn-sm" data-action="refund-escrow" data-id="${e.id}" style="color:#c62828;font-size:11px">
+                        ⚠ Refund
+                      </button>
+                    ` : ''}
+
+                    ${e.status === 'RELEASED' ? `
+                      <button type="button" class="btn btn-secondary btn-sm" data-action="open-escrow-receipt" data-id="${e.id}" style="flex:1;font-size:11px">
+                        📄 View Settlement Voucher & Receipt
+                      </button>
+                    ` : ''}
+
+                    ${e.status === 'REFUNDED_CONTAMINATED' ? `
+                      <div style="font-size:11px;color:#c62828;font-weight:600;padding:4px 0">
+                        ⚠ Lot Quarantined by NAFDAC · ₦${e.totalAmount.toLocaleString()} Reversible Refund Disbursed
+                      </div>
+                    ` : ''}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    renderHmoClaimsList(hmoClaims) {
+      return `
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#64748b">
+              Patient HMO Claims & Co-Pay Clearances
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" data-action="toggle-adjudicate-hmo" style="font-size:11px;padding:4px 8px">
+              + Adjudicate New Claim
+            </button>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            ${hmoClaims.map(c => `
+              <div class="card elev-sm" style="padding:12px">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                  <div>
+                    <div style="font-family:var(--font-heading);font-weight:700;font-size:13.5px">
+                      ${c.patientName} (${c.hmoProvider})
+                    </div>
+                    <div style="font-size:11px;color:#64748b;margin-top:2px">
+                      Policy: <strong>${c.policyNo}</strong> · Claim: ${c.claimNo}
+                    </div>
+                  </div>
+                  <span class="tag tag-accent" style="font-size:9.5px">${c.status}</span>
+                </div>
+
+                <div style="margin-top:8px;padding:8px;background:#f8fafc;border-radius:6px;display:flex;justify-content:space-between;align-items:center">
+                  <div>
+                    <div style="font-size:11px;color:#334155">Medication: <strong>${c.productName}</strong></div>
+                    <div style="font-size:10.5px;color:#64748b">Pharmacy: ${c.pharmacyName}</div>
+                  </div>
+                  <div style="text-align:right">
+                    <div style="font-size:10px;text-transform:uppercase;color:#64748b">Total Prescription</div>
+                    <div style="font-weight:700;font-size:13px;color:#0f172a">₦${c.totalAmount.toLocaleString()}</div>
+                  </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;font-size:11.5px">
+                  <div style="padding:6px 8px;background:#e8f5e9;border-radius:4px;color:#2e7d32">
+                    <span style="font-size:9.5px;text-transform:uppercase;display:block">HMO Coverage (${c.hmoRate}%)</span>
+                    <strong>₦${c.hmoAmount.toLocaleString()}</strong> (Paid)
+                  </div>
+                  <div style="padding:6px 8px;background:#eff6ff;border-radius:4px;color:#1d4ed8">
+                    <span style="font-size:9.5px;text-transform:uppercase;display:block">Patient Co-Pay (${100 - c.hmoRate}%)</span>
+                    <strong>₦${c.patientCoPay.toLocaleString()}</strong> (Settled)
+                  </div>
+                </div>
+
+                <div style="font-size:9.5px;color:#64748b;margin-top:6px;font-family:monospace">
+                  TxHash: ${c.txHash || '0x' + Math.random().toString(16).slice(2, 22)}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    renderCreateEscrowModal() {
+      return `
+        <div class="receipt-modal-backdrop" data-action="toggle-create-escrow">
+          <div class="card elev-md" style="background:#fff;max-width:380px;width:100%;padding:18px" onclick="event.stopPropagation()">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+              <div style="font-family:var(--font-heading);font-weight:700;font-size:16px">New B2B Escrow Agreement</div>
+              <button type="button" class="btn btn-ghost btn-sm" data-action="toggle-create-escrow">✕</button>
+            </div>
+            
+            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+              <div>
+                <label style="font-size:10.5px;text-transform:uppercase;color:#64748b;display:block;margin-bottom:3px">Pharmaceutical Product</label>
+                <select id="esc-prod-select" class="input" style="width:100%;font-size:12px;padding:6px">
+                  <option value="Artemether / Lumefantrine 80/480mg">Artemether / Lumefantrine 80/480mg</option>
+                  <option value="Human Insulin 100IU/ml (rDNA)">Human Insulin 100IU/ml (rDNA)</option>
+                  <option value="Amoxicillin Trihydrate 500mg">Amoxicillin Trihydrate 500mg</option>
+                  <option value="Oxytocin Injection 10IU/ml">Oxytocin Injection 10IU/ml</option>
+                </select>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div>
+                  <label style="font-size:10.5px;text-transform:uppercase;color:#64748b;display:block;margin-bottom:3px">Order Quantity</label>
+                  <input type="number" id="esc-units-input" class="input" value="100" style="width:100%;font-size:12px;padding:6px" />
+                </div>
+                <div>
+                  <label style="font-size:10.5px;text-transform:uppercase;color:#64748b;display:block;margin-bottom:3px">Unit Price (₦)</label>
+                  <input type="number" id="esc-price-input" class="input" value="2400" style="width:100%;font-size:12px;padding:6px" />
+                </div>
+              </div>
+              <div>
+                <label style="font-size:10.5px;text-transform:uppercase;color:#64748b;display:block;margin-bottom:3px">Supplier / Distributor</label>
+                <select id="esc-supp-select" class="input" style="width:100%;font-size:12px;padding:6px">
+                  <option value="Northgate Distribution Ltd.">Northgate Distribution Ltd. (Licence DIS-4012)</option>
+                  <option value="Chi Pharmaceuticals Ltd.">Chi Pharmaceuticals Ltd. (Licence DIS-2291)</option>
+                  <option value="Meridian Imports & Logistics">Meridian Imports & Logistics</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:8px">
+              <button type="button" class="btn btn-secondary" data-action="toggle-create-escrow" style="flex:1">Cancel</button>
+              <button type="button" class="btn btn-primary" data-action="submit-create-escrow" style="flex:1">Lock Escrow</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    renderAdjudicateHmoModal() {
+      return `
+        <div class="receipt-modal-backdrop" data-action="toggle-adjudicate-hmo">
+          <div class="card elev-md" style="background:#fff;max-width:380px;width:100%;padding:18px" onclick="event.stopPropagation()">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+              <div style="font-family:var(--font-heading);font-weight:700;font-size:16px">Adjudicate HMO Claim</div>
+              <button type="button" class="btn btn-ghost btn-sm" data-action="toggle-adjudicate-hmo">✕</button>
+            </div>
+            
+            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+              <div>
+                <label style="font-size:10.5px;text-transform:uppercase;color:#64748b;display:block;margin-bottom:3px">HMO Provider</label>
+                <select id="hmo-provider-select" class="input" style="width:100%;font-size:12px;padding:6px">
+                  <option value="Hygeia HMO">Hygeia HMO</option>
+                  <option value="AXA Mansard Health">AXA Mansard Health</option>
+                  <option value="Reliance HMO">Reliance HMO</option>
+                  <option value="Leadway Health">Leadway Health</option>
+                </select>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div>
+                  <label style="font-size:10.5px;text-transform:uppercase;color:#64748b;display:block;margin-bottom:3px">Policy Number</label>
+                  <input type="text" id="hmo-policy-input" class="input" value="HYG-POL-7712" style="width:100%;font-size:12px;padding:6px" />
+                </div>
+                <div>
+                  <label style="font-size:10.5px;text-transform:uppercase;color:#64748b;display:block;margin-bottom:3px">Total Cost (₦)</label>
+                  <input type="number" id="hmo-cost-input" class="input" value="2400" style="width:100%;font-size:12px;padding:6px" />
+                </div>
+              </div>
+              <div>
+                <label style="font-size:10.5px;text-transform:uppercase;color:#64748b;display:block;margin-bottom:3px">Patient Full Name</label>
+                <input type="text" id="hmo-patient-input" class="input" value="Ngozi Bello" style="width:100%;font-size:12px;padding:6px" />
+              </div>
+            </div>
+
+            <div style="display:flex;gap:8px">
+              <button type="button" class="btn btn-secondary" data-action="toggle-adjudicate-hmo" style="flex:1">Cancel</button>
+              <button type="button" class="btn btn-primary" data-action="submit-adjudicate-hmo" style="flex:1">Adjudicate Claim</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    renderReceiptModal(receipt) {
+      return `
+        <div class="receipt-modal-backdrop" data-action="close-escrow-receipt">
+          <div class="receipt-paper" onclick="event.stopPropagation()">
+            <div style="text-align:center;border-bottom:1px dashed #cbd5e1;padding-bottom:12px;margin-bottom:12px">
+              <div style="font-weight:700;font-size:16px;color:#0f172a">WELLIPAY CLEARINGHOUSE</div>
+              <div style="font-size:11px;color:#64748b">National Sovereign Healthcare Settlement Voucher</div>
+              <div style="font-size:10px;color:#64748b;margin-top:2px">Remittance Ref: ${receipt.contractNo}</div>
+            </div>
+
+            <div style="font-size:11.5px;display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
+              <div style="display:flex;justify-content:space-between">
+                <span style="color:#64748b">PAYER:</span>
+                <strong>${receipt.buyerName}</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between">
+                <span style="color:#64748b">BENEFICIARY:</span>
+                <strong>${receipt.sellerName}</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between">
+                <span style="color:#64748b">PRODUCT:</span>
+                <span>${receipt.productName}</span>
+              </div>
+              <div style="display:flex;justify-content:space-between">
+                <span style="color:#64748b">QUANTITY:</span>
+                <span>${receipt.units} packs</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;border-top:1px dashed #cbd5e1;padding-top:6px;font-size:13px">
+                <strong>SETTLED AMOUNT:</strong>
+                <strong style="color:var(--color-accent)">₦${receipt.totalAmount.toLocaleString()}</strong>
+              </div>
+            </div>
+
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;padding:8px;font-size:9.5px;margin-bottom:14px">
+              <div style="font-weight:700;color:#0f172a">NAFDAC Cryptographic Seal Verified</div>
+              <div style="word-break:break-all;color:#64748b;margin-top:2px">
+                TxHash: ${receipt.escrowLedgerHash || '0x' + Math.random().toString(16).slice(2, 28)}
+              </div>
+              <div style="color:#2e7d32;margin-top:4px">✓ Physical Goods Verified & Remitted</div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="window.print()" style="font-size:11px">
+                🖨️ Print Voucher
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" data-action="close-escrow-receipt" style="font-size:11px">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ========================================================
+    // TIER 2: MANUFACTURER SERIALIZATION STUDIO
+    // ========================================================
+    renderSerialization(role) {
+      const view = this.state.serializationView || 'studio';
+      const serials = this.state.generatedSerials || [];
+
+      return `
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div>
+            <div style="font-family:var(--font-heading);font-weight:600;font-size:18px">GS1 DataMatrix Serialization Studio</div>
+            <div style="font-size:12px;opacity:0.7">Unit-level serialization, tamper-evident cryptographic MACs & printable packaging sheets</div>
+          </div>
+
+          <!-- Form Studio Card -->
+          <div class="card elev-sm" style="padding:14px">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--color-accent);margin-bottom:10px">
+              Packaging Run Configuration
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+              <div>
+                <label style="font-size:10px;text-transform:uppercase;color:#64748b;display:block;margin-bottom:3px">GTIN-14 Identifier</label>
+                <input type="text" id="studio-gtin-input" class="input" value="${this.state.serialGtinInput}" style="font-size:11.5px;padding:6px 8px;font-family:monospace" />
+              </div>
+              <div>
+                <label style="font-size:10px;text-transform:uppercase;color:#64748b;display:block;margin-bottom:3px">Batch / Lot Number</label>
+                <input type="text" id="studio-batch-input" class="input" value="${this.state.serialBatchInput}" style="font-size:11.5px;padding:6px 8px;font-family:monospace" />
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+              <div>
+                <label style="font-size:10px;text-transform:uppercase;color:#64748b;display:block;margin-bottom:3px">Expiry Date</label>
+                <input type="date" id="studio-exp-input" class="input" value="2027-12-31" style="font-size:11.5px;padding:6px 8px" />
+              </div>
+              <div>
+                <label style="font-size:10px;text-transform:uppercase;color:#64748b;display:block;margin-bottom:3px">Serials Count</label>
+                <select id="studio-count-select" class="input" style="font-size:11.5px;padding:6px 8px">
+                  <option value="4" ${this.state.serialCountInput === 4 ? 'selected' : ''}>4 Units (Test Strip)</option>
+                  <option value="6" ${this.state.serialCountInput === 6 ? 'selected' : ''}>6 Units (Blister Pack)</option>
+                  <option value="8" ${this.state.serialCountInput === 8 ? 'selected' : ''}>8 Units (Standard Shipper)</option>
+                  <option value="12" ${this.state.serialCountInput === 12 ? 'selected' : ''}>12 Units (Full Carton)</option>
+                </select>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary" data-action="generate-bulk-serials" style="width:100%;font-size:12.5px;padding:9px">
+              ⚡ Generate Serialized Run & Sign with Cryptographic MAC
+            </button>
+          </div>
+
+          <!-- View Switcher & Action Toolbar -->
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="display:flex;border:1px solid var(--color-divider);border-radius:6px;overflow:hidden">
+              <button type="button" class="btn ${view === 'studio' ? 'btn-primary' : 'btn-ghost'}" data-action="toggle-serialization-view" data-view="studio" style="font-size:11px;padding:5px 10px;border-radius:0">
+                Pack Studio View
+              </button>
+              <button type="button" class="btn ${view === 'sheet' ? 'btn-primary' : 'btn-ghost'}" data-action="toggle-serialization-view" data-view="sheet" style="font-size:11px;padding:5px 10px;border-radius:0">
+                Printable Label Sheet
+              </button>
+            </div>
+            <button type="button" class="btn btn-secondary" data-action="download-serial-csv" style="font-size:11px;padding:5px 10px">
+              📥 Export CSV
+            </button>
+          </div>
+
+          ${view === 'studio' ? this.renderStudioSerials(serials) : this.renderPrintableLabelSheet(serials)}
+        </div>
+      `;
+    }
+
+    renderStudioSerials(serials) {
+      return `
+        <div style="display:flex;flex-direction:column;gap:12px">
+          ${serials.map(s => `
+            <div class="gs1-label-card">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                <div style="font-weight:700;font-size:13px;color:#0f172a">
+                  Unit Pack · ${s.productName || 'Artemether / Lumefantrine 80/480mg'}
+                </div>
+                <span class="tag tag-accent" style="font-size:9px">GS1-128 COMPLIANT</span>
+              </div>
+
+              <div class="gs1-security-border">
+                <div class="gs1-matrix-box">
+                  ${this.generateDataMatrixSvg(s.serial)}
+                </div>
+                <div class="gs1-hri-text">
+                  <div><span class="gs1-ai-tag">(01)</span> ${s.gtin}</div>
+                  <div><span class="gs1-ai-tag">(17)</span> ${s.expDate ? s.expDate.replace(/-/g, '').slice(2) : '271231'}</div>
+                  <div><span class="gs1-ai-tag">(10)</span> ${s.batchId}</div>
+                  <div><span class="gs1-ai-tag">(21)</span> ${s.cleanSerial || s.serial.replace(/-/g, '')}</div>
+                  <div style="font-size:9px;color:#0088b0;font-family:monospace;margin-top:4px">
+                    MAC: ${s.cryptoMac}
+                  </div>
+                </div>
+              </div>
+
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+                <div style="font-size:10px;color:#64748b">NAFDAC Reg: A4-0231 · Authentic</div>
+                <button type="button" class="btn btn-secondary btn-sm" data-action="test-scan-serial" data-serial="${s.serial}" style="font-size:11px;padding:3px 8px">
+                  📱 Test Scan This Pack
+                </button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    renderPrintableLabelSheet(serials) {
+      return `
+        <div style="background:#fff;border:1px solid #cbd5e1;padding:16px;border-radius:8px">
+          <div style="text-align:center;border-bottom:1px solid #e2e8f0;padding-bottom:10px;margin-bottom:10px">
+            <div style="font-family:var(--font-heading);font-weight:700;font-size:15px">
+              NAFDAC GS1-128 SERIALIZED PACKAGING RUN
+            </div>
+            <div style="font-size:10.5px;color:#64748b">
+              Lot: <strong>${this.state.serialBatchInput}</strong> · GTIN: ${this.state.serialGtinInput} · Tamper-Evident Foil Format
+            </div>
+          </div>
+
+          <div class="label-sheet-grid">
+            ${serials.map(s => `
+              <div style="border:1px dashed #94a3b8;padding:8px;border-radius:4px;background:#fafafa">
+                <div style="display:flex;gap:8px;align-items:center">
+                  <div style="width:58px;height:58px;background:#fff;padding:2px;border:1px solid #cbd5e1">
+                    ${this.generateDataMatrixSvg(s.serial)}
+                  </div>
+                  <div style="font-family:monospace;font-size:8.5px;line-height:1.2;color:#1e293b">
+                    <div>(01)${s.gtin}</div>
+                    <div>(17)${s.expDate ? s.expDate.replace(/-/g, '').slice(2) : '271231'}</div>
+                    <div>(10)${s.batchId}</div>
+                    <div>(21)${s.cleanSerial || s.serial.replace(/-/g, '')}</div>
+                    <div style="color:#0088b0;font-weight:bold;margin-top:2px">WelliVerify ✓</div>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="cut-mark-line"></div>
+
+          <button type="button" class="btn btn-primary" onclick="window.print()" style="width:100%;font-size:12px;padding:9px">
+            🖨️ Print Label Sheet (A4 / Thermal Roll)
+          </button>
+        </div>
+      `;
+    }
+
+    // ========================================================
+    // TIER 2: SUPPLY CHAIN JOURNEY SIMULATOR
+    // ========================================================
+    renderSimulator(role) {
+      const step = this.state.simStep || 1;
+      const isAnomaly = this.state.simAnomaly;
+      const isPlaying = this.state.simPlaying;
+
+      const stepsMeta = [
+        { num: 1, title: 'Manufacturer QC', role: 'Manufacturer' },
+        { num: 2, title: 'NAFDAC Port', role: 'Regulator' },
+        { num: 3, title: 'Cold-Chain IoT', role: 'Distributor' },
+        { num: 4, title: 'Pharmacy Store', role: 'Pharmacist' },
+        { num: 5, title: 'Patient Verification', role: 'Patient' },
+        { num: 6, title: 'WelliPay Settlement', role: 'Clearinghouse' },
+      ];
+
+      return `
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div>
+            <div style="font-family:var(--font-heading);font-weight:600;font-size:18px">Multi-Party Supply Chain Journey Simulator</div>
+            <div style="font-size:12px;opacity:0.7">End-to-end provenance, cold-chain monitoring, and automated escrow release across 5 roles</div>
+          </div>
+
+          <!-- Progress Stepper Bars -->
+          <div class="sim-step-indicator">
+            ${stepsMeta.map((s) => `
+              <div class="sim-step-bar ${s.num <= step ? (isAnomaly && s.num >= 3 ? 'anomaly' : 'filled') : ''}"></div>
+            `).join('')}
+          </div>
+
+          <!-- Simulator Controls Toolbar -->
+          <div class="sim-controls-bar">
+            <div style="display:flex;gap:4px">
+              <button type="button" class="btn btn-ghost btn-sm" data-action="sim-prev" ${step === 1 ? 'disabled' : ''} style="font-size:11px">
+                ◀ Prev
+              </button>
+              <button type="button" class="btn ${isPlaying ? 'btn-secondary' : 'btn-primary'} btn-sm" data-action="sim-toggle-play" style="font-size:11px">
+                ${isPlaying ? '⏸ Pause' : '▶ Auto-Play'}
+              </button>
+              <button type="button" class="btn btn-ghost btn-sm" data-action="sim-next" ${step === 6 ? 'disabled' : ''} style="font-size:11px">
+                Next ▶
+              </button>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <button type="button" class="btn btn-ghost btn-sm" data-action="sim-reset" style="font-size:11px">
+                ↺ Reset
+              </button>
+              <button type="button" class="btn ${isAnomaly ? 'btn-primary' : 'btn-secondary'} btn-sm" data-action="sim-toggle-anomaly" style="font-size:10.5px;background:${isAnomaly ? '#c62828' : ''};color:${isAnomaly ? '#fff' : ''}">
+                ${isAnomaly ? '🚨 Anomaly Active' : '⚠️ Inject Anomaly'}
+              </button>
+            </div>
+          </div>
+
+          <!-- Current Stage Card -->
+          ${this.renderSimulatorActiveStage(step, isAnomaly)}
+
+          <!-- Live Tamper-Evident Ledger Stream -->
+          <div>
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#64748b;margin-bottom:4px">
+              Live Sovereign Ledger Anchor Feed
+            </div>
+            <div class="sim-ledger-feed">
+              <div>[0x01] GENESIS_ANCHOR · WelliVerify Trust Mesh Root (Abuja)</div>
+              <div>[0x02] BATCH_RELEASE_MFG · Lot AL-2026-SIM (Novartis / Basel)</div>
+              <div>[0x03] CUSTOMS_PORT_CLEARANCE · Apapa Terminal C (NAFDAC Port Unit)</div>
+              ${step >= 3 ? (isAnomaly ? `<div style="color:#ef4444">[0x04-ALERT] REEFER_COMPRESSOR_FAILURE · Temp 14.8°C spiked at Lokoja!</div>` : `<div>[0x04] IOT_TELEMETRY_SIGNED · 4.2°C ambient compliant (Reefer KJA-882-XA)</div>`) : ''}
+              ${step >= 4 ? (isAnomaly ? `<div style="color:#ef4444">[0x05-HALT] QUARANTINE_BROADCAST · Escrow Funds Frozen by Autonomous Guard</div>` : `<div>[0x05] RETAIL_RECEIVING_VERIFIED · GreenLife Dispensary Wuse II</div>`) : ''}
+              ${step >= 5 ? `<div>[0x06] CONSUMER_DECOMMISSIONING · Patient Ngozi Bello (Hygeia HMO Settled)</div>` : ''}
+              ${step >= 6 ? `<div style="color:#4ade80">[0x07] WELLIPAY_SETTLEMENT_REMITTED · ₦120,000 paid to Northgate Distribution</div>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    renderSimulatorActiveStage(step, isAnomaly) {
+      if (step === 1) {
+        return `
+          <div class="sim-stage-container">
+            <span class="sim-actor-badge">🏭 Step 1: Manufacturer Serialization & QC Release</span>
+            <div style="font-family:var(--font-heading);font-weight:700;font-size:15px;margin-bottom:6px">
+              Novartis / Genevith Healthcare (Basel & Ikeja Terminal)
+            </div>
+            <div style="font-size:12px;line-height:1.45;color:#334155;margin-bottom:10px">
+              Batch <strong>AL-2026-SIM</strong> manufactured and packaged with 10,000 GS1-128 DataMatrix serialized blister packs. QC High-Performance Liquid Chromatography (RP-HPLC) passed at 99.1% API purity, conforming to British Pharmacopoeia (BP 2025) monographs.
+            </div>
+            <div style="background:#f1f5f9;padding:8px 10px;border-radius:6px;font-size:11px;color:#475569">
+              <div>Cryptographic Proof: <strong>CoA #COA-2026-NAFDAC-8812</strong> anchored to National Trust Chain</div>
+              <div style="color:#2e7d32;font-weight:600;margin-top:2px">Escrow Status: Smart Contract Initialized (₦120,000 Locked in Vault)</div>
+            </div>
+          </div>
+        `;
+      } else if (step === 2) {
+        return `
+          <div class="sim-stage-container">
+            <span class="sim-actor-badge" style="background:#fef3c7;color:#92400e">🛡️ Step 2: NAFDAC Port of Entry Inspection</span>
+            <div style="font-family:var(--font-heading);font-weight:700;font-size:15px;margin-bottom:6px">
+              Apapa Seaport Terminal C, Lagos (NAFDAC Officer Amina Yusuf)
+            </div>
+            <div style="font-size:12px;line-height:1.45;color:#334155;margin-bottom:10px">
+              Consignment shipping container arrived from Basel. Electronic seal verified unbroken. Random physical sampling matches registered NAFDAC number A4-0231. Clean Bill of Inspection issued to transit logistics.
+            </div>
+            <div style="background:#f1f5f9;padding:8px 10px;border-radius:6px;font-size:11px;color:#475569">
+              <div>Cryptographic Proof: <strong>Customs Electronic Bill Block #04921</strong></div>
+              <div style="color:var(--color-accent);font-weight:600;margin-top:2px">Escrow Status: Milestone 1 Complete · Transit Release Authorized</div>
+            </div>
+          </div>
+        `;
+      } else if (step === 3) {
+        if (isAnomaly) {
+          return `
+            <div class="sim-stage-container" style="border-color:#ef4444">
+              <span class="sim-actor-badge" style="background:#fee2e2;color:#b91c1c">🚨 Step 3: Cold-Chain Logistics [ANOMALY DETECTED]</span>
+              <div style="font-family:var(--font-heading);font-weight:700;font-size:15px;color:#b91c1c;margin-bottom:6px">
+                Northgate Distribution Fleet · Reefer Truck KJA-882-XA
+              </div>
+              <div class="sim-anomaly-alert">
+                <div style="font-weight:700;font-size:12.5px;color:#991b1b;margin-bottom:3px">
+                  CRITICAL TEMPERATURE EXCURSION DETECTED
+                </div>
+                <div style="font-size:11.5px;line-height:1.4;color:#7f1d1d">
+                  At Km 42 Lokoja highway, reefer compressor malfunctioned. IoT logger registered 14.8°C for 52 consecutive minutes, violating the 2°C–8°C limit. Active ingredients face irreversible thermal degradation.
+                </div>
+              </div>
+              <div style="background:#fee2e2;padding:8px 10px;border-radius:6px;font-size:11px;color:#991b1b">
+                <div>Escrow Status: <strong>PAYOUT HALTED & FROZEN</strong> by Autonomous Guard</div>
+                <div>Surveillance: NAFDAC Field Office Dispatched for Cargo Quarantine</div>
+              </div>
+            </div>
+          `;
+        }
+        return `
+          <div class="sim-stage-container">
+            <span class="sim-actor-badge">🚚 Step 3: Cold-Chain Logistics & Telemetry Transit</span>
+            <div style="font-family:var(--font-heading);font-weight:700;font-size:15px;margin-bottom:6px">
+              Northgate Distribution Fleet (Reefer Truck KJA-882-XA)
+            </div>
+            <div style="font-size:12px;line-height:1.45;color:#334155;margin-bottom:10px">
+              En-route Lagos → Abuja. IoT Bluetooth & Cellular logger reports constant <strong>4.2°C ambient temperature</strong> across 420km. GPS custody chain electronically validated at all regional checkpoints.
+            </div>
+            <div style="background:#f1f5f9;padding:8px 10px;border-radius:6px;font-size:11px;color:#475569">
+              <div>Cryptographic Proof: <strong>Signed IoT Telemetry Stream (0x918a...22)</strong></div>
+              <div style="color:#2e7d32;font-weight:600;margin-top:2px">Escrow Status: Milestone 2 Complete · Temperature Integrity Pristine</div>
+            </div>
+          </div>
+        `;
+      } else if (step === 4) {
+        if (isAnomaly) {
+          return `
+            <div class="sim-stage-container" style="border-color:#ef4444">
+              <span class="sim-actor-badge" style="background:#fee2e2;color:#b91c1c">🚫 Step 4: Pharmacy Ingestion Scan [QUARANTINED]</span>
+              <div style="font-family:var(--font-heading);font-weight:700;font-size:15px;color:#b91c1c;margin-bottom:6px">
+                GreenLife Pharmacy, Wuse II (Supervising Pharmacist Chidinma Okafor)
+              </div>
+              <div style="font-size:12px;line-height:1.45;color:#334155;margin-bottom:10px">
+                Pharmacist scans carton 2D DataMatrix on WelliVerify app. The system immediately flags the transit cold-chain excursion: <em>"Stock degraded during transit"</em>. Pharmacist segregates batch to the physical quarantine cage.
+              </div>
+              <div style="background:#fee2e2;padding:8px 10px;border-radius:6px;font-size:11px;color:#991b1b">
+                <div>Escrow Status: <strong>REFUND DISBURSED TO PHARMACY</strong> (Northgate Payout Canceled)</div>
+                <div>NAFDAC Enforcement: Automated incident report logged in zonal pharmacovigilance mesh.</div>
+              </div>
+            </div>
+          `;
+        }
+        return `
+          <div class="sim-stage-container">
+            <span class="sim-actor-badge">💊 Step 4: Retail Pharmacy Ingestion Scan & Receiving</span>
+            <div style="font-family:var(--font-heading);font-weight:700;font-size:15px;margin-bottom:6px">
+              GreenLife Pharmacy, Wuse II, Abuja (Pharmacist Chidinma Okafor)
+            </div>
+            <div style="font-size:12px;line-height:1.45;color:#334155;margin-bottom:10px">
+              Pharmacist scans 2D DataMatrix barcode on mobile app. Handshake verifies genuine factory provenance, 2027 expiry, and unbroken cold-chain. 50 packs accepted and ingested into retail dispensary inventory.
+            </div>
+            <div style="background:#f1f5f9;padding:8px 10px;border-radius:6px;font-size:11px;color:#475569">
+              <div>Cryptographic Proof: <strong>Pharmacist Digital Licence PCN-08217743 Signature</strong></div>
+              <div style="color:#2e7d32;font-weight:600;margin-top:2px">Escrow Status: Milestone 3 Complete · WelliPay Funds Ready for Automated Release</div>
+            </div>
+          </div>
+        `;
+      } else if (step === 5) {
+        return `
+          <div class="sim-stage-container">
+            <span class="sim-actor-badge" style="background:#fdf2f8;color:#9d174d">🙋 Step 5: Patient Dispensing & HMO Co-Pay Verification</span>
+            <div style="font-family:var(--font-heading);font-weight:700;font-size:15px;margin-bottom:6px">
+              Dispensary Counter (Patient Ngozi Bello · Hygeia HMO #HYG-POL-9921)
+            </div>
+            <div style="font-size:12px;line-height:1.45;color:#334155;margin-bottom:10px">
+              Patient scans package DataMatrix using WelliVerify patient mode. App confirms genuine medicine with green shield. Hygeia HMO co-pay clearinghouse instantly adjudicates: <strong>HMO pays ₦1,920 (80%)</strong>, patient pays ₦480 co-pay at point-of-sale.
+            </div>
+            <div style="background:#f1f5f9;padding:8px 10px;border-radius:6px;font-size:11px;color:#475569">
+              <div>Cryptographic Proof: <strong>End-Consumer Decommissioning Anchor (Single-Use Retirement)</strong></div>
+              <div style="color:#2e7d32;font-weight:600;margin-top:2px">Escrow Status: Consumer Verification Satisfied · Instant HMO Remittance Triggered</div>
+            </div>
+          </div>
+        `;
+      } else if (step === 6) {
+        return `
+          <div class="sim-stage-container" style="background:#f0fdf4;border-color:#86efac">
+            <span class="sim-actor-badge" style="background:#dcfce7;color:#15803d">⚡ Step 6: Smart Settlement & Ledger Remittance</span>
+            <div style="font-family:var(--font-heading);font-weight:700;font-size:15px;color:#15803d;margin-bottom:6px">
+              WelliPay Autonomous Settlement Clearinghouse
+            </div>
+            <div style="font-size:12px;line-height:1.45;color:#166534;margin-bottom:10px">
+              All 5 physical and cryptographic conditions verified without discrepancies! The WelliPay smart vault releases <strong>₦120,000</strong> settlement directly into Northgate Distribution's account, and disburses ₦1,920 HMO fee to GreenLife Pharmacy.
+            </div>
+            <div style="background:#dcfce7;padding:8px 10px;border-radius:6px;font-size:11px;color:#14532d">
+              <div>Cryptographic Proof: <strong>Remittance Block Chained to Sovereign Trust Mesh</strong></div>
+              <div style="font-weight:700;margin-top:2px">TRANSACTION COMPLETED: Provenance, Safety, and Payment Guaranteed</div>
+            </div>
+          </div>
+        `;
+      }
+      return '';
+    }
+
+
     // --- Main Screen Router ---
     renderContent(screen, role) {
       if (screen === 'profile') return this.renderProfile();
@@ -3370,6 +4739,10 @@
       if (screen === 'coas') return this.renderLabCoas();
       if (screen === 'coadetail') return this.renderLabCoaDetail();
       if (screen === 'assay') return this.renderLabAssay();
+      // Tier 2 screens
+      if (screen === 'escrow') return this.renderEscrow(role);
+      if (screen === 'serialization') return this.renderSerialization(role);
+      if (screen === 'simulator') return this.renderSimulator(role);
 
       // Role specific routes
       if (role === 'pharmacist') {
@@ -3377,6 +4750,8 @@
           case 'home': return this.renderPharmacistHome();
           case 'scan': return this.renderScan(role);
           case 'inventory': return this.renderInventory();
+          case 'escrow': return this.renderEscrow(role);
+          case 'simulator': return this.renderSimulator(role);
           case 'fefo': return this.renderFefo();
           case 'nearby': return this.renderNearby(role);
           case 'recall': return this.renderRecalls(role);
@@ -3387,6 +4762,7 @@
         switch (screen) {
           case 'home': return this.renderPatientHome();
           case 'verify': return this.renderScan(role);
+          case 'escrow': return this.renderEscrow(role);
           case 'availability': return this.renderNearby(role);
           case 'checkout': return this.renderCheckout();
           case 'prescriptions': return this.renderPrescriptions();
@@ -3396,6 +4772,9 @@
       } else if (role === 'distributor') {
         switch (screen) {
           case 'home': return this.renderDistributorHome();
+          case 'escrow': return this.renderEscrow(role);
+          case 'serialization': return this.renderSerialization(role);
+          case 'simulator': return this.renderSimulator(role);
           case 'shipments': return this.renderShipments();
           case 'recall': return this.renderRecallDashboard();
           case 'alerts': return this.renderRecalls(role);
@@ -3407,6 +4786,8 @@
       } else if (role === 'regulator') {
         switch (screen) {
           case 'home': return this.renderRegulatorHome();
+          case 'serialization': return this.renderSerialization(role);
+          case 'simulator': return this.renderSimulator(role);
           case 'recall': return this.renderRecallDashboard();
           case 'alerts': return this.renderRecalls(role);
           case 'verification': return this.renderKybQueue();
@@ -3422,6 +4803,7 @@
           case 'coas': return this.renderLabCoas();
           case 'coadetail': return this.renderLabCoaDetail();
           case 'consumables': return this.renderConsumables();
+          case 'simulator': return this.renderSimulator(role);
           default: return this.renderLabHome();
         }
       }

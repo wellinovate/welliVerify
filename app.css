@@ -1122,4 +1122,277 @@ html, body {
   border-bottom: 1px solid #e2e8f0;
 }
 
+/* ========================================================
+   TIER 2: WELLIPAY ESCROW & SETTLEMENT ENGINE
+   ======================================================== */
+.escrow-metrics-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.escrow-metric-card {
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-divider, rgba(32, 30, 29, 0.16));
+  border-radius: var(--radius-md, 8px);
+  padding: 10px 12px;
+  text-align: left;
+}
+.escrow-metric-val {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text, #201e1d);
+  line-height: 1.2;
+}
+.escrow-metric-sub {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--color-text-subtle, #7d7979);
+  letter-spacing: 0.04em;
+  margin-top: 3px;
+}
+.escrow-card {
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-divider, rgba(32, 30, 29, 0.16));
+  border-radius: var(--radius-md, 8px);
+  padding: 14px;
+  margin-bottom: 12px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.escrow-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.escrow-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin: 16px 0 14px;
+  padding: 0 4px;
+}
+.escrow-stepper::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  background: #e2e8f0;
+  z-index: 0;
+}
+.escrow-step {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.escrow-step-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: 2px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+.escrow-step.done .escrow-step-dot {
+  background: #2e7d32;
+  border-color: #2e7d32;
+  color: #fff;
+}
+.escrow-step.active .escrow-step-dot {
+  background: var(--color-accent, #0088b0);
+  border-color: var(--color-accent, #0088b0);
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(0,136,176,0.2);
+}
+.escrow-step.error .escrow-step-dot {
+  background: #c62828;
+  border-color: #c62828;
+  color: #fff;
+}
+.escrow-step-lbl {
+  font-size: 9.5px;
+  color: #64748b;
+  text-align: center;
+  max-width: 52px;
+  line-height: 1.1;
+}
+
+/* Printable Settlement Voucher / Receipt Modal */
+.receipt-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.receipt-paper {
+  background: #fff;
+  border: 1px dashed #94a3b8;
+  border-radius: 6px;
+  max-width: 380px;
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  font-family: monospace, sans-serif;
+  box-sizing: border-box;
+}
+
+/* ========================================================
+   TIER 2: MANUFACTURER SERIALIZATION & GS1 STUDIO
+   ======================================================== */
+.gs1-label-card {
+  background: #ffffff;
+  border: 2px solid #0f172a;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  background-image: radial-gradient(#f1f5f9 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+.gs1-security-border {
+  border: 1px dashed #0088b0;
+  padding: 10px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.gs1-matrix-box {
+  width: 84px;
+  height: 84px;
+  background: #fff;
+  border: 1px solid #1e293b;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.gs1-hri-text {
+  flex: 1;
+  font-family: var(--font-body, monospace);
+  font-size: 11px;
+  line-height: 1.35;
+  color: #1e293b;
+}
+.gs1-ai-tag {
+  font-weight: 700;
+  color: #0088b0;
+}
+.label-sheet-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+.cut-mark-line {
+  border-top: 1px dashed #94a3b8;
+  margin: 12px 0;
+  position: relative;
+}
+.cut-mark-line::after {
+  content: '✂ CUT HERE';
+  position: absolute;
+  top: -8px;
+  right: 10px;
+  font-size: 8px;
+  color: #94a3b8;
+  background: var(--color-surface, #fff);
+  padding: 0 4px;
+}
+
+/* ========================================================
+   TIER 2: SUPPLY CHAIN JOURNEY SIMULATOR
+   ======================================================== */
+.sim-stage-container {
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-divider, rgba(32, 30, 29, 0.16));
+  border-radius: var(--radius-md, 8px);
+  padding: 16px;
+  margin-bottom: 14px;
+}
+.sim-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 6px 12px;
+  margin-bottom: 14px;
+}
+.sim-step-indicator {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+.sim-step-bar {
+  flex: 1;
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  transition: background 0.25s ease;
+}
+.sim-step-bar.filled {
+  background: var(--color-accent, #0088b0);
+}
+.sim-step-bar.anomaly {
+  background: #c62828;
+}
+.sim-actor-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #e0f2fe;
+  color: #0369a1;
+  margin-bottom: 8px;
+}
+.sim-anomaly-alert {
+  background: #fef2f2;
+  border: 1.5px solid #ef4444;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 12px 0;
+  animation: pulseWarning 1.5s infinite;
+}
+@keyframes pulseWarning {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+.sim-ledger-feed {
+  background: #0f172a;
+  color: #38bdf8;
+  font-family: monospace;
+  font-size: 11px;
+  border-radius: 6px;
+  padding: 10px;
+  max-height: 120px;
+  overflow-y: auto;
+  line-height: 1.4;
+}
+
+
 
