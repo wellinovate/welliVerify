@@ -361,8 +361,84 @@ class WelliVerifyApiClient {
     }
     return null;
   }
+
+  // --- TIER 3: REGULATOR GEOSPATIAL RADAR & SEIZURE BROADCAST ---
+  async getGeoClusters() {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/regulator/geo-clusters`);
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] getGeoClusters fallback:', err);
+      }
+    }
+    return null;
+  }
+
+  async broadcastSeizureOrder(seizureData) {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/regulator/seizure-broadcast`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(seizureData),
+        });
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] broadcastSeizureOrder fallback:', err);
+      }
+    }
+    return null;
+  }
+
+  // --- TIER 3: CHW RAPID DIAGNOSTIC TEST (RDT) INTEGRATION ---
+  async getRdtTests() {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/field/rdt-tests`);
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] getRdtTests fallback:', err);
+      }
+    }
+    return null;
+  }
+
+  async recordRdtTest(testData) {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/field/rdt-tests`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(testData),
+        });
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] recordRdtTest fallback:', err);
+      }
+    }
+    return null;
+  }
+
+  // --- TIER 3: RURAL USSD / SMS FALLBACK GATEWAY ---
+  async queryUssd({ dialCode = '*384*24#', input = '', step = 1 }) {
+    if (this.isOnline) {
+      try {
+        const res = await fetch(`${this.baseUrl}/ussd/verify`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ dialCode, input, step }),
+        });
+        if (res.ok) return await res.json();
+      } catch (err) {
+        console.warn('[WelliVerify API] queryUssd fallback:', err);
+      }
+    }
+    return null;
+  }
 }
 
 // Global Singleton Export
 window.WelliVerifyAPI = new WelliVerifyApiClient();
+
 

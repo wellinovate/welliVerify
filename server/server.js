@@ -792,6 +792,56 @@ app.post('/api/v1/simulator/reset', (req, res) => {
   });
 });
 
+// ==========================================
+// 16. TIER 3: REGULATOR GEOSPATIAL RADAR & INCIDENTS
+// ==========================================
+app.get('/api/v1/regulator/geo-clusters', (req, res) => {
+  const data = db.getGeoClusters();
+  res.json({
+    success: true,
+    ...data,
+  });
+});
+
+app.post('/api/v1/regulator/seizure-broadcast', (req, res) => {
+  const result = db.broadcastSeizureOrder(req.body);
+  res.status(201).json({
+    success: true,
+    ...result,
+  });
+});
+
+// ==========================================
+// 17. TIER 3: CHW RAPID DIAGNOSTIC TEST (RDT) INTEGRATION
+// ==========================================
+app.get('/api/v1/field/rdt-tests', (req, res) => {
+  const data = db.getRdtTests();
+  res.json({
+    success: true,
+    ...data,
+  });
+});
+
+app.post('/api/v1/field/rdt-tests', (req, res) => {
+  const result = db.recordRdtTest(req.body);
+  res.status(201).json({
+    success: true,
+    ...result,
+  });
+});
+
+// ==========================================
+// 18. TIER 3: RURAL USSD / SMS FALLBACK GATEWAY
+// ==========================================
+app.post('/api/v1/ussd/verify', (req, res) => {
+  const { dialCode = '*384*24#', input = '', step = 1 } = req.body;
+  const result = db.verifyUssd({ dialCode, input, step });
+  res.json({
+    success: true,
+    dialCode,
+    ...result,
+  });
+});
 
 // Start listening
 app.listen(PORT, () => {

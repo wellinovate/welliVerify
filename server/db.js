@@ -598,6 +598,242 @@ export class WelliVerifyDB {
       history: [],
     };
 
+    // 12. TIER 3: REGULATORY GEOSPATIAL CLUSTERS & INCIDENT RADAR
+    this.geoClusters = [
+      {
+        id: 'CLUSTER-KAN-01',
+        city: 'Kano',
+        hub: 'Sabon Gari Open Drug Market & Fagge',
+        state: 'Kano State',
+        region: 'North-West',
+        lat: 12.0022,
+        lng: 8.5920,
+        totalScans: 892,
+        anomalyCount: 28,
+        riskTier: 'CRITICAL',
+        flaggedBatches: ['AL-77209', 'AMX-4412'],
+        primaryAnomaly: 'Duplicate cloned barcodes scanned simultaneously with Lagos (+840km)',
+        activeSeizuresCount: 1,
+        inspectionTeamsDeployed: 3,
+        lastIncidentAt: '2026-02-18T12:15:00.000Z',
+      },
+      {
+        id: 'CLUSTER-LOS-01',
+        city: 'Lagos',
+        hub: 'Idumota Drug Market & Alaba International',
+        state: 'Lagos State',
+        region: 'South-West',
+        lat: 6.5244,
+        lng: 3.3792,
+        totalScans: 3410,
+        anomalyCount: 19,
+        riskTier: 'HIGH',
+        flaggedBatches: ['AL-77209', 'CIP-9901'],
+        primaryAnomaly: 'Unregistered parallel import packaging detected at wholesale stalls',
+        activeSeizuresCount: 1,
+        inspectionTeamsDeployed: 4,
+        lastIncidentAt: '2026-02-18T11:40:00.000Z',
+      },
+      {
+        id: 'CLUSTER-ONI-01',
+        city: 'Onitsha',
+        hub: 'Head Bridge International Pharmaceutical Market',
+        state: 'Anambra State',
+        region: 'South-East',
+        lat: 6.1498,
+        lng: 6.7859,
+        totalScans: 1650,
+        anomalyCount: 34,
+        riskTier: 'CRITICAL',
+        flaggedBatches: ['OXY-1188', 'INS-771', 'AL-77209'],
+        primaryAnomaly: 'Falsified secondary cartons & broken cold-chain seal signatures',
+        activeSeizuresCount: 2,
+        inspectionTeamsDeployed: 2,
+        lastIncidentAt: '2026-02-18T09:20:00.000Z',
+      },
+      {
+        id: 'CLUSTER-KAD-01',
+        city: 'Kaduna',
+        hub: 'Central Market & Kakuri Industrial Zone',
+        state: 'Kaduna State',
+        region: 'North-West',
+        lat: 10.5105,
+        lng: 7.4165,
+        totalScans: 620,
+        anomalyCount: 11,
+        riskTier: 'HIGH',
+        flaggedBatches: ['AL-77209'],
+        primaryAnomaly: 'Re-labeled expired antimalarials intercepted en-route to Zaria',
+        activeSeizuresCount: 1,
+        inspectionTeamsDeployed: 2,
+        lastIncidentAt: '2026-02-17T16:05:00.000Z',
+      },
+      {
+        id: 'CLUSTER-ABA-01',
+        city: 'Aba',
+        hub: 'Ariaria International Market',
+        state: 'Abia State',
+        region: 'South-East',
+        lat: 5.1066,
+        lng: 7.3667,
+        totalScans: 740,
+        anomalyCount: 15,
+        riskTier: 'HIGH',
+        flaggedBatches: ['AMX-4412'],
+        primaryAnomaly: 'Missing tamper-evident overt hologram seals on antibiotics',
+        activeSeizuresCount: 0,
+        inspectionTeamsDeployed: 1,
+        lastIncidentAt: '2026-02-16T14:30:00.000Z',
+      },
+      {
+        id: 'CLUSTER-PHC-01',
+        city: 'Port Harcourt',
+        hub: 'Mile 1 Market & Trans-Amadi',
+        state: 'Rivers State',
+        region: 'South-South',
+        lat: 4.8156,
+        lng: 7.0498,
+        totalScans: 980,
+        anomalyCount: 6,
+        riskTier: 'MEDIUM',
+        flaggedBatches: ['CIP-9901'],
+        primaryAnomaly: 'Distributor serial mismatches flagged by hospital dispensary',
+        activeSeizuresCount: 0,
+        inspectionTeamsDeployed: 1,
+        lastIncidentAt: '2026-02-15T18:10:00.000Z',
+      },
+      {
+        id: 'CLUSTER-ABJ-01',
+        city: 'Abuja',
+        hub: 'Wuse II, Garki & Utako Commercial Districts',
+        state: 'FCT Abuja',
+        region: 'North-Central',
+        lat: 9.0765,
+        lng: 7.3986,
+        totalScans: 4890,
+        anomalyCount: 3,
+        riskTier: 'LOW',
+        flaggedBatches: [],
+        primaryAnomaly: 'Compliant serialized barcode verification rate: 99.4%',
+        activeSeizuresCount: 0,
+        inspectionTeamsDeployed: 2,
+        lastIncidentAt: '2026-02-18T13:00:00.000Z',
+      },
+    ];
+
+    // Real-time scan incident stream
+    this.scanIncidents = [
+      {
+        id: 'INC-2026-091',
+        timestamp: '2026-02-18T13:12:00.000Z',
+        type: 'DUPLICATE_SCAN_VELOCITY',
+        severity: 'CRITICAL',
+        batchId: 'AL-77209',
+        serial: 'WV-8F72-92AA',
+        productName: 'Artemether / Lumefantrine 80/480mg',
+        locationA: 'Idumota Market, Lagos (6.5244°N, 3.3792°E)',
+        locationB: 'Sabon Gari Market, Kano (12.0022°N, 8.5920°E)',
+        distanceKm: 842,
+        timeDeltaMin: 14,
+        description: 'Improbable geographic jump: Barcode scanned in Kano 14 minutes after scan in Lagos. Physical clone confirmed.',
+        status: 'SEIZURE_RECOMMENDED',
+      },
+      {
+        id: 'INC-2026-092',
+        timestamp: '2026-02-18T11:45:00.000Z',
+        type: 'COLD_CHAIN_SPOILAGE',
+        severity: 'HIGH',
+        batchId: 'OXY-1188',
+        serial: 'WV-9912-44BC',
+        productName: 'Oxytocin injection 10 IU/ml',
+        locationA: 'Onitsha Head Bridge Depot (6.1498°N, 6.7859°E)',
+        locationB: null,
+        distanceKm: 0,
+        timeDeltaMin: 0,
+        description: 'Transit thermal sensor exceeded critical 8°C ceiling for 43 continuous minutes. Loss of potency verified.',
+        status: 'QUARANTINED',
+      },
+      {
+        id: 'INC-2026-093',
+        timestamp: '2026-02-17T15:20:00.000Z',
+        type: 'UNREGISTERED_BATCH',
+        severity: 'CRITICAL',
+        batchId: 'CIP-9901',
+        serial: 'WV-3C10-77BE',
+        productName: 'Ciprofloxacin 500mg',
+        locationA: 'Mile 1 Market, Port Harcourt (4.8156°N, 7.0498°E)',
+        locationB: null,
+        distanceKm: 0,
+        timeDeltaMin: 0,
+        description: 'Batch number not registered in NAFDAC Central Pharma Database. Substandard active API formulation.',
+        status: 'UNDER_INVESTIGATION',
+      },
+    ];
+
+    // 13. TIER 3: CHW RAPID DIAGNOSTIC TEST (RDT) INTEGRATION
+    this.rdtTests = [
+      {
+        id: 'RDT-2026-101',
+        testNo: 'RDT-MAL-2026-101',
+        patientName: 'Fatima Aliyu',
+        patientAge: 28,
+        gender: 'Female',
+        location: 'Kano Rural Primary Health Centre, Dawakin Kudu',
+        chwName: 'Hadiza Umar (CHW-KN-402)',
+        testType: 'Malaria Rapid Diagnostic Test (Pf/Pv Antigen)',
+        result: 'POSITIVE_PF',
+        controlLineValid: true,
+        testLineIntensity: 'STRONG_POSITIVE (94% optical density)',
+        linkedBatchId: 'AL-240981',
+        linkedProductName: 'Artemether / Lumefantrine (Coartem) 80/480mg',
+        dispensedUnits: '1 pack (24 tabs)',
+        coVerificationStatus: 'CO_VERIFIED_GENUINE',
+        timestamp: '2026-02-18T10:30:00.000Z',
+        ledgerHash: 'd1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2',
+        notes: 'Positive test linked to genuine batch AL-240981 to prevent counterfeit antimalarial use.',
+      },
+      {
+        id: 'RDT-2026-102',
+        testNo: 'RDT-MAL-2026-102',
+        patientName: 'Emeka Nwosu',
+        patientAge: 34,
+        gender: 'Male',
+        location: 'Enugu Urban Community Health Post',
+        chwName: 'John Okafor (CHW-EN-119)',
+        testType: 'Malaria Rapid Diagnostic Test (Pf Antigen)',
+        result: 'NEGATIVE',
+        controlLineValid: true,
+        testLineIntensity: 'NEGATIVE (0% optical density)',
+        linkedBatchId: null,
+        linkedProductName: 'None (Supportive care/Paracetamol only)',
+        dispensedUnits: '0',
+        coVerificationStatus: 'NEGATIVE_NO_ANTIMALARIAL_REQUIRED',
+        timestamp: '2026-02-18T11:45:00.000Z',
+        ledgerHash: 'e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3',
+        notes: 'Negative RDT: Antimalarials withheld according to antimicrobial stewardship guidelines.',
+      },
+      {
+        id: 'RDT-2026-103',
+        testNo: 'RDT-MAL-2026-103',
+        patientName: 'Bala Mohammed',
+        patientAge: 7,
+        gender: 'Male',
+        location: 'Zaria Outreach Clinic, Kaduna',
+        chwName: 'Amina Sanusi (CHW-KD-088)',
+        testType: 'Malaria Rapid Diagnostic Test (Pf/Pv Antigen)',
+        result: 'POSITIVE_PF',
+        controlLineValid: true,
+        testLineIntensity: 'MODERATE_POSITIVE (68% optical density)',
+        linkedBatchId: 'AL-240981',
+        linkedProductName: 'Artemether / Lumefantrine 80/480mg Dispersible',
+        dispensedUnits: '1 pack (6 tabs)',
+        coVerificationStatus: 'CO_VERIFIED_GENUINE',
+        timestamp: '2026-02-17T14:15:00.000Z',
+        ledgerHash: 'f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4',
+        notes: 'Pediatric case. Dose verified and batch authenticity confirmed prior to administration.',
+      },
+    ];
+
     // Seed initial ledger events
     this.seedLedger();
   }
@@ -1108,6 +1344,337 @@ export class WelliVerifyDB {
       history: [],
     };
     return this.simulationJourney;
+  }
+
+  // --- TIER 3: REGULATOR SEIZURE BROADCAST & GEOSPATIAL RADAR ---
+  getGeoClusters() {
+    const totalAnomalies = this.geoClusters.reduce((sum, c) => sum + c.anomalyCount, 0);
+    const criticalZonesCount = this.geoClusters.filter(c => c.riskTier === 'CRITICAL').length;
+    const totalScans = this.geoClusters.reduce((sum, c) => sum + c.totalScans, 0);
+
+    return {
+      metrics: {
+        totalClusters: this.geoClusters.length,
+        criticalZonesCount,
+        totalAnomalies,
+        totalScans,
+        activeSeizuresTotal: this.recalls.filter(r => r.status && r.status.includes('SEIZURE')).length,
+      },
+      clusters: this.geoClusters,
+      incidents: this.scanIncidents,
+    };
+  }
+
+  broadcastSeizureOrder({
+    batchId = 'AL-77209',
+    reason = 'Confirmed Counterfeit / Falsified Active Pharmaceutical Ingredient (Zero Lumefantrine detected in HPLC Assay)',
+    gazetteRef = 'FED-GAZ-2026-NAFDAC-0881',
+    regulatoryOfficer = 'Director General / Head of Enforcement Directorate',
+    enforcementZone = 'NATIONWIDE (All 36 States & FCT Abuja)',
+  }) {
+    // 1. Find and freeze matching batches
+    const matchingBatches = this.batches.filter(b => b.batchId.toUpperCase() === batchId.trim().toUpperCase());
+    let productName = 'Pharmaceutical Formulation';
+    let lockedUnits = 0;
+
+    matchingBatches.forEach(b => {
+      b.status = 'SEIZED_RECALLED';
+      b.isRecalled = true;
+      b.quarantined = true;
+      b.anomalyNote = `NATIONAL SEIZURE ORDER #${gazetteRef}: ${reason}`;
+      productName = b.productName;
+      lockedUnits += (b.initialUnits || 10000);
+    });
+
+    if (matchingBatches.length === 0) {
+      // If batch not explicitly present, create a placeholder seized record
+      this.batches.unshift({
+        batchId,
+        productId: 'PROD-UNKNOWN',
+        productName: 'Suspicious / Falsified Formulation',
+        mfgDate: '2025-01-01',
+        expDate: '2026-12-31',
+        initialUnits: 15000,
+        remainingUnits: 15000,
+        status: 'SEIZED_RECALLED',
+        anomalyNote: `NATIONAL SEIZURE ORDER #${gazetteRef}: ${reason}`,
+        isRecalled: true,
+        quarantined: true,
+      });
+      lockedUnits = 15000;
+    }
+
+    // 2. Add to Recalls & Active Network Alerts
+    const recallRecord = {
+      id: `SEIZE-${Date.now()}`,
+      title: `CRITICAL SEIZURE MANDATE: ${productName} (Lot ${batchId})`,
+      batch: batchId,
+      severity: 'CRITICAL',
+      status: 'NATIONAL_SEIZURE_ACTIVE',
+      action: `IMMEDIATE CONFISCATION & CRIMINAL IMPOUNDMENT. Mandate #${gazetteRef}. All facilities lock stocks immediately.`,
+      affectedZones: ['Lagos', 'Kano', 'Kaduna', 'Onitsha', 'Aba', 'Port Harcourt', 'Abuja'],
+      issuedAt: new Date().toISOString(),
+      officer: regulatoryOfficer,
+      gazetteRef,
+    };
+    this.recalls.unshift(recallRecord);
+
+    // 3. Freeze & Refund any active Escrows with this batch
+    const frozenEscrows = [];
+    this.escrows.forEach(e => {
+      if (e.batchId.toUpperCase() === batchId.trim().toUpperCase() && e.status !== 'RELEASED') {
+        e.status = 'REFUNDED_CONTAMINATED';
+        e.refundReason = `Federal Seizure Order #${gazetteRef}: Immediate Escrow Reversal`;
+        frozenEscrows.push(e.contractNo);
+      }
+    });
+
+    // 4. Update Cluster Active Seizures
+    this.geoClusters.forEach(c => {
+      if (c.flaggedBatches.includes(batchId)) {
+        c.activeSeizuresCount += 1;
+      }
+    });
+
+    // 5. Anchor National Seizure Broadcast on Sovereign Ledger
+    const block = ledger.recordEvent({
+      eventType: 'NATIONAL_SEIZURE_BROADCAST',
+      who: `${regulatoryOfficer} (NAFDAC Enforcement Command)`,
+      what: `National Seizure & Quarantine Order: Batch ${batchId} (${productName})`,
+      where: `NAFDAC Headquarters, Abuja & Enforcement Command (${enforcementZone})`,
+      when: new Date().toISOString(),
+      fromWhom: 'Federal Republic of Nigeria · NAFDAC Central Directorate',
+      toWhom: 'All Registered Community Pharmacies, Hospital Dispensaries & Licensed Importers',
+      why: reason,
+      status: 'SEIZURE_MANDATE_ENFORCED',
+      metadata: {
+        batchId,
+        productName,
+        gazetteRef,
+        enforcementZone,
+        frozenEscrows,
+        lockedUnits,
+        timestamp: new Date().toISOString(),
+      }
+    });
+
+    return {
+      success: true,
+      batchId,
+      productName,
+      gazetteRef,
+      regulatoryOfficer,
+      enforcementZone,
+      lockedUnits,
+      frozenEscrowsCount: frozenEscrows.length,
+      frozenEscrows,
+      ledgerHash: block.hash,
+      issuedAt: new Date().toISOString(),
+      block,
+      message: `National Seizure Mandate #${gazetteRef} broadcasted across 1,420 connected facilities and anchored to Block #${block.index}.`,
+    };
+  }
+
+  // --- TIER 3: CHW RAPID DIAGNOSTIC TEST (RDT) INTEGRATION ---
+  getRdtTests() {
+    const positiveCount = this.rdtTests.filter(t => t.result.includes('POSITIVE')).length;
+    const negativeCount = this.rdtTests.filter(t => t.result === 'NEGATIVE').length;
+    const coVerifiedCount = this.rdtTests.filter(t => t.coVerificationStatus === 'CO_VERIFIED_GENUINE').length;
+
+    return {
+      metrics: {
+        totalTests: this.rdtTests.length,
+        positiveCount,
+        negativeCount,
+        coVerifiedCount,
+        diagnosticAccuracyRate: '99.2%',
+      },
+      tests: this.rdtTests,
+    };
+  }
+
+  recordRdtTest({
+    patientName = 'Anonymous Patient',
+    patientAge = 25,
+    gender = 'Female',
+    location = 'Kano Rural Primary Health Centre',
+    chwName = 'Hadiza Umar (CHW-KN-402)',
+    testType = 'Malaria Rapid Diagnostic Test (Pf/Pv Antigen)',
+    result = 'POSITIVE_PF',
+    controlLineValid = true,
+    testLineIntensity = 'STRONG_POSITIVE (94%)',
+    linkedBatchId = 'AL-240981',
+    dispensedUnits = '1 pack (24 tabs)',
+  }) {
+    const testId = `RDT-${Math.floor(1000 + Math.random() * 9000)}`;
+    const testNo = `RDT-MAL-2026-${testId.split('-')[1]}`;
+
+    // Verify linked medication authenticity if provided
+    let coVerificationStatus = 'NO_MEDICATION_LINKED';
+    let linkedProductName = 'None';
+
+    if (linkedBatchId) {
+      const match = this.findProductByCode(linkedBatchId);
+      if (match && match.batch && !match.batch.isRecalled) {
+        coVerificationStatus = 'CO_VERIFIED_GENUINE';
+        linkedProductName = match.product ? match.product.brandName : match.batch.productName;
+      } else if (match && match.batch && match.batch.isRecalled) {
+        coVerificationStatus = 'RECALLED_MEDICATION_BLOCKED';
+        linkedProductName = `${match.product ? match.product.brandName : match.batch.productName} [SEIZED/RECALLED]`;
+      } else {
+        coVerificationStatus = 'UNVERIFIED_BATCH';
+        linkedProductName = 'Unknown Batch';
+      }
+    } else if (result === 'NEGATIVE') {
+      coVerificationStatus = 'NEGATIVE_NO_ANTIMALARIAL_REQUIRED';
+    }
+
+    const newTest = {
+      id: testId,
+      testNo,
+      patientName,
+      patientAge: Number(patientAge),
+      gender,
+      location,
+      chwName,
+      testType,
+      result,
+      controlLineValid: Boolean(controlLineValid),
+      testLineIntensity,
+      linkedBatchId: linkedBatchId || null,
+      linkedProductName,
+      dispensedUnits,
+      coVerificationStatus,
+      timestamp: new Date().toISOString(),
+      ledgerHash: null,
+      notes: result.includes('POSITIVE') 
+        ? `Positive Pf antigen detected. Co-dispensed verified authentic ${linkedProductName} (Batch ${linkedBatchId}).`
+        : 'Negative malaria RDT. Patient referred for non-malarial febrile illness assessment.',
+    };
+
+    // Ledger anchor
+    const block = ledger.recordEvent({
+      eventType: 'CHW_RDT_CO_VERIFICATION',
+      who: `${chwName} (${location})`,
+      what: `RDT Diagnostic (${result}): ${patientName} (Age ${patientAge}) -> Co-Verification: ${coVerificationStatus}`,
+      where: location,
+      when: new Date().toISOString(),
+      fromWhom: 'Community Health Worker Diagnostic Cassette Reader',
+      toWhom: 'NAFDAC & National Malaria Elimination Registry',
+      why: 'Point-of-Care Diagnostic Provenance & Antimicrobial Stewardship',
+      status: result.includes('POSITIVE') ? 'RDT_POSITIVE_AUTHENTICATED' : 'RDT_NEGATIVE_LOGGED',
+      metadata: {
+        testNo,
+        patientName,
+        result,
+        linkedBatchId,
+        coVerificationStatus,
+      }
+    });
+
+    newTest.ledgerHash = block.hash;
+    this.rdtTests.unshift(newTest);
+
+    return {
+      success: true,
+      test: newTest,
+      ledgerHash: block.hash,
+      message: `RDT Test #${testNo} verified. Result: ${result}. Diagnostic & medication handshake anchored on Ledger.`,
+    };
+  }
+
+  // --- TIER 3: RURAL USSD / SMS FALLBACK GATEWAY ---
+  verifyUssd({ dialCode = '*384*24#', input = '', step = 1 }) {
+    const clean = (input || '').trim().toUpperCase();
+
+    // Direct batch inquiry e.g. *384*24*AL-240981#
+    if (dialCode.includes('*') && dialCode.split('*').length >= 4) {
+      const parts = dialCode.replace(/#/g, '').split('*');
+      const directCode = parts[parts.length - 1];
+      return this.formatUssdResult(directCode);
+    }
+
+    if (!clean) {
+      return {
+        sessionActive: true,
+        screen: 'MENU',
+        text: 'WelliVerify National NAFDAC Trust Gateway:\n1. Verify Drug PIN/Batch\n2. Report Counterfeit / Reaction\n3. Active National Recalls\n4. Emergency Whistleblower',
+        prompt: 'Enter choice (1-4):',
+      };
+    }
+
+    if (clean === '1') {
+      return {
+        sessionActive: true,
+        screen: 'PROMPT_CODE',
+        text: 'Enter the 6 to 12 character Batch No, PIN, or Serial from your medication pack (e.g. AL-240981 or AL-77209):',
+        prompt: 'Code:',
+      };
+    }
+
+    if (clean === '2') {
+      return {
+        sessionActive: false,
+        screen: 'REPORT_ACK',
+        text: '🚨 NAFDAC Enforcement Alert logged. Field inspection task dispatched. Send SMS with pharmacy address to 0800-1-NAFDAC. Free toll call.',
+        prompt: null,
+      };
+    }
+
+    if (clean === '3') {
+      const recalled = this.recalls.slice(0, 2).map(r => `• ${r.batch}: ${r.title}`).join('\n');
+      return {
+        sessionActive: false,
+        screen: 'RECALL_LIST',
+        text: `⚠️ ACTIVE NATIONAL RECALLS:\n${recalled}\nDo not consume flagged lots. Dial *384*24# to check codes.`,
+        prompt: null,
+      };
+    }
+
+    if (clean === '4') {
+      return {
+        sessionActive: false,
+        screen: 'HOTLINE',
+        text: '📞 NAFDAC Whistleblower Toll-Free: 0800-1-NAFDAC (0800-162-3322). Lines open 24/7. Cash bounty for verified counterfeit factory tips.',
+        prompt: null,
+      };
+    }
+
+    // Assume user entered a code to verify
+    return this.formatUssdResult(clean);
+  }
+
+  formatUssdResult(code) {
+    const found = this.findProductByCode(code);
+
+    if (!found || !found.product) {
+      return {
+        sessionActive: false,
+        screen: 'RESULT_NOT_FOUND',
+        verdict: 'UNRECOGNIZED',
+        text: `⚠️ UNRECOGNIZED CODE: "${code}"\nThis batch is NOT registered with NAFDAC. High risk of counterfeit or unregistered parallel import.\nDO NOT CONSUME.\nSMS pharmacy name to 0800-1-NAFDAC.`,
+        prompt: null,
+      };
+    }
+
+    const { product, batch } = found;
+    if (batch && batch.isRecalled) {
+      return {
+        sessionActive: false,
+        screen: 'RESULT_SEIZED',
+        verdict: 'SEIZED_RECALLED',
+        text: `🚨 CRITICAL WARNING! DO NOT USE!\n${product.brandName} (Lot ${batch.batchId}) is a CONFIRMED SEIZED / RECALLED BATCH.\nReason: ${batch.anomalyNote || 'Counterfeit formulation'}.\nReturn immediately to dispensary.`,
+        prompt: null,
+      };
+    }
+
+    return {
+      sessionActive: false,
+      screen: 'RESULT_GENUINE',
+      verdict: 'GENUINE_VERIFIED',
+      text: `✅ NAFDAC VERIFIED GENUINE!\nProduct: ${product.brandName} (${product.name})\nBatch: ${batch ? batch.batchId : code}\nExpiry: ${batch ? batch.expDate : 'VALID'}\nManufacturer: ${product.manufacturer}\nNAFDAC Reg: ${product.nafdacRegNo}\nStatus: SAFE TO USE.`,
+      prompt: null,
+    };
   }
 }
 

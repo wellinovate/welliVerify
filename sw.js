@@ -3,7 +3,7 @@
  * Enables reliable offline execution across Nigerian clinical & rural field sites.
  */
 
-const CACHE_NAME = 'welliverify-pwa-v1';
+const CACHE_NAME = 'welliverify-pwa-v3';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

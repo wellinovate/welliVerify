@@ -423,6 +423,255 @@
       }
     ],
 
+    // Tier 3: Regulatory Geospatial Hotspots & Incidents
+    geoClusters: [
+      {
+        id: 'CLUSTER-KAN-01',
+        city: 'Kano',
+        hub: 'Sabon Gari Open Drug Market & Fagge',
+        state: 'Kano State',
+        region: 'North-West',
+        lat: 12.0022,
+        lng: 8.5920,
+        mapTop: 22,
+        mapLeft: 62,
+        totalScans: 892,
+        anomalyCount: 28,
+        riskTier: 'CRITICAL',
+        flaggedBatches: ['AL-77209', 'AMX-4412'],
+        primaryAnomaly: 'Duplicate cloned barcodes scanned simultaneously with Lagos (+840km)',
+        activeSeizuresCount: 1,
+        inspectionTeamsDeployed: 3,
+        lastIncidentAt: '12:15 today',
+      },
+      {
+        id: 'CLUSTER-LOS-01',
+        city: 'Lagos',
+        hub: 'Idumota Drug Market & Alaba International',
+        state: 'Lagos State',
+        region: 'South-West',
+        lat: 6.5244,
+        lng: 3.3792,
+        mapTop: 76,
+        mapLeft: 18,
+        totalScans: 3410,
+        anomalyCount: 19,
+        riskTier: 'HIGH',
+        flaggedBatches: ['AL-77209', 'CIP-9901'],
+        primaryAnomaly: 'Unregistered parallel import packaging detected at wholesale stalls',
+        activeSeizuresCount: 1,
+        inspectionTeamsDeployed: 4,
+        lastIncidentAt: '11:40 today',
+      },
+      {
+        id: 'CLUSTER-ONI-01',
+        city: 'Onitsha',
+        hub: 'Head Bridge International Pharmaceutical Market',
+        state: 'Anambra State',
+        region: 'South-East',
+        lat: 6.1498,
+        lng: 6.7859,
+        mapTop: 78,
+        mapLeft: 45,
+        totalScans: 1650,
+        anomalyCount: 34,
+        riskTier: 'CRITICAL',
+        flaggedBatches: ['OXY-1188', 'INS-771', 'AL-77209'],
+        primaryAnomaly: 'Falsified secondary cartons & broken cold-chain seal signatures',
+        activeSeizuresCount: 2,
+        inspectionTeamsDeployed: 2,
+        lastIncidentAt: '09:20 today',
+      },
+      {
+        id: 'CLUSTER-KAD-01',
+        city: 'Kaduna',
+        hub: 'Central Market & Kakuri Industrial Zone',
+        state: 'Kaduna State',
+        region: 'North-West',
+        lat: 10.5105,
+        lng: 7.4165,
+        mapTop: 38,
+        mapLeft: 52,
+        totalScans: 620,
+        anomalyCount: 11,
+        riskTier: 'HIGH',
+        flaggedBatches: ['AL-77209'],
+        primaryAnomaly: 'Re-labeled expired antimalarials intercepted en-route to Zaria',
+        activeSeizuresCount: 1,
+        inspectionTeamsDeployed: 2,
+        lastIncidentAt: '16:05 yesterday',
+      },
+      {
+        id: 'CLUSTER-ABA-01',
+        city: 'Aba',
+        hub: 'Ariaria International Market',
+        state: 'Abia State',
+        region: 'South-East',
+        lat: 5.1066,
+        lng: 7.3667,
+        mapTop: 88,
+        mapLeft: 52,
+        totalScans: 740,
+        anomalyCount: 15,
+        riskTier: 'HIGH',
+        flaggedBatches: ['AMX-4412'],
+        primaryAnomaly: 'Missing tamper-evident overt hologram seals on antibiotics',
+        activeSeizuresCount: 0,
+        inspectionTeamsDeployed: 1,
+        lastIncidentAt: '14:30 16 Feb',
+      },
+      {
+        id: 'CLUSTER-PHC-01',
+        city: 'Port Harcourt',
+        hub: 'Mile 1 Market & Trans-Amadi',
+        state: 'Rivers State',
+        region: 'South-South',
+        lat: 4.8156,
+        lng: 7.0498,
+        mapTop: 90,
+        mapLeft: 48,
+        totalScans: 980,
+        anomalyCount: 6,
+        riskTier: 'MEDIUM',
+        flaggedBatches: ['CIP-9901'],
+        primaryAnomaly: 'Distributor serial mismatches flagged by hospital dispensary',
+        activeSeizuresCount: 0,
+        inspectionTeamsDeployed: 1,
+        lastIncidentAt: '18:10 15 Feb',
+      },
+      {
+        id: 'CLUSTER-ABJ-01',
+        city: 'Abuja',
+        hub: 'Wuse II, Garki & Utako Commercial Districts',
+        state: 'FCT Abuja',
+        region: 'North-Central',
+        lat: 9.0765,
+        lng: 7.3986,
+        mapTop: 48,
+        mapLeft: 51,
+        totalScans: 4890,
+        anomalyCount: 3,
+        riskTier: 'LOW',
+        flaggedBatches: [],
+        primaryAnomaly: 'Compliant serialized barcode verification rate: 99.4%',
+        activeSeizuresCount: 0,
+        inspectionTeamsDeployed: 2,
+        lastIncidentAt: '13:00 today',
+      },
+    ],
+
+    scanIncidents: [
+      {
+        id: 'INC-2026-091',
+        time: '13:12 today',
+        type: 'DUPLICATE_SCAN_VELOCITY',
+        severity: 'CRITICAL',
+        batchId: 'AL-77209',
+        serial: 'WV-8F72-92AA',
+        productName: 'Artemether / Lumefantrine 80/480mg',
+        locationA: 'Idumota Market, Lagos',
+        locationB: 'Sabon Gari Market, Kano',
+        distanceKm: 842,
+        timeDeltaMin: 14,
+        description: 'Improbable velocity jump: Barcode scanned in Kano 14 minutes after scan in Lagos. Physical clone confirmed.',
+        status: 'SEIZURE_RECOMMENDED',
+      },
+      {
+        id: 'INC-2026-092',
+        time: '11:45 today',
+        type: 'COLD_CHAIN_SPOILAGE',
+        severity: 'HIGH',
+        batchId: 'OXY-1188',
+        serial: 'WV-9912-44BC',
+        productName: 'Oxytocin injection 10 IU/ml',
+        locationA: 'Onitsha Head Bridge Depot',
+        locationB: null,
+        distanceKm: 0,
+        timeDeltaMin: 0,
+        description: 'Transit thermal sensor exceeded critical 8°C ceiling for 43 continuous minutes. Loss of potency verified.',
+        status: 'QUARANTINED',
+      },
+      {
+        id: 'INC-2026-093',
+        time: '15:20 yesterday',
+        type: 'UNREGISTERED_BATCH',
+        severity: 'CRITICAL',
+        batchId: 'CIP-9901',
+        serial: 'WV-3C10-77BE',
+        productName: 'Ciprofloxacin 500mg',
+        locationA: 'Mile 1 Market, Port Harcourt',
+        locationB: null,
+        distanceKm: 0,
+        timeDeltaMin: 0,
+        description: 'Batch number not registered in NAFDAC Central Pharma Database. Substandard active API formulation.',
+        status: 'UNDER_INVESTIGATION',
+      },
+    ],
+
+    // Tier 3: CHW Rapid Diagnostic Tests
+    rdtTests: [
+      {
+        id: 'RDT-2026-101',
+        testNo: 'RDT-MAL-2026-101',
+        patientName: 'Fatima Aliyu',
+        patientAge: 28,
+        gender: 'Female',
+        location: 'Kano Rural Primary Health Centre, Dawakin Kudu',
+        chwName: 'Hadiza Umar (CHW-KN-402)',
+        testType: 'Malaria Rapid Diagnostic Test (Pf/Pv Antigen)',
+        result: 'POSITIVE_PF',
+        controlLineValid: true,
+        testLineIntensity: 'STRONG_POSITIVE (94% optical density)',
+        linkedBatchId: 'AL-240981',
+        linkedProductName: 'Artemether / Lumefantrine (Coartem) 80/480mg',
+        dispensedUnits: '1 pack (24 tabs)',
+        coVerificationStatus: 'CO_VERIFIED_GENUINE',
+        timestamp: '18 Feb 2026 10:30',
+        ledgerHash: '0xd1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0',
+        notes: 'Positive test linked to genuine batch AL-240981 to prevent counterfeit antimalarial use.',
+      },
+      {
+        id: 'RDT-2026-102',
+        testNo: 'RDT-MAL-2026-102',
+        patientName: 'Emeka Nwosu',
+        patientAge: 34,
+        gender: 'Male',
+        location: 'Enugu Urban Community Health Post',
+        chwName: 'John Okafor (CHW-EN-119)',
+        testType: 'Malaria Rapid Diagnostic Test (Pf Antigen)',
+        result: 'NEGATIVE',
+        controlLineValid: true,
+        testLineIntensity: 'NEGATIVE (0% optical density)',
+        linkedBatchId: null,
+        linkedProductName: 'None (Supportive care/Paracetamol only)',
+        dispensedUnits: '0',
+        coVerificationStatus: 'NEGATIVE_NO_ANTIMALARIAL_REQUIRED',
+        timestamp: '18 Feb 2026 11:45',
+        ledgerHash: '0xe2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1',
+        notes: 'Negative RDT: Antimalarials withheld according to antimicrobial stewardship guidelines.',
+      },
+      {
+        id: 'RDT-2026-103',
+        testNo: 'RDT-MAL-2026-103',
+        patientName: 'Bala Mohammed',
+        patientAge: 7,
+        gender: 'Male',
+        location: 'Zaria Outreach Clinic, Kaduna',
+        chwName: 'Amina Sanusi (CHW-KD-088)',
+        testType: 'Malaria Rapid Diagnostic Test (Pf/Pv Antigen)',
+        result: 'POSITIVE_PF',
+        controlLineValid: true,
+        testLineIntensity: 'MODERATE_POSITIVE (68% optical density)',
+        linkedBatchId: 'AL-240981',
+        linkedProductName: 'Artemether / Lumefantrine 80/480mg Dispersible',
+        dispensedUnits: '1 pack (6 tabs)',
+        coVerificationStatus: 'CO_VERIFIED_GENUINE',
+        timestamp: '17 Feb 2026 14:15',
+        ledgerHash: '0xf3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2',
+        notes: 'Pediatric case. Dose verified and batch authenticity confirmed prior to administration.',
+      },
+    ],
+
     sampleBarcodes: [
       {
         code: 'AL-240981',
@@ -668,13 +917,17 @@
     escrow: 'WelliPay Escrow & Settlement',
     serialization: 'GS1 Serialization Studio',
     simulator: 'Supply Chain Journey Simulator',
+    // Tier 3
+    radar: 'Geospatial Radar & Seizure Broadcast',
+    rdt: 'CHW Rapid Diagnostic Test (RDT) Reader',
+    thermal: 'POS Thermal Receipt Voucher',
   };
 
   const TOP_LEVEL_BY_ROLE = {
-    pharmacist: ['home', 'scan', 'inventory', 'fefo', 'nearby', 'recall', 'forecast', 'escrow', 'simulator'],
-    patient: ['home', 'verify', 'availability', 'prescriptions', 'reminders', 'escrow'],
+    pharmacist: ['home', 'scan', 'inventory', 'fefo', 'nearby', 'recall', 'forecast', 'escrow', 'simulator', 'rdt'],
+    patient: ['home', 'verify', 'availability', 'prescriptions', 'reminders', 'escrow', 'rdt'],
     distributor: ['home', 'shipments', 'recall', 'alerts', 'price', 'trust', 'coldchain', 'report', 'marketplace', 'assistant', 'escrow', 'serialization', 'simulator'],
-    regulator: ['home', 'recall', 'alerts', 'verification', 'investigation', 'price', 'map', 'inbox', 'forecast', 'assistant', 'serialization', 'simulator'],
+    regulator: ['home', 'radar', 'recall', 'alerts', 'verification', 'investigation', 'price', 'map', 'inbox', 'forecast', 'assistant', 'serialization', 'simulator'],
     lab: ['home', 'assay', 'coas', 'consumables', 'simulator'],
   };
 
@@ -746,6 +999,30 @@
         simAnomaly: false,
         simAnomalyType: 'temp_spike', // 'temp_spike' | 'counterfeit_clone'
         simHistory: [],
+        // Tier 3: Regulatory & Field Hardware Integration
+        selectedRadarCluster: 'CLUSTER-KAN-01',
+        seizureModalOpen: false,
+        seizureBroadcastActive: false,
+        activeSeizureOrder: null,
+        rdtResult: 'POSITIVE_PF',
+        rdtControlLine: true,
+        rdtIntensity: 94,
+        rdtLinkedBatch: 'AL-240981',
+        rdtSubmitted: false,
+        rdtPatientName: 'Fatima Aliyu',
+        rdtPatientAge: 28,
+        rdtGender: 'Female',
+        rdtCHWName: 'Hadiza Umar (CHW-KN-402)',
+        rdtLocation: 'Kano Rural Primary Health Centre',
+        ussdModalOpen: false,
+        ussdDialInput: '*384*24#',
+        ussdDisplayLines: 'WelliVerify National NAFDAC Trust Gateway:\n1. Verify Drug PIN/Batch\n2. Report Counterfeit / Reaction\n3. Active National Recalls\n4. Emergency Whistleblower',
+        ussdPromptText: 'Enter choice (1-4):',
+        ussdSessionActive: true,
+        hardwareScannerReady: true,
+        lastHardwareScannedCode: null,
+        thermalReceiptModalOpen: false,
+        thermalReceiptData: null,
       };
 
       this.initDom();
@@ -1946,8 +2223,108 @@
           case 'sim-reset':
             this.resetSim();
             break;
+
+          // Tier 3: Regulatory Radar & Seizure Broadcast Actions
+          case 'select-radar-cluster':
+            this.state.selectedRadarCluster = targetBtn.dataset.cluster;
+            this.render();
+            break;
+          case 'toggle-seizure-modal':
+            this.state.seizureModalOpen = !this.state.seizureModalOpen;
+            this.render();
+            break;
+          case 'open-seizure-modal':
+            this.state.seizureModalOpen = true;
+            this.render();
+            break;
+          case 'close-seizure-modal':
+            this.state.seizureModalOpen = false;
+            this.render();
+            break;
+          case 'submit-seizure-broadcast':
+            this.submitSeizureBroadcast();
+            break;
+
+          // Tier 3: CHW Rapid Diagnostic Test (RDT) Actions
+          case 'set-rdt-result':
+            this.state.rdtResult = targetBtn.dataset.result;
+            this.render();
+            break;
+          case 'submit-rdt-test':
+            this.submitRdtTest();
+            break;
+
+          // Tier 3: Rural USSD Simulator Actions
+          case 'toggle-ussd-modal':
+            this.state.ussdModalOpen = !this.state.ussdModalOpen;
+            this.render();
+            break;
+          case 'close-ussd-modal':
+            this.state.ussdModalOpen = false;
+            this.render();
+            break;
+          case 'ussd-key-press':
+            this.handleUssdKey(targetBtn.dataset.key);
+            break;
+          case 'ussd-quick-code':
+            this.state.ussdDialInput = targetBtn.dataset.code;
+            this.handleUssdSend();
+            break;
+          case 'ussd-send':
+            this.handleUssdSend();
+            break;
+          case 'ussd-clear':
+            this.handleUssdClear();
+            break;
+
+          // Tier 3: POS Thermal Receipt Actions
+          case 'open-thermal-receipt':
+            this.openThermalReceipt(targetBtn.dataset.batch, targetBtn.dataset.prod);
+            break;
+          case 'close-thermal-receipt':
+            this.state.thermalReceiptModalOpen = false;
+            this.render();
+            break;
+          case 'print-thermal-receipt':
+            this.showToast('🖨️ Printing ESC/POS 58mm Thermal Voucher...');
+            window.print();
+            break;
+          case 'test-hardware-scanner':
+            this.handleHardwareScan(this.state.selectedSampleCode || 'AL-240981');
+            break;
+
           default:
             break;
+        }
+      });
+
+      // Hardware Handheld Barcode Scanner Wedge Listener
+      let wedgeBuffer = '';
+      let lastKeyTime = Date.now();
+
+      window.addEventListener('keydown', (e) => {
+        const now = Date.now();
+        const delta = now - lastKeyTime;
+        lastKeyTime = now;
+
+        if (e.key === 'Enter') {
+          if (wedgeBuffer.length >= 4 && delta < 140) {
+            const scannedCode = wedgeBuffer.trim();
+            wedgeBuffer = '';
+            this.handleHardwareScan(scannedCode);
+            e.preventDefault();
+            return;
+          }
+          wedgeBuffer = '';
+          return;
+        }
+
+        if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+          if (delta > 120) {
+            wedgeBuffer = e.key;
+          } else {
+            wedgeBuffer += e.key;
+          }
         }
       });
 
@@ -1959,8 +2336,181 @@
         } else if (e.target.id === 'nearby-search-input') {
           this.state.nearbySearch = e.target.value.toLowerCase();
           this.renderNearbyList();
+        } else if (e.target.id === 'rdt-intensity-slider') {
+          this.state.rdtIntensity = Number(e.target.value);
+          const valDisplay = e.target.previousElementSibling?.querySelector('strong');
+          if (valDisplay) valDisplay.textContent = `${this.state.rdtIntensity}%`;
+          const testBand = document.querySelector('.rdt-band.test-positive, .rdt-band.test-negative');
+          if (testBand) testBand.style.opacity = this.state.rdtIntensity / 100;
         }
       });
+    }
+
+    // --- Tier 3 Helper Methods ---
+    async submitSeizureBroadcast() {
+      const batchInput = document.getElementById('seizure-batch-input');
+      const gazetteInput = document.getElementById('seizure-gazette-input');
+      const reasonInput = document.getElementById('seizure-reason-input');
+      const zoneInput = document.getElementById('seizure-zone-input');
+
+      const batchId = batchInput ? batchInput.value.trim().toUpperCase() : 'AL-77209';
+      const gazetteRef = gazetteInput ? gazetteInput.value.trim() : 'FED-GAZ-2026-NAFDAC-0881';
+      const reason = reasonInput ? reasonInput.value.trim() : 'Confirmed Counterfeit / Zero API detected in HPLC';
+      const enforcementZone = zoneInput ? zoneInput.value : 'NATIONWIDE';
+
+      const seizureData = {
+        batchId,
+        gazetteRef,
+        reason,
+        enforcementZone,
+        regulatoryOfficer: 'Amina Yusuf (NAFDAC REG-1042)',
+      };
+
+      let apiRes = null;
+      if (window.WelliVerifyAPI) {
+        apiRes = await window.WelliVerifyAPI.broadcastSeizureOrder(seizureData);
+      }
+
+      this.state.seizureBroadcastActive = true;
+      this.state.activeSeizureOrder = {
+        batchId,
+        gazetteRef,
+        reason,
+        enforcementZone,
+        ledgerHash: apiRes ? apiRes.ledgerHash : '0x99281a772cdef10988123456789abcdef0123456789abcdef0123456789abcdef',
+      };
+      this.state.seizureModalOpen = false;
+
+      // Update local batches and recalls
+      const bMatch = this.data.sampleBarcodes.find(b => b.code === batchId);
+      if (bMatch) {
+        bMatch.type = 'SEIZED & CONFISCATED';
+        bMatch.tagClass = 'tag-accent-2';
+      }
+      this.data.recalls.unshift({
+        title: `NATIONAL SEIZURE ORDER: ${batchId}`,
+        batch: batchId,
+        severity: 'CRITICAL',
+        status: 'CONFISCATION_ACTIVE',
+        action: `Mandate #${gazetteRef}. Confiscation across all 36 States.`,
+      });
+
+      this.showToast(`🚨 Seizure Order #${gazetteRef} Broadcasted to 1,420 Pharmacies!`);
+      this.render();
+    }
+
+    async submitRdtTest() {
+      const pName = document.getElementById('rdt-patient-name')?.value || this.state.rdtPatientName;
+      const pAge = document.getElementById('rdt-patient-age')?.value || this.state.rdtPatientAge;
+      const pLoc = document.getElementById('rdt-location')?.value || this.state.rdtLocation;
+      const pChw = document.getElementById('rdt-chw')?.value || this.state.rdtCHWName;
+      const pBatch = document.getElementById('rdt-batch')?.value || this.state.rdtLinkedBatch;
+
+      const testPayload = {
+        patientName: pName,
+        patientAge: parseInt(pAge, 10) || 28,
+        gender: this.state.rdtGender,
+        location: pLoc,
+        chwName: pChw,
+        testType: 'Malaria Rapid Diagnostic Test (Pf/Pv Antigen)',
+        result: this.state.rdtResult,
+        controlLineValid: this.state.rdtControlLine,
+        testLineIntensity: `${this.state.rdtIntensity}% optical density`,
+        linkedBatchId: pBatch,
+      };
+
+      let apiRes = null;
+      if (window.WelliVerifyAPI) {
+        apiRes = await window.WelliVerifyAPI.recordRdtTest(testPayload);
+      }
+
+      const newRecord = {
+        id: `RDT-${Date.now()}`,
+        testNo: `RDT-MAL-2026-${Math.floor(100 + Math.random()*900)}`,
+        patientName: pName,
+        patientAge: parseInt(pAge, 10) || 28,
+        gender: this.state.rdtGender,
+        location: pLoc,
+        result: this.state.rdtResult,
+        notes: this.state.rdtResult.includes('POSITIVE')
+          ? `Positive Pf test linked to verified authentic medication lot ${pBatch}.`
+          : 'Negative test. Antimalarials safely withheld per stewardship rules.',
+        timestamp: 'Just now',
+        ledgerHash: apiRes ? apiRes.ledgerHash : '0x' + Math.random().toString(16).slice(2, 34),
+      };
+
+      this.data.rdtTests.unshift(newRecord);
+      this.showToast(`✅ RDT Diagnostic Anchored to Sovereign Ledger!`);
+      this.render();
+    }
+
+    openThermalReceipt(batchId = 'AL-240981', prodName = 'Artemether/Lumefantrine 80/480mg') {
+      this.state.thermalReceiptData = {
+        batchId: batchId || 'AL-240981',
+        productName: prodName || 'Artemether/Lumefantrine 80/480mg',
+      };
+      this.state.thermalReceiptModalOpen = true;
+      this.render();
+    }
+
+    handleHardwareScan(code) {
+      this.state.lastHardwareScannedCode = code;
+      this.showToast(`📦 Handheld Wedge Scan: ${code}`);
+      const role = this.state.role;
+      this.state.screens[role] = (role === 'patient') ? 'verify' : 'scan';
+      this.state.selectedSampleCode = code;
+      this.startScan(false, code);
+    }
+
+    handleUssdKey(key) {
+      if (this.state.ussdDialInput === '*384*24#') {
+        this.state.ussdDialInput = key;
+      } else {
+        this.state.ussdDialInput += key;
+      }
+      this.render();
+    }
+
+    handleUssdClear() {
+      this.state.ussdDialInput = '';
+      this.state.ussdDisplayLines = 'WelliVerify National NAFDAC Trust Gateway:\n1. Verify Drug PIN/Batch\n2. Report Counterfeit / Reaction\n3. Active National Recalls\n4. Emergency Whistleblower';
+      this.state.ussdPromptText = 'Enter choice (1-4):';
+      this.render();
+    }
+
+    async handleUssdSend() {
+      const input = this.state.ussdDialInput.trim().toUpperCase();
+      this.showToast(`Connecting to NAFDAC USSD Gateway...`);
+
+      let res = null;
+      if (window.WelliVerifyAPI) {
+        res = await window.WelliVerifyAPI.queryUssd({ dialCode: '*384*24#', input });
+      }
+
+      if (res && res.text) {
+        this.state.ussdDisplayLines = res.text;
+        this.state.ussdPromptText = res.prompt;
+      } else {
+        // Fallback local response
+        if (input === '1') {
+          this.state.ussdDisplayLines = 'Enter the Batch No or Serial from your medicine carton (e.g. AL-240981):';
+          this.state.ussdPromptText = 'Code:';
+        } else if (input.includes('AL-240981')) {
+          this.state.ussdDisplayLines = '✅ NAFDAC VERIFIED GENUINE!\nProduct: Coartem Dispersible 80/480mg\nBatch: AL-240981 (Exp: 12/2027)\nMfg: Novartis / Genevith\nStatus: SAFE TO USE';
+          this.state.ussdPromptText = null;
+        } else if (input.includes('AL-77209')) {
+          this.state.ussdDisplayLines = '🚨 CRITICAL WARNING! DO NOT CONSUME!\nBatch AL-77209 is a CONFIRMED SEIZED LOT.\nZero API detected. Return to pharmacy.';
+          this.state.ussdPromptText = null;
+        } else if (input === '3') {
+          this.state.ussdDisplayLines = '⚠️ ACTIVE NATIONAL RECALLS:\n• AL-77209: Coartem (Seized)\n• OXY-1188: Oxytocin Excursion\nDial *384*24# to check another code.';
+          this.state.ussdPromptText = null;
+        } else {
+          this.state.ussdDisplayLines = `⚠️ UNRECOGNIZED CODE: "${input}"\nNot found in NAFDAC database.\nDO NOT CONSUME.\nCall 0800-1-NAFDAC.`;
+          this.state.ussdPromptText = null;
+        }
+      }
+      this.state.ussdDialInput = '';
+      this.render();
     }
 
     // --- HTML Template Renderers ---
@@ -1984,6 +2534,9 @@
             <span class="header-brand-glyph">W</span>
             <div class="header-title">${title}</div>
           </div>
+          <button type="button" class="btn btn-ghost btn-icon" aria-label="Rural USSD Phone (*384*24#)" data-action="toggle-ussd-modal" title="Rural USSD Phone Simulator (*384*24#)" style="width:28px;height:28px;font-size:12px;padding:0">
+            📟
+          </button>
           <button type="button" class="btn btn-ghost btn-icon bell-btn" aria-label="Notifications" data-action="go" data-target="notifications">
             ${ICONS.bell}
             ${notifCount > 0 ? `<span class="tag tag-accent-2 bell-badge">${notifCount}</span>` : ''}
@@ -2009,6 +2562,7 @@
           { target: 'inventory', label: 'Inventory' },
           { target: 'escrow', label: 'WelliPay Escrow & Settlement' },
           { target: 'simulator', label: 'Supply Chain Simulator' },
+          { target: 'rdt', label: 'Field CHW Rapid Test (RDT)' },
           { target: 'fefo', label: 'Stockout alerts' },
           { target: 'nearby', label: 'Nearby availability' },
           { target: 'forecast', label: 'Demand forecast' },
@@ -2020,6 +2574,7 @@
           { target: 'home', label: 'Home' },
           { target: 'verify', label: 'Verify a product' },
           { target: 'escrow', label: 'HMO Co-Pay & Claims' },
+          { target: 'rdt', label: 'Rapid Malaria Test Kit' },
           { target: 'availability', label: 'Nearby availability' },
           { target: 'prescriptions', label: 'My prescriptions' },
           { target: 'reminders', label: 'Reminders' },
@@ -2044,6 +2599,7 @@
       } else if (role === 'regulator') {
         navItems = [
           { target: 'home', label: 'Overview' },
+          { target: 'radar', label: 'Incident Radar & Seizures' },
           { target: 'serialization', label: 'GS1 Serial Registry' },
           { target: 'simulator', label: 'Supply Chain Simulator' },
           { target: 'recall', label: 'Recall dashboard' },
@@ -2291,6 +2847,15 @@
           ` : ''}
 
           <!-- Live Camera Controls Bar -->
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span class="hardware-scanner-pill ${this.state.lastHardwareScannedCode ? 'scanning' : ''}" title="Listening for USB/Bluetooth 2D barcode scanner wedge input">
+              <span>⚡</span> Wedge Scanner Ready
+            </span>
+            <button type="button" class="btn btn-ghost" data-action="test-hardware-scanner" style="font-size:10px;padding:2px 8px;border:1px solid #cbd5e1">
+              Test Scanner Wedge
+            </button>
+          </div>
+
           <div class="camera-controls-bar">
             <button type="button" class="btn btn-ghost" data-action="toggle-camera" style="font-size:11px;padding:3px 8px">
               ${this.state.cameraActive ? '🔴 Disable Live Camera' : '📷 Enable Live Camera (WebRTC)'}
@@ -2417,6 +2982,9 @@
             </div>
           `}
 
+          <button type="button" class="btn btn-secondary btn-block" data-action="open-thermal-receipt" data-batch="${batchNo}" data-prod="${prodName}" style="margin-top:6px;gap:6px">
+            <span>🖨️</span> Generate POS Thermal Receipt (58mm/80mm)
+          </button>
           <button type="button" class="btn btn-secondary btn-block" data-action="go" data-target="photocheck">
             AI packaging check
           </button>
@@ -4719,6 +5287,511 @@
       return '';
     }
 
+    // ========================================================
+    // TIER 3: REGULATOR GEOSPATIAL RADAR & SEIZURE BROADCAST
+    // ========================================================
+    renderRegulatorRadar() {
+      return `
+        <div style="display:flex;flex-direction:column;gap:16px">
+          ${this.state.seizureBroadcastActive ? `
+            <div class="seizure-banner-active">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+                <strong>🚨 NATIONAL CRYPTOGRAPHIC SEIZURE BROADCAST ACTIVE</strong>
+                <span style="font-size:10px;background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:4px;font-family:monospace">
+                  ${this.state.activeSeizureOrder?.gazetteRef || 'FED-GAZ-2026-NAFDAC-0881'}
+                </span>
+              </div>
+              <div style="font-size:11.5px;line-height:1.4">
+                Batch <strong>${this.state.activeSeizureOrder?.batchId || 'AL-77209'}</strong> is under federal impoundment across all Nigerian States. Active wholesale escrows frozen.
+              </div>
+              <div style="font-size:9.5px;opacity:0.8;font-family:monospace;margin-top:4px">
+                Anchor Hash: ${this.state.activeSeizureOrder?.ledgerHash ? this.state.activeSeizureOrder.ledgerHash.slice(0, 32) + '...' : '0x99281a...'}
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Header & Metrics -->
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:18px">Real-Time Geofence Radar</div>
+              <div style="font-size:12px;opacity:0.7">NAFDAC Central Interoperability Command · 7 Monitored Clusters</div>
+            </div>
+            <button type="button" class="btn btn-primary" data-action="toggle-seizure-modal" style="background:#dc2626;border-color:#b91c1c;font-size:11px;padding:6px 12px;gap:6px">
+              <span>🚨</span> Broadcast Seizure
+            </button>
+          </div>
+
+          <!-- Metric Badges -->
+          <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:8px">
+            <div class="card elev-sm" style="padding:10px 12px;border-top:3px solid #ef4444">
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.05em;color:#64748b">Critical Clusters</div>
+              <div style="font-family:var(--font-heading);font-size:20px;font-weight:700;color:#ef4444;margin-top:2px">2 Zones</div>
+              <div style="font-size:10px;color:#94a3b8">Kano & Onitsha</div>
+            </div>
+            <div class="card elev-sm" style="padding:10px 12px;border-top:3px solid #f59e0b">
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.05em;color:#64748b">Active Anomalies</div>
+              <div style="font-family:var(--font-heading);font-size:20px;font-weight:700;color:#f59e0b;margin-top:2px">116 Flagged</div>
+              <div style="font-size:10px;color:#94a3b8">Clone scans & cold chain</div>
+            </div>
+            <div class="card elev-sm" style="padding:10px 12px;border-top:3px solid #0088b0">
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.05em;color:#64748b">Scans Today</div>
+              <div style="font-family:var(--font-heading);font-size:20px;font-weight:700;color:#0088b0;margin-top:2px">13,182</div>
+              <div style="font-size:10px;color:#94a3b8">Across 1,420 stores</div>
+            </div>
+          </div>
+
+          <!-- Interactive Nigeria SVG Radar Map Canvas -->
+          <div class="radar-hero-panel">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#38bdf8">
+                National Geospatial Heatmap
+              </span>
+              <span style="font-size:10px;background:rgba(56,189,248,0.2);padding:2px 8px;border-radius:999px;color:#38bdf8">
+                ● LIVE SATELLITE TELEMETRY
+              </span>
+            </div>
+
+            <div class="radar-map-container">
+              <div class="radar-grid-lines"></div>
+              <div class="radar-concentric-circles"></div>
+              <div class="radar-sweep-beam"></div>
+
+              <!-- Hotspot Pins -->
+              ${this.data.geoClusters.map(c => `
+                <div class="radar-hotspot" style="top:${c.mapTop}%;left:${c.mapLeft}%" data-action="select-radar-cluster" data-cluster="${c.id}" title="${c.city} - ${c.anomalyCount} anomalies">
+                  <div class="radar-pulse-ring ${c.riskTier.toLowerCase()}"></div>
+                  <div class="radar-hotspot-label">${c.city} (${c.anomalyCount})</div>
+                </div>
+              `).join('')}
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:10px;color:#94a3b8">
+              <span>● Tap any cluster dot to view local surveillance & dispatch data</span>
+              <span>NIGERIA GRID: 4°N-14°N / 2°E-15°E</span>
+            </div>
+          </div>
+
+          <!-- Selected Cluster Details Card -->
+          ${(() => {
+            const cluster = this.data.geoClusters.find(c => c.id === this.state.selectedRadarCluster) || this.data.geoClusters[0];
+            const isCritical = cluster.riskTier === 'CRITICAL';
+            return `
+              <div class="card elev-sm" style="border-left:4px solid ${isCritical ? '#ef4444' : '#f59e0b'}">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                  <div>
+                    <div class="card-kicker">${cluster.region} · ${cluster.state}</div>
+                    <div class="card-title" style="font-size:16px">${cluster.city}: ${cluster.hub}</div>
+                  </div>
+                  <span class="tag ${isCritical ? 'tag-accent-2' : 'tag-accent'}" style="font-size:10.5px">
+                    ${cluster.riskTier} RISK
+                  </span>
+                </div>
+
+                <div style="font-size:12px;color:#475569;margin:8px 0;line-height:1.4">
+                  <strong>Primary Anomaly:</strong> ${cluster.primaryAnomaly}
+                </div>
+
+                <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:8px;margin-top:8px;font-size:11.5px">
+                  <div>Total Scans: <strong>${cluster.totalScans.toLocaleString()}</strong></div>
+                  <div>Anomalies Flagged: <strong style="color:${isCritical ? '#ef4444' : '#f59e0b'}">${cluster.anomalyCount}</strong></div>
+                  <div>Active Seizures: <strong>${cluster.activeSeizuresCount}</strong></div>
+                  <div>Field Units Deployed: <strong>${cluster.inspectionTeamsDeployed} NAFDAC Teams</strong></div>
+                </div>
+
+                <div style="display:flex;gap:6px;align-items:center;margin-top:10px;flex-wrap:wrap">
+                  <span style="font-size:11px;font-weight:600;color:#64748b">Flagged Lots:</span>
+                  ${cluster.flaggedBatches.map(b => `
+                    <span class="tag tag-accent-2" style="font-family:monospace;font-size:10.5px">${b}</span>
+                  `).join('')}
+                </div>
+
+                ${cluster.flaggedBatches.includes('AL-77209') ? `
+                  <button type="button" class="btn btn-outline btn-block" data-action="open-seizure-modal" data-batch="AL-77209" style="margin-top:12px;font-size:11.5px;color:#ef4444;border-color:#ef4444">
+                    🚨 Broadcast National Seizure Order for AL-77209 &rarr;
+                  </button>
+                ` : ''}
+              </div>
+            `;
+          })()}
+
+          <!-- Live Scan Incidents List -->
+          <div>
+            <div style="font-family:var(--font-heading);font-weight:600;font-size:15px;margin-bottom:8px">
+              Recent Geospatial Scan Incidents
+            </div>
+            ${this.data.scanIncidents.map(inc => `
+              <div class="radar-incident-card ${inc.severity === 'CRITICAL' ? 'critical' : ''}">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div style="font-size:13px;font-weight:700;color:#0f172a">${inc.productName}</div>
+                  <span class="tag ${inc.severity === 'CRITICAL' ? 'tag-accent-2' : 'tag-neutral'}" style="font-size:9.5px">${inc.severity}</span>
+                </div>
+                <div style="font-size:11px;color:#64748b;margin:2px 0 6px">
+                  Batch ${inc.batchId} · Serial: <span style="font-family:monospace">${inc.serial}</span> · ${inc.time}
+                </div>
+                <div style="font-size:11.5px;color:#334155;line-height:1.4">
+                  ${inc.description}
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:10.5px;color:#64748b">
+                  <span>📍 ${inc.locationA}</span>
+                  <span class="tag tag-outline" style="font-size:9px">${inc.status}</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    renderSeizureBroadcastModal() {
+      return `
+        <div class="modal-backdrop" style="position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px">
+          <div class="modal-card" style="background:#fff;border-radius:12px;width:100%;max-width:380px;padding:20px;box-shadow:0 20px 40px rgba(0,0,0,0.3)">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+              <span style="font-size:24px">🚨</span>
+              <div>
+                <div style="font-family:var(--font-heading);font-weight:700;font-size:16px">Broadcast National Seizure Order</div>
+                <div style="font-size:11px;color:#64748b">Federal Ministry of Health & NAFDAC Enforcement Command</div>
+              </div>
+            </div>
+
+            <div style="font-size:11.5px;color:#334155;line-height:1.45;margin-bottom:14px;background:#fef2f2;border:1px solid #fecaca;padding:10px;border-radius:6px">
+              Executing this order will <strong>freeze this batch across all 1,420 registered dispensaries</strong> in Nigeria, cancel in-flight wholesale escrows, and anchor an immutable criminal seizure mandate to the Sovereign Trust Mesh.
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:10px;font-size:12px">
+              <div>
+                <label style="font-weight:600;display:block;margin-bottom:3px">Target Batch / Lot Number</label>
+                <input class="input" id="seizure-batch-input" value="AL-77209" style="font-family:monospace;font-weight:700" />
+              </div>
+              <div>
+                <label style="font-weight:600;display:block;margin-bottom:3px">Gazette Reference</label>
+                <input class="input" id="seizure-gazette-input" value="FED-GAZ-2026-NAFDAC-0881" style="font-family:monospace" />
+              </div>
+              <div>
+                <label style="font-weight:600;display:block;margin-bottom:3px">Grounds for Seizure</label>
+                <input class="input" id="seizure-reason-input" value="Confirmed Counterfeit / Zero Lumefantrine detected in HPLC Assay" />
+              </div>
+              <div>
+                <label style="font-weight:600;display:block;margin-bottom:3px">Enforcement Zone</label>
+                <select class="input" id="seizure-zone-input">
+                  <option value="NATIONWIDE (All 36 States & FCT Abuja)">NATIONWIDE (All 36 States & FCT Abuja)</option>
+                  <option value="Northern Zone (Kano, Kaduna, Sokoto)">Northern Zone (Kano, Kaduna, Sokoto)</option>
+                  <option value="Southern Zone (Lagos, Onitsha, Aba, Port Harcourt)">Southern Zone (Lagos, Onitsha, Aba, Port Harcourt)</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:16px">
+              <button type="button" class="btn btn-ghost" data-action="close-seizure-modal" style="flex:1">Cancel</button>
+              <button type="button" class="btn btn-primary" data-action="submit-seizure-broadcast" style="flex:2;background:#dc2626;border-color:#b91c1c;font-size:12px">
+                Execute Seizure
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ========================================================
+    // TIER 3: CHW RAPID DIAGNOSTIC TEST (RDT) INTEGRATION
+    // ========================================================
+    renderRdtReader(role) {
+      return `
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div>
+            <div style="font-family:var(--font-heading);font-weight:600;font-size:18px">Field CHW Rapid Diagnostic Test (RDT)</div>
+            <div style="font-size:12px;opacity:0.7">Point-of-Care Cassette Strip Reader & Antimalarial Co-Verification</div>
+          </div>
+
+          <!-- Interactive Cassette Visualizer -->
+          <div class="rdt-cassette-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+              <span style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#475569">
+                Malaria Pf/Pv Antigen Rapid Cassette
+              </span>
+              <span class="tag tag-accent" style="font-size:9.5px">In Vitro Diagnostic</span>
+            </div>
+
+            <div class="rdt-cassette-shell">
+              <!-- Sample Well S -->
+              <div class="rdt-sample-well" title="Sample Well (Add 5µL Whole Blood + Buffer)">
+                <span>S</span>
+                <span style="font-size:14px;line-height:1">🩸</span>
+              </div>
+
+              <!-- Nitrocellulose Reading Window -->
+              <div class="rdt-strip-window">
+                <!-- Control Line C -->
+                <div class="rdt-line-marker">
+                  <div class="rdt-band ${this.state.rdtControlLine ? 'control-active' : ''}"></div>
+                  <span class="rdt-line-label">C</span>
+                </div>
+                <!-- Test Line T -->
+                <div class="rdt-line-marker">
+                  <div class="rdt-band ${this.state.rdtResult === 'POSITIVE_PF' ? 'test-positive' : 'test-negative'}" style="opacity:${this.state.rdtIntensity / 100}"></div>
+                  <span class="rdt-line-label">T</span>
+                </div>
+              </div>
+
+              <!-- Reading Badge -->
+              <div style="text-align:right">
+                <span class="tag ${this.state.rdtResult === 'POSITIVE_PF' ? 'tag-accent-2' : (this.state.rdtResult === 'NEGATIVE' ? 'tag-accent' : 'tag-neutral')}" style="font-size:11px;font-weight:700">
+                  ${this.state.rdtResult === 'POSITIVE_PF' ? 'POSITIVE Pf' : (this.state.rdtResult === 'NEGATIVE' ? 'NEGATIVE' : 'INVALID')}
+                </span>
+                <div style="font-size:9.5px;color:#64748b;margin-top:2px">
+                  ${this.state.rdtControlLine ? `Valid Test · ${this.state.rdtIntensity}% density` : 'Invalid: No Control Line'}
+                </div>
+              </div>
+            </div>
+
+            <!-- Co-Verification Stewardship Banner -->
+            <div class="rdt-co-verification-badge" style="background:${this.state.rdtResult === 'POSITIVE_PF' ? '#ecfdf5' : '#f8fafc'};border-color:${this.state.rdtResult === 'POSITIVE_PF' ? '#10b981' : '#cbd5e1'}">
+              <span style="font-size:18px">${this.state.rdtResult === 'POSITIVE_PF' ? '✅' : '🛡️'}</span>
+              <div style="font-size:11.5px;line-height:1.4">
+                ${this.state.rdtResult === 'POSITIVE_PF' ? `
+                  <strong>Antimicrobial Stewardship Passed:</strong> Confirmed Plasmodium falciparum antigen. Linked to verified authentic <strong>Coartem (Batch AL-240981)</strong> point-of-dispense ledger record.
+                ` : `
+                  <strong>Antimicrobial Stewardship Safe:</strong> RDT Negative. Antimalarial drugs withheld according to WHO treatment protocol to prevent drug resistance.
+                `}
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Reader Controls -->
+          <div class="card elev-sm">
+            <div class="card-kicker">Cassette Interpretation Controls</div>
+            <div style="display:flex;gap:6px;margin:10px 0">
+              <button type="button" class="btn ${this.state.rdtResult === 'POSITIVE_PF' ? 'btn-primary' : 'btn-outline'}" data-action="set-rdt-result" data-result="POSITIVE_PF" style="flex:1;font-size:11px">
+                Positive Pf
+              </button>
+              <button type="button" class="btn ${this.state.rdtResult === 'NEGATIVE' ? 'btn-primary' : 'btn-outline'}" data-action="set-rdt-result" data-result="NEGATIVE" style="flex:1;font-size:11px">
+                Negative
+              </button>
+              <button type="button" class="btn ${this.state.rdtResult === 'INVALID' ? 'btn-primary' : 'btn-outline'}" data-action="set-rdt-result" data-result="INVALID" style="flex:1;font-size:11px">
+                Invalid
+              </button>
+            </div>
+
+            <div style="margin-top:10px">
+              <div style="display:flex;justify-content:space-between;font-size:11.5px;color:#475569;margin-bottom:4px">
+                <span>Test Band Optical Density</span>
+                <strong>${this.state.rdtIntensity}%</strong>
+              </div>
+              <input type="range" min="10" max="100" value="${this.state.rdtIntensity}" class="input" style="padding:0;height:24px" data-action="set-rdt-intensity-slider" id="rdt-intensity-slider" />
+            </div>
+          </div>
+
+          <!-- Patient & Field Station Metadata -->
+          <div class="card elev-sm" style="display:flex;flex-direction:column;gap:10px;font-size:12px">
+            <div class="card-kicker">Patient & Point-of-Care Session</div>
+            <div style="display:grid;grid-template-columns:2fr 1fr;gap:8px">
+              <div>
+                <label style="font-weight:600;display:block;margin-bottom:3px">Patient Name</label>
+                <input class="input" id="rdt-patient-name" value="${this.state.rdtPatientName}" />
+              </div>
+              <div>
+                <label style="font-weight:600;display:block;margin-bottom:3px">Age / Gender</label>
+                <input class="input" id="rdt-patient-age" value="${this.state.rdtPatientAge} / ${this.state.rdtGender}" />
+              </div>
+            </div>
+            <div>
+              <label style="font-weight:600;display:block;margin-bottom:3px">Health Facility / Post</label>
+              <input class="input" id="rdt-location" value="${this.state.rdtLocation}" />
+            </div>
+            <div>
+              <label style="font-weight:600;display:block;margin-bottom:3px">CHW Officer</label>
+              <input class="input" id="rdt-chw" value="${this.state.rdtCHWName}" />
+            </div>
+            <div>
+              <label style="font-weight:600;display:block;margin-bottom:3px">Linked Antimalarial Batch</label>
+              <input class="input" id="rdt-batch" value="${this.state.rdtLinkedBatch}" style="font-family:monospace;font-weight:700" />
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" data-action="submit-rdt-test" style="margin-top:6px;gap:6px">
+              <span>🔗</span> Anchor Diagnostic & Treatment to Ledger
+            </button>
+          </div>
+
+          <!-- Historical Field Tests Log -->
+          <div>
+            <div style="font-family:var(--font-heading);font-weight:600;font-size:15px;margin-bottom:8px">
+              Field Diagnostic Provenance Log
+            </div>
+            ${this.data.rdtTests.map(t => `
+              <div class="card elev-sm" style="padding:10px 12px;margin-bottom:8px">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <div style="font-weight:700;font-size:13px">${t.patientName} (${t.patientAge}y, ${t.gender})</div>
+                  <span class="tag ${t.result.includes('POSITIVE') ? 'tag-accent-2' : 'tag-accent'}" style="font-size:9.5px">
+                    ${t.result}
+                  </span>
+                </div>
+                <div style="font-size:11px;color:#64748b;margin:2px 0 4px">
+                  ${t.location} · ${t.timestamp}
+                </div>
+                <div style="font-size:11.5px;color:#334155">
+                  ${t.notes}
+                </div>
+                <div style="font-size:9.5px;font-family:monospace;color:#0088b0;margin-top:4px">
+                  Ledger: ${t.ledgerHash ? t.ledgerHash.slice(0, 24) + '...' : '0xd1e2...'}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // ========================================================
+    // TIER 3: RURAL USSD FEATURE-PHONE SIMULATOR MODAL
+    // ========================================================
+    renderUssdSimulatorModal() {
+      return `
+        <div class="ussd-modal-backdrop" data-action="close-ussd-modal">
+          <div class="ussd-phone-body" onclick="event.stopPropagation()">
+            <div class="ussd-phone-speaker"></div>
+
+            <!-- LCD Display Screen -->
+            <div class="ussd-lcd-screen">
+              <div class="ussd-lcd-header">
+                <span>📶 4G MTN/AIRTEL</span>
+                <span>NAFDAC USSD</span>
+                <span>98% 🔋</span>
+              </div>
+              <div style="white-space:pre-wrap;line-height:1.35;margin-bottom:6px">
+${this.state.ussdDisplayLines}
+              </div>
+              ${this.state.ussdPromptText ? `
+                <div style="font-weight:bold;margin-top:6px;border-top:1px dashed rgba(20,83,45,0.3);padding-top:4px">
+                  ${this.state.ussdPromptText} ${this.state.ussdDialInput}
+                </div>
+              ` : ''}
+            </div>
+
+            <!-- Quick Shortcuts for Field Testing -->
+            <div style="display:flex;gap:4px;margin-top:10px;width:100%;overflow-x:auto">
+              <button type="button" class="btn btn-ghost" data-action="ussd-quick-code" data-code="*384*24#" style="font-size:9px;color:#38bdf8;padding:2px 6px;border:1px solid #475569;border-radius:4px;white-space:nowrap">
+                Dial *384*24#
+              </button>
+              <button type="button" class="btn btn-ghost" data-action="ussd-quick-code" data-code="AL-240981" style="font-size:9px;color:#4ade80;padding:2px 6px;border:1px solid #475569;border-radius:4px;white-space:nowrap">
+                PIN: AL-240981
+              </button>
+              <button type="button" class="btn btn-ghost" data-action="ussd-quick-code" data-code="AL-77209" style="font-size:9px;color:#f87171;padding:2px 6px;border:1px solid #475569;border-radius:4px;white-space:nowrap">
+                PIN: AL-77209
+              </button>
+            </div>
+
+            <!-- Numeric Keypad -->
+            <div class="ussd-keypad">
+              <div class="ussd-key" data-action="ussd-key-press" data-key="1">1 <span class="sub">.</span></div>
+              <div class="ussd-key" data-action="ussd-key-press" data-key="2">2 <span class="sub">ABC</span></div>
+              <div class="ussd-key" data-action="ussd-key-press" data-key="3">3 <span class="sub">DEF</span></div>
+              <div class="ussd-key" data-action="ussd-key-press" data-key="4">4 <span class="sub">GHI</span></div>
+              <div class="ussd-key" data-action="ussd-key-press" data-key="5">5 <span class="sub">JKL</span></div>
+              <div class="ussd-key" data-action="ussd-key-press" data-key="6">6 <span class="sub">MNO</span></div>
+              <div class="ussd-key" data-action="ussd-key-press" data-key="7">7 <span class="sub">PQRS</span></div>
+              <div class="ussd-key" data-action="ussd-key-press" data-key="8">8 <span class="sub">TUV</span></div>
+              <div class="ussd-key" data-action="ussd-key-press" data-key="9">9 <span class="sub">WXYZ</span></div>
+              <div class="ussd-key" data-action="ussd-key-press" data-key="*">* <span class="sub"></span></div>
+              <div class="ussd-key" data-action="ussd-key-press" data-key="0">0 <span class="sub">+</span></div>
+              <div class="ussd-key" data-action="ussd-key-press" data-key="#"># <span class="sub"></span></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display:flex;gap:8px;width:100%;margin-top:12px">
+              <button type="button" class="btn ussd-btn-end" data-action="ussd-clear" style="flex:1;height:38px;font-size:12px;font-weight:700">
+                END / CLR
+              </button>
+              <button type="button" class="btn ussd-btn-call" data-action="ussd-send" style="flex:2;height:38px;font-size:12px;font-weight:700">
+                SEND / CALL
+              </button>
+            </div>
+
+            <button type="button" class="btn btn-ghost" data-action="close-ussd-modal" style="color:#94a3b8;font-size:11px;margin-top:10px">
+              Close Phone Simulator &times;
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // ========================================================
+    // TIER 3: POS THERMAL RECEIPT VOUCHER (58mm/80mm ESC/POS)
+    // ========================================================
+    renderThermalReceiptModal() {
+      const data = this.state.thermalReceiptData || {
+        productName: 'Coartem 80/480mg (Artemether/Lumefantrine)',
+        batchId: 'AL-240981',
+      };
+
+      return `
+        <div class="thermal-receipt-modal" data-action="close-thermal-receipt">
+          <div class="thermal-receipt-paper" onclick="event.stopPropagation()">
+            <div class="thermal-center">
+              <div style="font-size:13px;font-weight:700">GREENLIFE PHARMACY & CLINIC</div>
+              <div style="font-size:10px">Premises PCN-08217743 · Wuse II, Abuja</div>
+              <div style="font-size:9.5px;color:#6b7280">National Health Trust Verified Dispensary</div>
+            </div>
+
+            <div class="thermal-divider"></div>
+
+            <div style="display:flex;justify-content:space-between;font-size:10px">
+              <span>DATE: ${new Date().toLocaleDateString('en-GB')}</span>
+              <span>TIME: ${new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'})}</span>
+            </div>
+            <div style="font-size:10px">TX ID: WPY-POS-2026-${Math.floor(100000 + Math.random()*900000)}</div>
+            <div style="font-size:10px">PATIENT: Ngozi Bello (PT-55291)</div>
+
+            <div class="thermal-divider"></div>
+
+            <div style="font-weight:700;font-size:11px">${data.productName}</div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;margin-top:2px">
+              <span>Batch: ${data.batchId}</span>
+              <span>Exp: 12/2027</span>
+            </div>
+            <div style="font-size:10px">Serial: WV-49A1-2091-NG</div>
+            <div style="font-size:10px">NAFDAC Reg: A4-0231 (GENUINE VERIFIED)</div>
+
+            <div class="thermal-divider"></div>
+
+            <div style="display:flex;justify-content:space-between;font-size:10.5px">
+              <span>Wholesale Total:</span>
+              <span>₦2,400.00</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:10.5px">
+              <span>Hygeia HMO Co-Pay (80%):</span>
+              <span>-₦1,920.00</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-weight:700;font-size:11.5px;margin-top:3px">
+              <span>PATIENT CO-PAY DUE:</span>
+              <span>₦480.00</span>
+            </div>
+
+            <div class="thermal-divider"></div>
+
+            <!-- QR Code & Blockchain Signature -->
+            <div class="thermal-barcode-box">
+              [ ■■■■■ QR: SOVEREIGN-VERIFIED ■■■■■ ]
+            </div>
+            <div style="font-size:8.5px;text-align:center;word-break:break-all;color:#4b5563">
+              Ledger Hash: 0x7a8b9c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b
+            </div>
+
+            <div class="thermal-center" style="font-size:9.5px;margin-top:8px">
+              *** KEEP THIS SLIP FOR PATIENT RECORDS ***<br/>
+              Verify online at welliverify.ng or dial *384*24#
+            </div>
+
+            <div style="display:flex;gap:8px;margin-top:14px">
+              <button type="button" class="btn btn-primary btn-block" data-action="print-thermal-receipt" style="font-size:11px;background:#1e293b;border-color:#0f172a">
+                🖨️ Print ESC/POS Receipt
+              </button>
+              <button type="button" class="btn btn-ghost" data-action="close-thermal-receipt" style="font-size:11px">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
 
     // --- Main Screen Router ---
     renderContent(screen, role) {
@@ -4743,6 +5816,9 @@
       if (screen === 'escrow') return this.renderEscrow(role);
       if (screen === 'serialization') return this.renderSerialization(role);
       if (screen === 'simulator') return this.renderSimulator(role);
+      // Tier 3 screens
+      if (screen === 'radar') return this.renderRegulatorRadar();
+      if (screen === 'rdt') return this.renderRdtReader(role);
 
       // Role specific routes
       if (role === 'pharmacist') {
@@ -4752,6 +5828,7 @@
           case 'inventory': return this.renderInventory();
           case 'escrow': return this.renderEscrow(role);
           case 'simulator': return this.renderSimulator(role);
+          case 'rdt': return this.renderRdtReader(role);
           case 'fefo': return this.renderFefo();
           case 'nearby': return this.renderNearby(role);
           case 'recall': return this.renderRecalls(role);
@@ -4763,6 +5840,7 @@
           case 'home': return this.renderPatientHome();
           case 'verify': return this.renderScan(role);
           case 'escrow': return this.renderEscrow(role);
+          case 'rdt': return this.renderRdtReader(role);
           case 'availability': return this.renderNearby(role);
           case 'checkout': return this.renderCheckout();
           case 'prescriptions': return this.renderPrescriptions();
@@ -4786,6 +5864,7 @@
       } else if (role === 'regulator') {
         switch (screen) {
           case 'home': return this.renderRegulatorHome();
+          case 'radar': return this.renderRegulatorRadar();
           case 'serialization': return this.renderSerialization(role);
           case 'simulator': return this.renderSimulator(role);
           case 'recall': return this.renderRecallDashboard();
@@ -4840,6 +5919,9 @@
           ${this.renderContent(screen, role)}
         </div>
         ${this.renderDrawer(role)}
+        ${this.state.ussdModalOpen ? this.renderUssdSimulatorModal() : ''}
+        ${this.state.thermalReceiptModalOpen ? this.renderThermalReceiptModal() : ''}
+        ${this.state.seizureModalOpen ? this.renderSeizureBroadcastModal() : ''}
       `;
     }
   }
